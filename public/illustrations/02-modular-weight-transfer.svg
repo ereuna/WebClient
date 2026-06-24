@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" fill="#faf7f0"/>
+  <defs>
+    <pattern id="dots2" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="11" cy="11" r="1" fill="#e7e0d1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="450" fill="url(#dots2)"/>
+  <path d="M28 28h18M28 28v18M772 28h-18M772 28v18M28 422h18M28 422v-18M772 422h-18M772 422v-18" stroke="#b6ae9d" stroke-width="1.5"/>
+  <text x="48" y="44" font-family="monospace" font-size="10" fill="#8a857a" letter-spacing="0.06em">FIG.03  WEIGHT TRANSFER BRIDGE</text>
+
+  <!-- base platform with puzzle recess -->
+  <g stroke="#34322d" stroke-width="1.5" stroke-linejoin="round">
+    <polygon points="400,310 580,210 400,110 220,210" fill="#ffffff"/>
+    <polygon points="220,210 400,310 400,350 220,250" fill="#efeadf"/>
+    <polygon points="400,310 580,210 580,250 400,350" fill="#e4ddcf"/>
+    <!-- puzzle recess outline -->
+    <path d="M340,228 h40 v-16 h16 v16 h40 v40 h-16 v16 h-40 v-40 h-16 v-16 h-16 z" fill="none" stroke="#cfc8b9" stroke-width="1.2" stroke-dasharray="3 3"/>
+  </g>
+
+  <!-- left source module -->
+  <g stroke="#34322d" stroke-width="1.5" stroke-linejoin="round">
+    <polygon points="180,200 248,236 180,272 112,236" fill="#ffffff"/>
+    <polygon points="112,236 180,272 180,304 112,268" fill="#efeadf"/>
+    <polygon points="180,272 248,236 248,268 180,304" fill="#e4ddcf"/>
+    <circle cx="130" cy="244" r="2" fill="#8a857a"/>
+    <circle cx="230" cy="244" r="2" fill="#8a857a"/>
+    <circle cx="180" cy="206" r="3" fill="#34c759"/>
+  </g>
+  <text x="180" y="196" font-family="monospace" font-size="9" fill="#8a857a" text-anchor="middle">SOURCE PINN</text>
+
+  <!-- right target module -->
+  <g stroke="#34322d" stroke-width="1.5" stroke-linejoin="round">
+    <polygon points="620,200 688,236 620,272 552,236" fill="#ffffff"/>
+    <polygon points="552,236 620,272 620,304 552,268" fill="#efeadf"/>
+    <polygon points="620,272 688,236 688,268 620,304" fill="#e4ddcf"/>
+    <circle cx="570" cy="244" r="2" fill="#8a857a"/>
+    <circle cx="670" cy="244" r="2" fill="#8a857a"/>
+    <circle cx="620" cy="206" r="3" fill="#34c759"/>
+  </g>
+  <text x="620" y="196" font-family="monospace" font-size="9" fill="#8a857a" text-anchor="middle">TARGET GNN</text>
+
+  <!-- floating puzzle bridge piece (accent) -->
+  <g stroke="#34322d" stroke-width="1.6" stroke-linejoin="round">
+    <polygon points="400,168 448,192 400,216 352,192" fill="#f7e2d5" stroke="#cf5a2a"/>
+    <polygon points="352,192 400,216 400,240 352,216" fill="#ecc9b4"/>
+    <polygon points="400,216 448,192 448,216 400,240" fill="#f3d9c9"/>
+    <circle cx="400" cy="192" r="4.5" fill="#cf5a2a"/>
+  </g>
+
+  <!-- transfer path -->
+  <polyline points="248,236 352,192 448,192 552,236" fill="none" stroke="#cf5a2a" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <circle cx="300" cy="214" r="2.5" fill="#cf5a2a"/>
+  <circle cx="500" cy="214" r="2.5" fill="#cf5a2a"/>
+
+  <!-- labels -->
+  <g font-family="monospace" font-size="10" fill="#8a857a">
+    <text x="400" y="380" text-anchor="middle">PHYSICSSPEC COSINE ’ SHARED WEIGHTS</text>
+    <text x="400" y="396" text-anchor="middle" fill="#cf5a2a">BRIDGE PIECE LOCKS IN</text>
+  </g>
+</svg>

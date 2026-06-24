@@ -1,0 +1,437 @@
+import { useState, useEffect } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { fetchDataset, fetchRelatedDatasets, DOMAIN_COLORS } from '../api/datasets'
+import { MODELS } from '../api/models'
+import CodeBlock from '../components/CodeBlock'
+
+const ACCENT = '#cf5a2a'
+const DOT_BG = 'radial-gradient(#e7e0d1 1px,transparent 1px)'
+
+const FORMAT_COLORS = {
+  Parquet: '#7c6af7',
+  JSON: '#3498db',
+  NetCDF: '#2db88a',
+  CSV: '#e67e22',
+  HDF5: '#e91e8c',
+}
+
+function DomainChip({ domain }) {
+  const color = DOMAIN_COLORS[domain] || '#8a857a'
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      padding: '4px 10px', borderRadius: 20,
+      background: color + '18', color,
+      fontFamily: "'Space Mono',monospace", fontSize: 11, fontWeight: 700,
+    }}>
+      <span style={{ width: 7, height: 7, borderRadius: '50%', background: color, display: 'inline-block' }} />
+      {domain}
+    </span>
+  )
+}
+
+function LicenseBadge({ license }) {
+  const restricted = license === 'Restricted'
+  return (
+    <span style={{
+      display: 'inline-block', padding: '4px 10px', borderRadius: 20,
+      border: `1px solid ${restricted ? '#e67e2240' : '#e7e0d2'}`,
+      background: restricted ? '#e67e2210' : '#faf7f0',
+      color: restricted ? '#e67e22' : '#8a857a',
+      fontFamily: "'Space Mono',monospace", fontSize: 11,
+    }}>
+      {license}
+    </span>
+  )
+}
+
+function FormatBadge({ format }) {
+  const color = FORMAT_COLORS[format] || '#8a857a'
+  return (
+    <span style={{
+      display: 'inline-block', padding: '4px 10px', borderRadius: 20,
+      background: color + '18', color,
+      fontFamily: "'Space Mono',monospace", fontSize: 11,
+    }}>
+      {format}
+    </span>
+  )
+}
+
+function StatPill({ icon, label }) {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 5,
+      fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a',
+    }}>
+      {icon} {label}
+    </span>
+  )
+}
+
+function SectionLabel({ children }) {
+  return (
+    <div style={{
+      fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+      color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+    }}>
+      {children}
+    </div>
+  )
+}
+
+function SectionCard({ label, children }) {
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <SectionLabel>{label}</SectionLabel>
+      {children}
+    </div>
+  )
+}
+
+function SchemaTable({ columns }) {
+  return (
+    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+        <thead>
+          <tr style={{ background: '#faf7f0', borderBottom: '1px solid #ece5d6' }}>
+            {['Column', 'Type', 'Description'].map(h => (
+              <th key={h} style={{
+                padding: '10px 16px', textAlign: 'left',
+                fontFamily: "'Space Mono',monospace", fontSize: 10,
+                color: '#8a857a', fontWeight: 400, letterSpacing: '0.04em',
+              }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {columns.map((col, i) => (
+            <tr key={col.column} style={{ borderBottom: i < columns.length - 1 ? '1px solid #f0ebe0' : 'none' }}>
+              <td style={{ padding: '10px 16px', fontFamily: "'Space Mono',monospace", fontSize: 11.5, fontWeight: 700, color: '#1b1a17' }}>
+                {col.column}
+              </td>
+              <td style={{ padding: '10px 16px' }}>
+                <span style={{
+                  fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '2px 7px',
+                  borderRadius: 5, background: '#f5f0e8', color: '#7a7568',
+                }}>{col.type}</span>
+              </td>
+              <td style={{ padding: '10px 16px', color: '#56524a', lineHeight: 1.45 }}>{col.desc}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function CoverageRow({ k, v }) {
+  return (
+    <div style={{
+      display: 'flex', gap: 16, padding: '10px 0',
+      borderBottom: '1px solid #f0ebe0', fontSize: 13.5,
+    }}>
+      <div style={{ width: 160, flexShrink: 0, color: '#8a857a', fontFamily: "'Space Mono',monospace", fontSize: 11 }}>{k}</div>
+      <div style={{ color: '#1b1a17', lineHeight: 1.5 }}>{v}</div>
+    </div>
+  )
+}
+
+function RelatedModelCard({ model }) {
+  return (
+    <Link to={`/models/${model.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <div
+        style={{
+          background: '#faf7f0', border: '1px solid #e7e0d2', borderRadius: 10,
+          padding: '12px 14px', cursor: 'pointer', transition: 'box-shadow .15s',
+        }}
+        onMouseEnter={e => e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,.07)'}
+        onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+          <div style={{ fontSize: 13.5, fontWeight: 600 }}>{model.title}</div>
+          <span style={{
+            fontFamily: "'Space Mono',monospace", fontSize: 9, padding: '2px 6px',
+            borderRadius: 5, border: '1px solid #e7e0d2', color: '#8a857a', whiteSpace: 'nowrap',
+          }}>{model.family}</span>
+        </div>
+        <div style={{ fontSize: 12, color: '#8a857a', marginTop: 5, lineHeight: 1.45 }}>
+          {model.desc.slice(0, 72)}…
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+function RelatedDatasetCard({ dataset }) {
+  return (
+    <Link to={`/datasets/${dataset.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <div
+        style={{
+          background: '#faf7f0', border: '1px solid #e7e0d2', borderRadius: 10,
+          padding: '12px 14px', cursor: 'pointer', transition: 'box-shadow .15s',
+        }}
+        onMouseEnter={e => e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,.07)'}
+        onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+          <div style={{ fontSize: 13.5, fontWeight: 600 }}>{dataset.title}</div>
+          <span style={{
+            fontFamily: "'Space Mono',monospace", fontSize: 9, padding: '2px 6px',
+            borderRadius: 5,
+            background: (DOMAIN_COLORS[dataset.domain] || '#8a857a') + '18',
+            color: DOMAIN_COLORS[dataset.domain] || '#8a857a',
+            whiteSpace: 'nowrap',
+          }}>{dataset.domain}</span>
+        </div>
+        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: '#a09990', marginTop: 6 }}>
+          {dataset.rows} rows · {dataset.size}
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+function Skeleton() {
+  return (
+    <div style={{ minHeight: '100vh' }}>
+      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '52px 28px 44px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ height: 12, width: 160, background: '#e7e0d2', borderRadius: 6, marginBottom: 20 }} />
+          <div style={{ height: 36, width: 300, background: '#e7e0d2', borderRadius: 8, marginBottom: 14 }} />
+          <div style={{ height: 14, width: 480, background: '#ece5d6', borderRadius: 6 }} />
+        </div>
+      </div>
+      <div style={{ maxWidth: 1200, margin: '40px auto', padding: '0 28px', display: 'flex', gap: 32 }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {[140, 280, 200, 220].map((h, i) => (
+            <div key={i} style={{ height: h, background: '#f0ebe0', borderRadius: 12 }} />
+          ))}
+        </div>
+        <div style={{ width: 280, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {[120, 80, 90].map((h, i) => (
+            <div key={i} style={{ height: h, background: '#f0ebe0', borderRadius: 12 }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function DatasetDetailPage() {
+  const { datasetId } = useParams()
+  const [dataset, setDataset] = useState(null)
+  const [relatedDatasets, setRelatedDatasets] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
+
+  const relatedModels = dataset
+    ? MODELS.filter(m => dataset.relatedModelIds.includes(m.id))
+    : []
+
+  useEffect(() => {
+    setLoading(true)
+    setNotFound(false)
+    fetchDataset(datasetId).then(data => {
+      if (!data) { setNotFound(true); setLoading(false); return }
+      setDataset(data)
+      fetchRelatedDatasets(data.relatedDatasetIds).then(r => { setRelatedDatasets(r); setLoading(false) })
+    })
+  }, [datasetId])
+
+  if (loading) return <Skeleton />
+
+  if (notFound) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
+        <div style={{ fontSize: 48, fontWeight: 700, color: '#e7e0d2' }}>404</div>
+        <div style={{ fontSize: 16, color: '#8a857a' }}>Dataset not found.</div>
+        <Link to="/datasets" style={{ color: ACCENT, fontSize: 14, textDecoration: 'none' }}>← Back to Datasets</Link>
+      </div>
+    )
+  }
+
+  const { title, domain, format, license, desc, longDesc, size, rows, downloads, updated, version,
+    coverage, schema, collection, usageNotes, codeSnippet } = dataset
+
+  return (
+    <div style={{ minHeight: '100vh' }}>
+      {/* ── Hero header ── */}
+      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '40px 28px 36px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          {/* Breadcrumb */}
+          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', marginBottom: 20, display: 'flex', gap: 6, alignItems: 'center' }}>
+            <Link to="/datasets" style={{ color: '#8a857a', textDecoration: 'none' }}>Datasets</Link>
+            <span>›</span>
+            <span style={{ color: '#1b1a17' }}>{title}</span>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 24, flexWrap: 'wrap' }}>
+            <div>
+              {/* Chips */}
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 14, flexWrap: 'wrap' }}>
+                <DomainChip domain={domain} />
+                <FormatBadge format={format} />
+                <LicenseBadge license={license} />
+                <span style={{
+                  fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '4px 9px',
+                  borderRadius: 20, border: '1px solid #e7e0d2', color: '#8a857a', background: '#faf7f0',
+                }}>v{version}</span>
+              </div>
+
+              <h1 style={{ fontSize: 42, letterSpacing: '-0.03em', fontWeight: 700, lineHeight: 1.06, margin: 0 }}>
+                {title}
+              </h1>
+              <p style={{ fontSize: 15.5, color: '#56524a', marginTop: 12, maxWidth: 560, lineHeight: 1.6 }}>
+                {desc}
+              </p>
+
+              <div style={{ display: 'flex', gap: 18, marginTop: 18, flexWrap: 'wrap' }}>
+                <StatPill icon="↓" label={`${downloads} downloads`} />
+                <StatPill icon="⬢" label={`${rows} rows`} />
+                <StatPill icon="◉" label={size} />
+                <StatPill icon="↺" label={`Updated ${updated}`} />
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 160 }}>
+              <button style={{
+                fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
+              }}>
+                Download ↓
+              </button>
+              <button style={{
+                fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500, cursor: 'pointer',
+              }}>
+                Query via API
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Body ── */}
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 80px', display: 'flex', gap: 36, alignItems: 'flex-start' }}>
+
+        {/* ── Main content ── */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+
+          {/* About */}
+          <SectionCard label="About">
+            <p style={{ fontSize: 14.5, color: '#3b3830', lineHeight: 1.7, margin: 0 }}>{longDesc}</p>
+          </SectionCard>
+
+          {/* Coverage */}
+          <SectionCard label="Coverage">
+            <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
+              <div style={{ height: 8, background: '#faf7f0', backgroundImage: DOT_BG, backgroundSize: '14px 14px', borderBottom: '1px solid #ece5d6' }} />
+              <div style={{ padding: '2px 20px 8px' }}>
+                {Object.entries(coverage).map(([k, v]) => (
+                  <CoverageRow key={k} k={k.replace(/([A-Z])/g, ' $1').toLowerCase()} v={v} />
+                ))}
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* Schema */}
+          <SectionCard label={`Schema — ${schema.length} columns`}>
+            <SchemaTable columns={schema} />
+          </SectionCard>
+
+          {/* Collection & preprocessing */}
+          <SectionCard label="Collection & Preprocessing">
+            <div style={{
+              background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12,
+              padding: '18px 20px', fontSize: 14, color: '#3b3830', lineHeight: 1.7,
+            }}>
+              {collection}
+            </div>
+          </SectionCard>
+
+          {/* Usage notes */}
+          <SectionCard label="Usage Notes">
+            <div style={{
+              background: '#fdf9f3', border: '1.5px solid #e8d9c0', borderRadius: 12,
+              padding: '16px 20px', fontSize: 14, color: '#3b3830', lineHeight: 1.65,
+              display: 'flex', gap: 12, alignItems: 'flex-start',
+            }}>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>ⓘ</span>
+              <span>{usageNotes}</span>
+            </div>
+          </SectionCard>
+
+          {/* Code */}
+          <SectionCard label="Usage">
+            <CodeBlock tabs={codeSnippet} />
+          </SectionCard>
+        </div>
+
+        {/* ── Sidebar ── */}
+        <div style={{ width: 276, flexShrink: 0 }}>
+
+          {/* Quick info */}
+          <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '14px 18px', marginBottom: 16 }}>
+            <SectionLabel>Quick info</SectionLabel>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                ['Domain', domain],
+                ['Format', format],
+                ['Version', `v${version}`],
+                ['Rows', rows],
+                ['Size', size],
+                ['License', license],
+                ['Downloads', downloads],
+              ].map(([k, v]) => (
+                <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, gap: 8 }}>
+                  <span style={{ color: '#8a857a' }}>{k}</span>
+                  <span style={{ fontWeight: 500, textAlign: 'right' }}>{v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* API endpoint */}
+          <div style={{ background: '#141310', borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
+            <div style={{ padding: '14px 16px' }}>
+              <div style={{
+                fontFamily: "'Space Mono',monospace", fontSize: 9, letterSpacing: '0.08em',
+                color: ACCENT, marginBottom: 10, textTransform: 'uppercase',
+              }}>
+                Query Endpoint
+              </div>
+              <code style={{
+                fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#c8c0b0',
+                wordBreak: 'break-all', lineHeight: 1.5, display: 'block',
+              }}>
+                {`POST /v1/datasets/${dataset.id}/query`}
+              </code>
+            </div>
+          </div>
+
+          {/* Models trained on this dataset */}
+          {relatedModels.length > 0 && (
+            <div style={{ marginBottom: 16 }}>
+              <SectionLabel>Models trained on this</SectionLabel>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {relatedModels.map(m => <RelatedModelCard key={m.id} model={m} />)}
+              </div>
+            </div>
+          )}
+
+          {/* Related datasets */}
+          {relatedDatasets.length > 0 && (
+            <div>
+              <SectionLabel>Related datasets</SectionLabel>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {relatedDatasets.map(d => <RelatedDatasetCard key={d.id} dataset={d} />)}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}

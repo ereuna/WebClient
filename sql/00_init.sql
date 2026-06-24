@@ -1,0 +1,22 @@
+-- Aether Transactional Database
+-- 00_init.sql — Create all schemas
+
+CREATE SCHEMA IF NOT EXISTS identity;
+CREATE SCHEMA IF NOT EXISTS repository;
+CREATE SCHEMA IF NOT EXISTS dataset;
+CREATE SCHEMA IF NOT EXISTS model;
+CREATE SCHEMA IF NOT EXISTS training;
+CREATE SCHEMA IF NOT EXISTS inference;
+CREATE SCHEMA IF NOT EXISTS deployment;
+CREATE SCHEMA IF NOT EXISTS pipeline;
+CREATE SCHEMA IF NOT EXISTS explainability;
+CREATE SCHEMA IF NOT EXISTS search;
+CREATE SCHEMA IF NOT EXISTS billing;
+CREATE SCHEMA IF NOT EXISTS notification;
+CREATE SCHEMA IF NOT EXISTS audit;
+CREATE SCHEMA IF NOT EXISTS governance;
+CREATE SCHEMA IF NOT EXISTS core;
+
+-- Enable UUID generation
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS "pg_trgm";  -- for text search on slugs/names

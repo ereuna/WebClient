@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#e7e2d7;}
+  ::selection{background:#cdd9ea;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;font-family:'Architects Daughter',cursive;color:#2b2a27;">
+
+  <!-- ===== CHROME ===== -->
+  <div style="position:sticky;top:0;z-index:30;background:#efece4;border-bottom:2px solid #2b2a27;padding:13px 22px;">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:1260px;margin:0 auto;">
+      <div style="font-size:24px;letter-spacing:.5px;">⬡ EnergyHub</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;border:1.5px dashed #b3ab99;border-radius:20px;padding:3px 10px;">wireframes · lo-fi</div>
+      <div style="flex:1"></div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">desktop 1180 · mobile notes inline</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;max-width:1260px;margin-left:auto;margin-right:auto;">
+      <sc-for list="{{ pages }}" as="t" hint-placeholder-count="7">
+        <button onClick="{{ t.onClick }}" style="{{ t.tabStyle }}">{{ t.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ===== SUB-BAR ===== -->
+  <div style="max-width:1260px;margin:0 auto;padding:18px 22px 0;">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div style="font-size:26px;">{{ pageTitle }}</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;">
+        <sc-for list="{{ variantsForPage }}" as="v" hint-placeholder-count="3">
+          <button onClick="{{ v.onClick }}" style="{{ v.segStyle }}">{{ v.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;margin-top:8px;max-width:780px;line-height:1.5;">{{ variantDesc }}</div>
+  </div>
+
+  <!-- ===== SCREENS ===== -->
+  <div style="max-width:1260px;margin:0 auto;padding:16px 22px 70px;">
+
+    <!-- ============ HOME 0 — LIVE-DEMO HERO ============ -->
+    <div style="display:{{ screenDisplay.home0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org</div>
+        </div>
+        <!-- app nav -->
+        <div style="display:flex;align-items:center;gap:18px;padding:14px 22px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:20px;">⬡ EnergyHub</div>
+          <div style="display:flex;gap:14px;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">
+            <span>Models</span><span>Datasets</span><span>Benchmarks</span><span>Apps</span><span>Docs</span>
+          </div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;border:1.5px solid #c9c2b2;border-radius:6px;padding:5px 10px;background:#fff;">Search ⌕</div>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;border-radius:7px;padding:5px 12px;background:#fff;">Sign in</div>
+        </div>
+        <div style="padding:22px 26px;">
+          <!-- live demo -->
+          <div style="position:relative;height:230px;border:2px solid #2b2a27;border-radius:10px;background:repeating-linear-gradient(45deg,#eef0e6,#eef0e6 8px,#e3e7d3 8px,#e3e7d3 16px);display:flex;align-items:center;justify-content:center;">
+            <div style="font-family:'Space Mono',monospace;font-size:13px;color:#5b6b3a;text-align:center;line-height:1.6;">[ LIVE DEMO — runs in browser ]<br>Olkaria reservoir thermal map · PINN inference on synthetic data</div>
+            <div style="position:absolute;top:10px;left:12px;font-family:'Space Mono',monospace;font-size:11px;background:#fff;border:1.5px solid #2b2a27;border-radius:5px;padding:3px 8px;">● running</div>
+          </div>
+          <div style="margin-top:18px;font-size:30px;line-height:1.22;max-width:780px;">Physics-informed ML models for energy — built by and for the people who run energy systems.</div>
+          <!-- 3 CTA cards -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;">
+            <div style="background:#fff;border:2px solid #2b2a27;border-radius:9px;padding:15px;box-shadow:3px 3px 0 #e4dfd4;">
+              <div style="font-size:19px;">Browse models</div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:6px;line-height:1.5;">PINN · GNN · RL · forecasting · generative</div>
+              <div style="margin-top:12px;display:inline-block;font-family:'Space Mono',monospace;font-size:12px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:7px;padding:6px 12px;">Explore →</div>
+            </div>
+            <div style="background:#fff;border:2px solid #2b2a27;border-radius:9px;padding:15px;box-shadow:3px 3px 0 #e4dfd4;">
+              <div style="font-size:19px;">Run a flagship app</div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:6px;line-height:1.5;">Geothermal · Nuclear · Grid dispatch</div>
+              <div style="margin-top:12px;display:inline-block;font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;background:#fff;border-radius:7px;padding:6px 12px;">Launch →</div>
+            </div>
+            <div style="background:#fff;border:2px solid #2b2a27;border-radius:9px;padding:15px;box-shadow:3px 3px 0 #e4dfd4;">
+              <div style="font-size:19px;">Upload your model</div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:6px;line-height:1.5;">Guided model-card + physics check</div>
+              <div style="margin-top:12px;display:inline-block;font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;background:#fff;border-radius:7px;padding:6px 12px;">Contribute →</div>
+            </div>
+          </div>
+          <!-- featured rail -->
+          <div style="margin-top:26px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:21px;">Recently updated</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">recency · no ranking →</div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:10px;overflow:hidden;">
+            <div style="flex:0 0 230px;border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:12px;">tsuma/olkaria-inverse-pinn</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;">geothermal · inverse PINN · KE</div>
+              <div style="display:flex;gap:16px;margin-top:10px;">
+                <div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;">0.0023</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">PDE L2</div></div>
+                <div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;">1.8°C</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">T MAE</div></div>
+              </div>
+            </div>
+            <div style="flex:0 0 230px;border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:12px;">tsuma/eurofer97-mace</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;">RAFM steel · GNN · yield str.</div>
+              <div style="display:flex;gap:16px;margin-top:10px;">
+                <div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;">42 MPa</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">RMSE</div></div>
+                <div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;">0.91</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">cov.</div></div>
+              </div>
+            </div>
+            <div style="flex:0 0 230px;border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:12px;">tsuma/kenya-grid-ppo</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;">grid · RL · cost+carbon</div>
+              <div style="display:flex;gap:16px;margin-top:10px;">
+                <div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;">-12%</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">$/MWh</div></div>
+              </div>
+            </div>
+            <div style="flex:0 0 90px;border:2px dashed #c9c2b2;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">more →</div>
+          </div>
+          <!-- stats -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;border-top:2px dashed #d2cbbb;padding-top:18px;">
+            <div><div style="font-family:'Space Mono',monospace;font-size:30px;color:#c46a2b;">20</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">models hosted</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:30px;color:#c46a2b;">1,048</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">inference calls / mo</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:30px;color:#c46a2b;">5</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">countries uploading</div></div>
+          </div>
+          <!-- flagship previews -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px;">
+            <div style="border:2px solid #2b2a27;border-radius:9px;overflow:hidden;background:#fff;">
+              <div style="height:96px;background:repeating-linear-gradient(45deg,#eef0e6,#eef0e6 7px,#e3e7d3 7px,#e3e7d3 14px);"></div>
+              <div style="padding:12px;"><div style="font-size:17px;">Geothermal Dashboard</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:4px;">live reservoir intelligence</div></div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;overflow:hidden;background:#fff;">
+              <div style="height:96px;background:repeating-linear-gradient(45deg,#f0ebe6,#f0ebe6 7px,#e6dcd3 7px,#e6dcd3 14px);"></div>
+              <div style="padding:12px;"><div style="font-size:17px;">Nuclear Monitor</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:4px;">materials degradation forecast</div></div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;overflow:hidden;background:#fff;">
+              <div style="height:96px;background:repeating-linear-gradient(45deg,#e9ecf0,#e9ecf0 7px,#d6dde6 7px,#d6dde6 14px);"></div>
+              <div style="padding:12px;"><div style="font-size:17px;">Grid Optimiser</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:4px;">72h dispatch + carbon</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Hero answers "what is this?" by <b>showing</b> a running PINN, not describing it. Strongest for the 60-second test.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ 3 equal CTAs map to the 3 verbs: browse / run / upload. No hierarchy imposed.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — demo collapses to a static thumbnail w/ "tap to run"; CTA cards stack; rail becomes swipe.</div>
+      </div>
+    </div>
+
+    <!-- ============ HOME 1 — AUDIENCE ROUTER ============ -->
+    <div style="display:{{ screenDisplay.home1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:18px;padding:14px 22px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:20px;">⬡ EnergyHub</div>
+          <div style="display:flex;gap:14px;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;"><span>Models</span><span>Datasets</span><span>Benchmarks</span><span>Apps</span><span>Docs</span></div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;border-radius:7px;padding:5px 12px;background:#fff;">Sign in</div>
+        </div>
+        <div style="padding:26px;">
+          <div style="font-size:30px;max-width:720px;line-height:1.2;">You run energy systems. Start where you work.</div>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;margin-top:8px;">Pick your domain → land on the right models + flagship app.</div>
+          <!-- 5 persona cards -->
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:20px;">
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:14px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;min-height:150px;display:flex;flex-direction:column;">
+              <div style="height:34px;width:34px;border:2px solid #2b2a27;border-radius:8px;background:#eef0e6;"></div>
+              <div style="font-size:17px;margin-top:10px;">Geothermal operator</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;line-height:1.5;">KenGen · GNS · ÍSOR</div>
+              <div style="flex:1"></div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#c46a2b;">Enter →</div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:14px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;min-height:150px;display:flex;flex-direction:column;">
+              <div style="height:34px;width:34px;border:2px solid #2b2a27;border-radius:8px;background:#f0ebe6;"></div>
+              <div style="font-size:17px;margin-top:10px;">Nuclear engineer</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;line-height:1.5;">NuPEA · IAEA · plant ops</div>
+              <div style="flex:1"></div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#c46a2b;">Enter →</div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:14px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;min-height:150px;display:flex;flex-direction:column;">
+              <div style="height:34px;width:34px;border:2px solid #2b2a27;border-radius:8px;background:#e9ecf0;"></div>
+              <div style="font-size:17px;margin-top:10px;">Grid operator</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;line-height:1.5;">KETRACO · TANESCO</div>
+              <div style="flex:1"></div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#c46a2b;">Enter →</div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:14px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;min-height:150px;display:flex;flex-direction:column;">
+              <div style="height:34px;width:34px;border:2px solid #2b2a27;border-radius:8px;background:#eef0e6;"></div>
+              <div style="font-size:17px;margin-top:10px;">ML researcher</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;line-height:1.5;">baselines · SDK · benchmarks</div>
+              <div style="flex:1"></div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#c46a2b;">Enter →</div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:14px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;min-height:150px;display:flex;flex-direction:column;">
+              <div style="height:34px;width:34px;border:2px solid #2b2a27;border-radius:8px;background:#f0ebe6;"></div>
+              <div style="font-size:17px;margin-top:10px;">Policymaker</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;line-height:1.5;">NuPEA · IRENA · ministries</div>
+              <div style="flex:1"></div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#c46a2b;">Enter →</div>
+            </div>
+          </div>
+          <!-- secondary: featured + stats compact -->
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:24px;border-top:2px dashed #d2cbbb;padding-top:18px;">
+            <div>
+              <div style="font-size:19px;">Or just browse what's new</div>
+              <div style="display:flex;gap:12px;margin-top:10px;">
+                <div style="flex:1;border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:11px;">olkaria-inverse-pinn</div><div style="height:8px;background:#e4dfd4;border-radius:4px;margin-top:8px;"></div><div style="height:8px;background:#e4dfd4;border-radius:4px;margin-top:6px;width:70%;"></div></div>
+                <div style="flex:1;border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:11px;">eurofer97-mace</div><div style="height:8px;background:#e4dfd4;border-radius:4px;margin-top:8px;"></div><div style="height:8px;background:#e4dfd4;border-radius:4px;margin-top:6px;width:70%;"></div></div>
+              </div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:14px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:24px;color:#c46a2b;">20 · 1,048 · 5</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;">models · calls/mo · countries</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Operator-first: the 5 PRD personas are the primary nav. Each routes to a pre-filtered hub + its flagship app.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Trades the wow-demo for clarity of "who is this for". Best if operators (not researchers) are the wedge.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — 5 persona cards become a single-column tap list; everything below collapses under "More".</div>
+      </div>
+    </div>
+
+    <!-- ============ HOME 2 — SEARCH-FIRST ============ -->
+    <div style="display:{{ screenDisplay.home2 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:18px;padding:14px 22px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:20px;">⬡ EnergyHub</div>
+          <div style="display:flex;gap:14px;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;"><span>Models</span><span>Datasets</span><span>Benchmarks</span><span>Apps</span><span>Docs</span></div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;border-radius:7px;padding:5px 12px;background:#fff;">Sign in</div>
+        </div>
+        <div style="padding:40px 26px 26px;">
+          <div style="text-align:center;font-size:28px;max-width:680px;margin:0 auto;line-height:1.2;">Find a model by its physics.</div>
+          <!-- giant search -->
+          <div style="max-width:740px;margin:18px auto 0;border:2px solid #2b2a27;border-radius:12px;background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:4px 4px 0 #e4dfd4;">
+            <div style="font-size:20px;color:#74716a;">⌕</div>
+            <div style="flex:1;font-family:'Space Mono',monospace;font-size:14px;color:#9a958a;">search equations, fields, materials…  e.g. "heat conduction"</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:7px;padding:6px 14px;">Search</div>
+          </div>
+          <!-- example chips -->
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:740px;margin:14px auto 0;">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">heat conduction 3D</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">Olkaria</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">RAFM steel</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">grid dispatch RL</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">CHNO energetic</div>
+          </div>
+          <!-- domain quick filters -->
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:26px;">
+            <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">jump to:</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;border-bottom:2px solid #c46a2b;">geothermal</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">nuclear</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">wind/solar</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">grid</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">materials</div>
+          </div>
+          <!-- results preview grid -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;border-top:2px dashed #d2cbbb;padding-top:18px;">
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:11px;">olkaria-inverse-pinn</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;">parabolic · inverse</div><div style="height:8px;background:#e4dfd4;border-radius:4px;margin-top:10px;"></div></div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:11px;">uo2-heat-pinn</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;">parabolic · forward</div><div style="height:8px;background:#e4dfd4;border-radius:4px;margin-top:10px;"></div></div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:11px;">krafla-fluid-pinn</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:4px;">navier-stokes</div><div style="height:8px;background:#e4dfd4;border-radius:4px;margin-top:10px;"></div></div>
+          </div>
+          <div style="display:flex;gap:14px;justify-content:center;margin-top:22px;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">
+            <div>20 models</div><div>·</div><div>1,048 calls/mo</div><div>·</div><div>5 countries</div><div>·</div><div style="color:#c46a2b;">3 flagship apps →</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Hugging-Face DNA: one search bar over governing equations is the headline. Best for the researcher who knows what they want.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Example chips teach the search syntax (equation / field / material) without docs.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — search bar pins to top; chips scroll horizontally; results go single-column.</div>
+      </div>
+    </div>
+
+    <!-- ============ HUB 0 — LEFT FILTER RAIL ============ -->
+    <div style="display:{{ screenDisplay.hub0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/models</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:18px;padding:12px 22px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:18px;">⬡ EnergyHub</div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#9a958a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:6px 12px;">⌕  search model IDs, equations, fields…</div>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;border-radius:7px;padding:5px 12px;background:#fff;">Sign in</div>
+        </div>
+        <div style="display:flex;">
+          <!-- filter rail -->
+          <div style="flex:0 0 210px;border-right:2px dashed #d2cbbb;padding:16px;">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-bottom:6px;">PHYSICAL DOMAIN</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2;color:#2b2a27;">▣ Geothermal<br>▢ Nuclear fission<br>▢ Nuclear fusion<br>▢ Wind / Solar<br>▢ Grid / dispatch<br>▢ Materials</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin:14px 0 6px;">PDE CLASS</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2;color:#2b2a27;">▣ Parabolic<br>▢ Hyperbolic<br>▢ Elliptic<br>▢ ODE / UDE</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin:14px 0 6px;">SAFETY</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2;color:#2b2a27;">▢ Safety-critical<br>▢ Operational<br>▣ Research</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin:14px 0 6px;">LICENSE</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2;color:#2b2a27;">▢ Apache-2.0<br>▢ MIT · CC-BY</div>
+          </div>
+          <!-- results -->
+          <div style="flex:1;padding:16px 18px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">14 models · domain: geothermal · pde: parabolic</div>
+              <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;">sort: <span style="border-bottom:2px solid #c46a2b;">most recent</span> · downloads · ECE</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <!-- model card x4 -->
+              <div style="border:2px solid #2b2a27;border-radius:9px;padding:13px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+                <div style="font-family:'Space Mono',monospace;font-size:12px;">tsuma / olkaria-inverse-pinn</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:3px;">Geothermal · Inverse PINN · Kenya</div>
+                <div style="display:flex;gap:18px;margin-top:10px;">
+                  <div><div style="font-family:'Space Mono',monospace;font-size:17px;color:#c46a2b;">0.0023</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">PDE L2</div></div>
+                  <div><div style="font-family:'Space Mono',monospace;font-size:17px;color:#c46a2b;">1.8°C</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">T MAE</div></div>
+                </div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;margin-top:9px;">✓ Calibrated CI  ✓ Constraint-checked</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#c46a2b;margin-top:2px;">⚠ Research use only</div>
+                <div style="display:flex;gap:6px;margin-top:11px;">
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:6px;padding:4px 8px;">Fine-tune</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #2b2a27;border-radius:6px;padding:4px 8px;background:#fff;">Run</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #2b2a27;border-radius:6px;padding:4px 8px;background:#fff;">↓</div>
+                </div>
+              </div>
+              <div style="border:2px solid #2b2a27;border-radius:9px;padding:13px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+                <div style="font-family:'Space Mono',monospace;font-size:12px;">user / wairakei-inverse-pinn</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:3px;">Geothermal · Inverse PINN · NZ</div>
+                <div style="display:flex;gap:18px;margin-top:10px;">
+                  <div><div style="font-family:'Space Mono',monospace;font-size:17px;color:#c46a2b;">0.0031</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">PDE L2</div></div>
+                  <div><div style="font-family:'Space Mono',monospace;font-size:17px;color:#c46a2b;">2.4°C</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">T MAE</div></div>
+                </div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;margin-top:9px;">✓ Calibrated CI  ✓ Constraint-checked</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#c46a2b;margin-top:2px;">⚠ Research use only</div>
+                <div style="display:flex;gap:6px;margin-top:11px;">
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:6px;padding:4px 8px;">Fine-tune</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #2b2a27;border-radius:6px;padding:4px 8px;background:#fff;">Run</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #2b2a27;border-radius:6px;padding:4px 8px;background:#fff;">↓</div>
+                </div>
+              </div>
+              <div style="border:2px solid #2b2a27;border-radius:9px;padding:13px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+                <div style="font-family:'Space Mono',monospace;font-size:12px;">ornl / uo2-heat-pinn-v2</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:3px;">Nuclear-fuel · Forward PINN · USA</div>
+                <div style="display:flex;gap:18px;margin-top:10px;">
+                  <div><div style="font-family:'Space Mono',monospace;font-size:17px;color:#c46a2b;">0.0018</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">PDE L2</div></div>
+                </div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;margin-top:9px;">✓ Constraint-checked</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:2px;">○ Operational-reviewed</div>
+                <div style="display:flex;gap:6px;margin-top:11px;">
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:6px;padding:4px 8px;">Fine-tune</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #2b2a27;border-radius:6px;padding:4px 8px;background:#fff;">Run</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #2b2a27;border-radius:6px;padding:4px 8px;background:#fff;">↓</div>
+                </div>
+              </div>
+              <div style="border:2px dashed #c9c2b2;border-radius:9px;padding:13px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;min-height:150px;">+ 11 more models<br>↓ load more</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Persistent left facets mirror the PRD's filter spec exactly (domain / PDE / problem / safety / UQ / license / geo). Familiar, low-risk.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Card shows the two badges operators care about most: calibrated-CI and the safety flag. Metrics are domain-specific (PDE L2, not "accuracy").</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — rail becomes a "Filters" bottom-sheet button; cards go single-column.</div>
+      </div>
+    </div>
+
+    <!-- ============ HUB 1 — DENSE TABLE ============ -->
+    <div style="display:{{ screenDisplay.hub1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/models</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:2px dashed #d2cbbb;flex-wrap:wrap;">
+          <div style="font-size:18px;">⬡ EnergyHub</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">domain ▾</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">PDE class ▾</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">safety ▾</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:20px;padding:5px 12px;">geothermal ✕</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;color:#9a958a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:5px 12px;">⌕ search</div>
+        </div>
+        <div style="padding:6px 0 0;">
+          <!-- table header -->
+          <div style="display:grid;grid-template-columns:2.4fr 1.3fr 0.8fr 0.8fr 0.9fr 1fr 0.9fr;gap:0;font-family:'Space Mono',monospace;font-size:10px;color:#74716a;padding:10px 18px;border-bottom:2px solid #2b2a27;">
+            <div>MODEL ID</div><div>DOMAIN · CLASS</div><div>PDE L2 ▾</div><div>MAE</div><div>ECE</div><div>SAFETY</div><div>DL</div>
+          </div>
+          <!-- rows -->
+          <div style="display:grid;grid-template-columns:2.4fr 1.3fr 0.8fr 0.8fr 0.9fr 1fr 0.9fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 18px;border-bottom:1px solid #ece7dc;align-items:center;">
+            <div>tsuma/olkaria-inverse-pinn</div><div style="color:#74716a;">geo · PINN</div><div style="color:#c46a2b;">0.0023</div><div>1.8</div><div>0.018</div><div style="color:#c46a2b;">⚠ research</div><div>412</div>
+          </div>
+          <div style="display:grid;grid-template-columns:2.4fr 1.3fr 0.8fr 0.8fr 0.9fr 1fr 0.9fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 18px;border-bottom:1px solid #ece7dc;align-items:center;background:#fbf8f1;">
+            <div>user/wairakei-inverse-pinn</div><div style="color:#74716a;">geo · PINN</div><div style="color:#c46a2b;">0.0031</div><div>2.4</div><div>0.022</div><div style="color:#c46a2b;">⚠ research</div><div>96</div>
+          </div>
+          <div style="display:grid;grid-template-columns:2.4fr 1.3fr 0.8fr 0.8fr 0.9fr 1fr 0.9fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 18px;border-bottom:1px solid #ece7dc;align-items:center;">
+            <div>isor/krafla-fluid-pinn</div><div style="color:#74716a;">geo · PINN</div><div style="color:#c46a2b;">0.0044</div><div>3.1</div><div>0.027</div><div style="color:#2f6db0;">○ oper.</div><div>58</div>
+          </div>
+          <div style="display:grid;grid-template-columns:2.4fr 1.3fr 0.8fr 0.8fr 0.9fr 1fr 0.9fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 18px;border-bottom:1px solid #ece7dc;align-items:center;background:#fbf8f1;">
+            <div>gns/rift-valley-wave-pinn</div><div style="color:#74716a;">seismic · PINN</div><div style="color:#c46a2b;">0.0052</div><div>—</div><div>0.031</div><div style="color:#c46a2b;">⚠ research</div><div>33</div>
+          </div>
+          <div style="display:grid;grid-template-columns:2.4fr 1.3fr 0.8fr 0.8fr 0.9fr 1fr 0.9fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 18px;border-bottom:1px solid #ece7dc;align-items:center;">
+            <div>menengai/inverse-pinn-ft</div><div style="color:#74716a;">geo · PINN</div><div style="color:#c46a2b;">0.0029</div><div>2.0</div><div>0.020</div><div style="color:#c46a2b;">⚠ research</div><div>21</div>
+          </div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;padding:12px 18px;">↓ 9 more rows · compare selected (0)</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Maximum data density: sortable metric columns let an operator rank by PDE residual or calibration in one click. Filters move to top chips.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Row-select → "compare" supports the side-by-side evaluation researchers actually do. Trades visual appeal for speed.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — table degrades to stacked cards w/ the 2 key metrics; full columns behind horizontal scroll.</div>
+      </div>
+    </div>
+
+    <!-- ============ HUB 2 — FACETED GALLERY ============ -->
+    <div style="display:{{ screenDisplay.hub2 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/models</div>
+        </div>
+        <div style="padding:16px 20px;border-bottom:2px dashed #d2cbbb;">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="font-size:18px;">⬡ EnergyHub</div>
+            <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#9a958a;background:#fff;border:2px solid #2b2a27;border-radius:8px;padding:8px 14px;">⌕  search equations, fields, materials…</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:20px;padding:5px 12px;">geothermal</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">nuclear</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">grid</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">PINN</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">GNN</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">calibrated CI</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:5px 12px;background:#fff;">+ filters</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px;">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+            <!-- visual card x6 -->
+            <div style="border:2px solid #2b2a27;border-radius:10px;overflow:hidden;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+              <div style="height:84px;background:repeating-linear-gradient(45deg,#eef0e6,#eef0e6 7px,#e3e7d3 7px,#e3e7d3 14px);position:relative;"><div style="position:absolute;bottom:6px;left:8px;font-family:'Space Mono',monospace;font-size:9px;color:#5b6b3a;">k(x) field preview</div></div>
+              <div style="padding:11px;"><div style="font-family:'Space Mono',monospace;font-size:11px;">olkaria-inverse-pinn</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;margin-top:3px;">geo · inverse · KE</div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#c46a2b;margin-top:8px;">0.0023 <span style="font-size:9px;color:#74716a;">PDE L2</span></div></div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:10px;overflow:hidden;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+              <div style="height:84px;background:repeating-linear-gradient(45deg,#eef0e6,#eef0e6 7px,#e3e7d3 7px,#e3e7d3 14px);position:relative;"><div style="position:absolute;bottom:6px;left:8px;font-family:'Space Mono',monospace;font-size:9px;color:#5b6b3a;">T-depth curve</div></div>
+              <div style="padding:11px;"><div style="font-family:'Space Mono',monospace;font-size:11px;">wairakei-inverse-pinn</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;margin-top:3px;">geo · inverse · NZ</div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#c46a2b;margin-top:8px;">0.0031 <span style="font-size:9px;color:#74716a;">PDE L2</span></div></div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:10px;overflow:hidden;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+              <div style="height:84px;background:repeating-linear-gradient(45deg,#eef0e6,#eef0e6 7px,#e3e7d3 7px,#e3e7d3 14px);position:relative;"><div style="position:absolute;bottom:6px;left:8px;font-family:'Space Mono',monospace;font-size:9px;color:#5b6b3a;">reliability diagram</div></div>
+              <div style="padding:11px;"><div style="font-family:'Space Mono',monospace;font-size:11px;">krafla-fluid-pinn</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;margin-top:3px;">geo · N-S · IS</div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#c46a2b;margin-top:8px;">0.0044 <span style="font-size:9px;color:#74716a;">PDE L2</span></div></div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:10px;overflow:hidden;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+              <div style="height:84px;background:repeating-linear-gradient(45deg,#eef0e6,#eef0e6 7px,#e3e7d3 7px,#e3e7d3 14px);"></div>
+              <div style="padding:11px;"><div style="font-family:'Space Mono',monospace;font-size:11px;">menengai-pinn-ft</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;margin-top:3px;">geo · inverse · KE</div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#c46a2b;margin-top:8px;">0.0029 <span style="font-size:9px;color:#74716a;">PDE L2</span></div></div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:10px;overflow:hidden;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+              <div style="height:84px;background:repeating-linear-gradient(45deg,#eef0e6,#eef0e6 7px,#e3e7d3 7px,#e3e7d3 14px);"></div>
+              <div style="padding:11px;"><div style="font-family:'Space Mono',monospace;font-size:11px;">rift-valley-wave-pinn</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;margin-top:3px;">seismic · fwd · KE</div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#c46a2b;margin-top:8px;">0.0052 <span style="font-size:9px;color:#74716a;">PDE L2</span></div></div>
+            </div>
+            <div style="border:2px dashed #c9c2b2;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;color:#74716a;min-height:150px;">+ 9 more →</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Each card carries a tiny preview of the science (k(x) field, reliability diagram) so the model's character is visible before clicking.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Filters collapse to a top chip row — more screen for results. Best if the thumbnails can be auto-generated from model outputs.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — 1-col cards; chip row scrolls horizontally; thumbnails keep aspect.</div>
+      </div>
+    </div>
+
+    <!-- ============ CARD 0 — LONG SCROLL ============ -->
+    <div style="display:{{ screenDisplay.card0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/models/tsuma/olkaria-inverse-pinn</div>
+        </div>
+        <div style="padding:20px 24px;">
+          <!-- ① header -->
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:16px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+              <div>
+                <div style="font-size:22px;">tsuma / olkaria-inverse-pinn <span style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;">v1.2</span></div>
+                <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c46a2b;color:#7a3f12;background:#f3dcc4;border-radius:20px;padding:3px 10px;">⚠ research</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c9c2b2;border-radius:20px;padding:3px 10px;">Apache-2.0</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c9c2b2;border-radius:20px;padding:3px 10px;">PINN · inverse · geothermal</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;padding:3px 4px;">↓ 412 · updated 2d ago</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:7px;flex-wrap:wrap;">
+                <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:7px;padding:7px 12px;">Fine-tune in browser</div>
+                <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #2b2a27;border-radius:7px;padding:7px 12px;background:#fff;">Run inference</div>
+                <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #2b2a27;border-radius:7px;padding:7px 12px;background:#fff;">↓ Weights</div>
+                <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #2b2a27;border-radius:7px;padding:7px 12px;background:#fff;">Cite</div>
+              </div>
+            </div>
+          </div>
+          <!-- section blocks -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+            <!-- ② physics -->
+            <div style="border:2px solid #2b2a27;border-radius:10px;padding:15px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">② PHYSICS SPECIFICATION</div>
+              <div style="border:1.5px solid #c9c2b2;border-radius:8px;background:#faf7f0;padding:12px;margin-top:10px;text-align:center;font-family:'Space Mono',monospace;font-size:13px;">ρcₚ ∂T/∂t = ∇·( k(x) ∇T ) + Q(x,t)</div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;line-height:1.9;margin-top:10px;">pde_class: parabolic · domain: 4D<br>bc: surface=dirichlet, depth=neumann<br>collocation: adaptive_residual (50k)</div>
+              <div style="margin-top:10px;height:64px;border:1.5px dashed #c9c2b2;border-radius:8px;background:repeating-linear-gradient(45deg,#f3f0e8,#f3f0e8 6px,#ebe6da 6px,#ebe6da 12px);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">domain-dimension SVG diagram</div>
+            </div>
+            <!-- ③ performance -->
+            <div style="border:2px solid #2b2a27;border-radius:10px;padding:15px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">③ PERFORMANCE</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;">
+                <div style="border:1.5px solid #c9c2b2;border-radius:7px;padding:8px;text-align:center;"><div style="font-family:'Space Mono',monospace;font-size:16px;color:#c46a2b;">0.0023</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">PDE L2</div></div>
+                <div style="border:1.5px solid #c9c2b2;border-radius:7px;padding:8px;text-align:center;"><div style="font-family:'Space Mono',monospace;font-size:16px;color:#c46a2b;">0.041</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">k RMSE</div></div>
+                <div style="border:1.5px solid #c9c2b2;border-radius:7px;padding:8px;text-align:center;"><div style="font-family:'Space Mono',monospace;font-size:16px;color:#c46a2b;">1.8°C</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">T MAE</div></div>
+              </div>
+              <div style="margin-top:10px;height:90px;border:1.5px dashed #c9c2b2;border-radius:8px;background:repeating-linear-gradient(45deg,#f3f0e8,#f3f0e8 6px,#ebe6da 6px,#ebe6da 12px);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">reliability diagram (conf. vs coverage)</div>
+            </div>
+            <!-- ④ map -->
+            <div style="border:2px solid #2b2a27;border-radius:10px;padding:15px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">④ TRAINING FIELD MAP</div>
+              <div style="margin-top:10px;height:130px;border:1.5px solid #c9c2b2;border-radius:8px;background:repeating-linear-gradient(135deg,#eef0e6,#eef0e6 8px,#e3e7d3 8px,#e3e7d3 16px);position:relative;">
+                <div style="position:absolute;top:42%;left:40%;font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;">◉</div>
+                <div style="position:absolute;top:58%;left:62%;font-family:'Space Mono',monospace;font-size:13px;color:#2f6db0;">◎</div>
+                <div style="position:absolute;bottom:8px;left:10px;font-family:'Space Mono',monospace;font-size:10px;color:#5b6b3a;">◉ Olkaria (train) · ◎ Menengai (94% retention)</div>
+              </div>
+            </div>
+            <!-- ⑤ constraints -->
+            <div style="border:2px solid #2b2a27;border-radius:10px;padding:15px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">⑤ CONSTRAINT SATISFACTION</div>
+              <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2.1;margin-top:8px;">
+                <span style="color:#2f6db0;">✓ PASS</span> &nbsp;energy conservation<br>
+                <span style="color:#2f6db0;">✓ PASS</span> &nbsp;PDE residual &lt; 0.005<br>
+                <span style="color:#2f6db0;">✓ PASS</span> &nbsp;thermodynamic consistency<br>
+                <span style="color:#2f6db0;">✓ PASS</span> &nbsp;uncertainty calibration (91.3%)
+              </div>
+            </div>
+          </div>
+          <!-- ⑥ usage -->
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:15px;background:#fff;margin-top:14px;">
+            <div style="display:flex;gap:10px;font-family:'Space Mono',monospace;font-size:11px;margin-bottom:10px;">
+              <span style="border-bottom:2px solid #c46a2b;padding-bottom:3px;">Python SDK</span>
+              <span style="color:#74716a;">REST API</span>
+              <span style="color:#74716a;">Jupyter</span>
+            </div>
+            <div style="background:#2b2a27;border-radius:8px;padding:13px;font-family:'Space Mono',monospace;font-size:11px;color:#e9e4d8;line-height:1.8;">from energyhub import EnergyModel<br>model = EnergyModel.from_hub("tsuma/olkaria-inverse-pinn-v1.2")<br>result = model.invert(sensor_graph=my_field)<br><span style="color:#cdb89a;">print(result.thermal_conductivity_map)</span></div>
+          </div>
+          <!-- ⑦ community -->
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:15px;background:#fff;margin-top:14px;">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">⑦ COMMUNITY · FINE-TUNE LINEAGE</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2;margin-top:8px;color:#2b2a27;">olkaria-inverse-pinn<br>&nbsp;├─ menengai-pinn-ft &nbsp;<span style="color:#2f6db0;">+94%</span><br>&nbsp;└─ wairakei-inverse-pinn &nbsp;<span style="color:#c46a2b;">81%</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ All 7 PRD sections in document order; governing equation in LaTeX up top. Skimmable, print-friendly, great for citing.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Constraint panel uses PASS in blue, safety flag in amber — the two things a nuclear/geo engineer checks first.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — action buttons become a sticky bottom bar; 2-col sections stack; map keeps full width.</div>
+      </div>
+    </div>
+
+    <!-- ============ CARD 1 — STICKY TWO-COLUMN ============ -->
+    <div style="display:{{ screenDisplay.card1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/models/tsuma/olkaria-inverse-pinn</div>
+        </div>
+        <div style="display:flex;gap:0;">
+          <!-- sticky left -->
+          <div style="flex:0 0 280px;border-right:2px dashed #d2cbbb;padding:18px;background:#faf7f0;">
+            <div style="font-size:19px;line-height:1.25;">tsuma / olkaria-inverse-pinn</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:4px;">v1.2 · Apache-2.0</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c46a2b;color:#7a3f12;background:#f3dcc4;border-radius:20px;padding:3px 9px;">⚠ research</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #2f6db0;color:#2f6db0;border-radius:20px;padding:3px 9px;">✓ calibrated</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
+              <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:8px;padding:9px;text-align:center;">Fine-tune in browser</div>
+              <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;border-radius:8px;padding:9px;text-align:center;background:#fff;">Run inference</div>
+              <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;border-radius:8px;padding:9px;text-align:center;background:#fff;">↓ Download weights</div>
+              <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;border-radius:8px;padding:9px;text-align:center;background:#fff;">Cite</div>
+            </div>
+            <div style="border-top:2px dashed #d2cbbb;margin-top:16px;padding-top:12px;font-family:'Space Mono',monospace;font-size:11px;color:#2b2a27;line-height:2.1;">
+              <div style="color:#74716a;margin-bottom:4px;">ON THIS PAGE</div>
+              <div style="border-left:3px solid #c46a2b;padding-left:8px;">Physics spec</div>
+              <div style="padding-left:11px;color:#74716a;">Performance</div>
+              <div style="padding-left:11px;color:#74716a;">Training field map</div>
+              <div style="padding-left:11px;color:#74716a;">Constraints</div>
+              <div style="padding-left:11px;color:#74716a;">Usage</div>
+              <div style="padding-left:11px;color:#74716a;">Community</div>
+            </div>
+            <div style="margin-top:14px;font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">📌 panel stays fixed while detail scrolls →</div>
+          </div>
+          <!-- scrolling right -->
+          <div style="flex:1;padding:18px 20px;">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">PHYSICS SPECIFICATION</div>
+            <div style="border:1.5px solid #c9c2b2;border-radius:8px;background:#faf7f0;padding:12px;margin-top:8px;text-align:center;font-family:'Space Mono',monospace;font-size:13px;">ρcₚ ∂T/∂t = ∇·( k(x) ∇T ) + Q(x,t)</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;line-height:1.9;margin-top:8px;">parabolic · 4D · bc: dirichlet/neumann · adaptive_residual collocation (50k interior)</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:18px;">PERFORMANCE</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;">
+              <div style="border:1.5px solid #c9c2b2;border-radius:7px;padding:9px;text-align:center;"><div style="font-family:'Space Mono',monospace;font-size:15px;color:#c46a2b;">0.0023</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">PDE L2</div></div>
+              <div style="border:1.5px solid #c9c2b2;border-radius:7px;padding:9px;text-align:center;"><div style="font-family:'Space Mono',monospace;font-size:15px;color:#c46a2b;">1.8°C</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">T MAE</div></div>
+              <div style="border:1.5px solid #c9c2b2;border-radius:7px;padding:9px;text-align:center;"><div style="font-family:'Space Mono',monospace;font-size:15px;color:#c46a2b;">91.3</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">CI cov %</div></div>
+              <div style="border:1.5px solid #c9c2b2;border-radius:7px;padding:9px;text-align:center;"><div style="font-family:'Space Mono',monospace;font-size:15px;color:#c46a2b;">0.018</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">ECE</div></div>
+            </div>
+            <div style="margin-top:14px;height:120px;border:1.5px solid #c9c2b2;border-radius:8px;background:repeating-linear-gradient(135deg,#eef0e6,#eef0e6 8px,#e3e7d3 8px,#e3e7d3 16px);position:relative;">
+              <div style="position:absolute;bottom:8px;left:10px;font-family:'Space Mono',monospace;font-size:10px;color:#5b6b3a;">TRAINING FIELD MAP — Olkaria ◉ + transfer sites ◎</div>
+            </div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:18px;">USAGE — auto-generated from EnergyGraph interface</div>
+            <div style="background:#2b2a27;border-radius:8px;padding:12px;margin-top:8px;font-family:'Space Mono',monospace;font-size:11px;color:#e9e4d8;line-height:1.8;">model = EnergyModel.from_hub("tsuma/olkaria-inverse-pinn-v1.2")<br>result = model.invert(sensor_graph=my_field)</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ The 4 primary actions + identity are pinned and always reachable, no matter how long the physics detail runs. Best for "I just want to fine-tune this".</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Left "on this page" nav doubles as a section map for very long cards (energetic-materials models can be huge).</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — left panel collapses into a sticky header w/ a primary "Fine-tune" button + overflow menu.</div>
+      </div>
+    </div>
+
+    <!-- ============ UPLOAD 0 — LINEAR STEPPER ============ -->
+    <div style="display:{{ screenDisplay.upload0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/models/new</div>
+        </div>
+        <!-- step rail -->
+        <div style="display:flex;gap:0;padding:16px 22px;border-bottom:2px dashed #d2cbbb;font-family:'Space Mono',monospace;font-size:11px;align-items:center;flex-wrap:wrap;">
+          <span style="color:#2f6db0;">① File ✓</span><span style="color:#74716a;"> ── </span>
+          <span style="border-bottom:2px solid #c46a2b;padding-bottom:2px;">② PhysicsSpec</span><span style="color:#74716a;"> ── </span>
+          <span style="color:#74716a;">③ Field ── ④ Metrics ── ⑤ Safety ── ⑥ Publish</span>
+        </div>
+        <div style="padding:24px 26px;">
+          <div style="font-size:22px;">Step 2 — PhysicsSpec wizard</div>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;margin-top:6px;">Choose the governing equation. We'll pre-fill the canonical form and required I/O.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;">
+            <div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">PDE CLASS</div>
+              <div style="border:2px solid #2b2a27;border-radius:8px;padding:10px 12px;margin-top:6px;font-family:'Space Mono',monospace;font-size:13px;background:#fff;display:flex;justify-content:space-between;">parabolic <span style="color:#74716a;">▾</span></div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:16px;">PROBLEM TYPE</div>
+              <div style="border:2px solid #2b2a27;border-radius:8px;padding:10px 12px;margin-top:6px;font-family:'Space Mono',monospace;font-size:13px;background:#fff;display:flex;justify-content:space-between;">inverse <span style="color:#74716a;">▾</span></div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-top:16px;">EQUATION (registry)</div>
+              <div style="border:2px solid #2b2a27;border-radius:8px;padding:10px 12px;margin-top:6px;font-family:'Space Mono',monospace;font-size:13px;background:#fff;display:flex;justify-content:space-between;">heat_conduction_3d <span style="color:#74716a;">▾</span></div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;margin-top:8px;">+ free-text override for novel equations</div>
+            </div>
+            <div style="border:1.5px solid #c9c2b2;border-radius:10px;background:#faf7f0;padding:16px;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">AUTO-FILLED PREVIEW</div>
+              <div style="border:1.5px solid #c9c2b2;border-radius:8px;background:#fff;padding:12px;margin-top:8px;text-align:center;font-family:'Space Mono',monospace;font-size:13px;">ρcₚ ∂T/∂t = ∇·( k(x) ∇T ) + Q</div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#2b2a27;line-height:1.9;margin-top:10px;">inputs:&nbsp; (x, y, z, t)<br>outputs: T(x,t), k(x) [inferred]<br>known: diffusion · unknown: k(x)</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:24px;">
+            <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #2b2a27;border-radius:8px;padding:9px 16px;background:#fff;">← Back</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:8px;padding:9px 16px;">Continue → Field identity</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ One decision per screen keeps a complex 6-step schema from overwhelming first-time contributors. Progress rail shows where you are.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Live preview pane teaches the schema: pick parabolic→inverse and the canonical equation + I/O appear instantly.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — rail becomes "Step 2 / 6" + dots; the 2 columns stack (form first, preview below).</div>
+      </div>
+    </div>
+
+    <!-- ============ UPLOAD 1 — ONE-PAGE ACCORDION ============ -->
+    <div style="display:{{ screenDisplay.upload1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/models/new</div>
+        </div>
+        <div style="display:flex;gap:0;">
+          <!-- left: accordion -->
+          <div style="flex:1;padding:20px 22px;">
+            <div style="font-size:22px;">New model — single page</div>
+            <!-- accordion rows -->
+            <div style="border:2px solid #2b2a27;border-radius:9px;margin-top:14px;overflow:hidden;">
+              <div style="display:flex;justify-content:space-between;padding:12px 14px;background:#faf7f0;border-bottom:1.5px solid #ece7dc;font-family:'Space Mono',monospace;font-size:12px;"><span style="color:#2f6db0;">✓ 1 · Model file</span><span style="color:#74716a;">olkaria.safetensors ▴</span></div>
+              <div style="padding:14px;border-bottom:2px solid #2b2a27;">
+                <div style="border:2px dashed #c9c2b2;border-radius:8px;padding:16px;text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:#74716a;background:#fff;">drag .pt / .safetensors — TorchPharma checkpoint accepted</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:12px 14px;border-bottom:1.5px solid #ece7dc;font-family:'Space Mono',monospace;font-size:12px;"><span style="color:#2f6db0;">✓ 2 · PhysicsSpec</span><span style="color:#74716a;">parabolic · inverse ▾</span></div>
+              <div style="display:flex;justify-content:space-between;padding:12px 14px;border-bottom:1.5px solid #ece7dc;font-family:'Space Mono',monospace;font-size:12px;"><span style="color:#2f6db0;">✓ 3 · Training field</span><span style="color:#74716a;">Olkaria, KE ▾</span></div>
+              <div style="display:flex;justify-content:space-between;padding:12px 14px;border-bottom:1.5px solid #ece7dc;font-family:'Space Mono',monospace;font-size:12px;color:#c46a2b;"><span>● 4 · Performance metrics</span><span style="color:#74716a;">2 fields left ▴</span></div>
+              <div style="padding:14px;border-bottom:2px solid #2b2a27;">
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                  <div style="border:2px solid #2b2a27;border-radius:7px;padding:8px;font-family:'Space Mono',monospace;font-size:11px;background:#fff;">PDE L2: 0.0023</div>
+                  <div style="border:2px solid #2b2a27;border-radius:7px;padding:8px;font-family:'Space Mono',monospace;font-size:11px;background:#fff;">T MAE: 1.8</div>
+                  <div style="border:2px solid #c46a2b;border-radius:7px;padding:8px;font-family:'Space Mono',monospace;font-size:11px;background:#fff;color:#7a3f12;">ECE: ___</div>
+                </div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;margin-top:8px;">↺ platform re-validates weights · flags if &gt;10% off your stated values</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:12px 14px;border-bottom:1.5px solid #ece7dc;font-family:'Space Mono',monospace;font-size:12px;"><span style="color:#74716a;">○ 5 · Safety classification</span><span style="color:#74716a;">research ▾</span></div>
+              <div style="display:flex;justify-content:space-between;padding:12px 14px;font-family:'Space Mono',monospace;font-size:12px;"><span style="color:#74716a;">○ 6 · Preview &amp; publish</span><span style="color:#74716a;">▾</span></div>
+            </div>
+          </div>
+          <!-- right: live checklist -->
+          <div style="flex:0 0 230px;border-left:2px dashed #d2cbbb;padding:18px;background:#faf7f0;">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">VALIDATION</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2.2;margin-top:8px;">
+              <span style="color:#2f6db0;">✓</span> file format ok<br>
+              <span style="color:#2f6db0;">✓</span> PhysicsSpec valid<br>
+              <span style="color:#2f6db0;">✓</span> field geo-pinned<br>
+              <span style="color:#c46a2b;">●</span> metrics: 1 missing<br>
+              <span style="color:#74716a;">○</span> safety doc<br>
+              <span style="color:#74716a;">○</span> constraint check
+            </div>
+            <div style="border-top:2px dashed #d2cbbb;margin-top:14px;padding-top:12px;font-family:'Space Mono',monospace;font-size:10px;color:#74716a;line-height:1.6;">physics constraint checker runs on publish →</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #c9c2b2;color:#9a958a;border-radius:8px;padding:9px;text-align:center;margin-top:12px;background:#fff;">Publish (2 left)</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Everything visible at once, collapsible. Power users who upload often skip the click-through. Each section shows ✓ / ● state inline.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Persistent validation rail makes the gating explicit: Publish stays disabled until the physics checker can run.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — checklist rail moves to a sticky top progress bar; accordion is naturally 1-column already.</div>
+      </div>
+    </div>
+
+    <!-- ============ GEO 0 — MAP-CENTRIC ============ -->
+    <div style="display:{{ screenDisplay.geo0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/apps/geothermal</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:16px;">⬡ Geothermal Field Intelligence</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:4px 11px;background:#fff;">Olkaria · KenGen ▾</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;color:#5b8a3a;">● updated 14:00 · next 15 min</div>
+        </div>
+        <div style="display:flex;gap:0;">
+          <!-- big map -->
+          <div style="flex:1;padding:16px;">
+            <div style="position:relative;height:340px;border:2px solid #2b2a27;border-radius:10px;background:repeating-linear-gradient(135deg,#f4ead8,#f4ead8 10px,#eccfa6 10px,#eccfa6 20px);overflow:hidden;">
+              <div style="position:absolute;top:12px;left:12px;font-family:'Space Mono',monospace;font-size:11px;background:#fff;border:1.5px solid #2b2a27;border-radius:6px;padding:4px 9px;">RESERVOIR THERMAL FIELD — PINN output</div>
+              <div style="position:absolute;top:38%;left:30%;font-size:16px;color:#b23b2e;">◉</div><div style="position:absolute;top:38%;left:30%;font-family:'Space Mono',monospace;font-size:9px;color:#2b2a27;margin:14px 0 0 -6px;">OW-47</div>
+              <div style="position:absolute;top:55%;left:54%;font-size:16px;color:#c46a2b;">◉</div><div style="position:absolute;top:55%;left:54%;font-family:'Space Mono',monospace;font-size:9px;color:#2b2a27;margin:14px 0 0 -6px;">OW-31</div>
+              <div style="position:absolute;top:30%;left:66%;font-size:16px;color:#c46a2b;">◉</div>
+              <div style="position:absolute;top:66%;left:34%;font-size:24px;color:#b23b2e;">⬭</div>
+              <div style="position:absolute;bottom:12px;left:12px;font-family:'Space Mono',monospace;font-size:10px;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 9px;">340°C ███▓▓▒░ 180°C · 24 wells</div>
+              <div style="position:absolute;bottom:12px;right:12px;font-family:'Space Mono',monospace;font-size:10px;background:#fbe3df;border:1.5px solid #b23b2e;color:#b23b2e;border-radius:6px;padding:4px 9px;">⬭ anomaly zone · k(x) −2.4σ</div>
+            </div>
+            <!-- time replayer -->
+            <div style="margin-top:12px;border:2px solid #2b2a27;border-radius:9px;padding:11px 14px;background:#fff;display:flex;align-items:center;gap:12px;">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;">◀ ▶</div>
+              <div style="flex:1;height:8px;background:#ece7dc;border-radius:4px;position:relative;"><div style="position:absolute;left:72%;top:-4px;width:14px;height:14px;border-radius:50%;background:#c46a2b;border:2px solid #2b2a27;"></div></div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">replay reservoir history · Jun 19 14:00</div>
+            </div>
+          </div>
+          <!-- right docked panels -->
+          <div style="flex:0 0 270px;border-left:2px dashed #d2cbbb;padding:16px;display:flex;flex-direction:column;gap:12px;">
+            <div style="border:2px solid #b23b2e;border-radius:9px;padding:12px;background:#fbe3df;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#b23b2e;">⚠ ANOMALY ALERT</div>
+              <div style="font-size:14px;margin-top:4px;line-height:1.3;">k(x) drop near OW-47 sector</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2b2a27;margin-top:6px;line-height:1.6;">severity: moderate · likely localised cooling. Recommend: reduce drawdown 8%.</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#b23b2e;margin-top:8px;">Acknowledge · Notify (SMS/email)</div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">OW-47 · T vs DEPTH</div>
+              <div style="height:90px;border:1.5px dashed #c9c2b2;border-radius:7px;margin-top:8px;background:repeating-linear-gradient(45deg,#f3f0e8,#f3f0e8 6px,#ebe6da 6px,#ebe6da 12px);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">PINN vs measured · 95% band</div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">INFERRED k(x)</div>
+              <div style="display:flex;gap:10px;margin-top:8px;"><div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;">2.4</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">W/m·K mean</div></div><div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#b23b2e;">−2.4σ</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">anomaly</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ The PINN thermal map IS the product — it gets ~65% of the canvas. Operators think spatially; the anomaly alert is docked right where the eye lands after the map.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Alert is plain-language + action ("reduce drawdown 8%"), not a raw metric. Red is reserved ONLY for anomalies so it never cries wolf.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — map full-width on top; right panels become a swipeable card stack; replayer pins to bottom.</div>
+      </div>
+    </div>
+
+    <!-- ============ GEO 1 — PANEL GRID ============ -->
+    <div style="display:{{ screenDisplay.geo1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/apps/geothermal</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:16px;">⬡ Geothermal Field Intelligence</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:4px 11px;background:#fff;">Olkaria ▾</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c46a2b;color:#7a3f12;background:#f3dcc4;border-radius:7px;padding:4px 11px;">+ Connect your field</div>
+        </div>
+        <div style="padding:16px;display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:auto auto;gap:12px;">
+          <div style="grid-row:span 2;border:2px solid #2b2a27;border-radius:10px;overflow:hidden;background:#fff;">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;padding:9px 11px;border-bottom:1.5px solid #ece7dc;">THERMAL FIELD MAP</div>
+            <div style="height:280px;background:repeating-linear-gradient(135deg,#f4ead8,#f4ead8 10px,#eccfa6 10px,#eccfa6 20px);position:relative;"><div style="position:absolute;top:40%;left:32%;color:#b23b2e;">◉</div><div style="position:absolute;top:60%;left:58%;color:#c46a2b;">◉</div><div style="position:absolute;bottom:8px;left:8px;font-family:'Space Mono',monospace;font-size:9px;color:#2b2a27;">340→180°C · 24 wells</div></div>
+          </div>
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">T vs DEPTH (OW-47)</div>
+            <div style="height:88px;border:1.5px dashed #c9c2b2;border-radius:7px;margin-top:8px;background:repeating-linear-gradient(45deg,#f3f0e8,#f3f0e8 6px,#ebe6da 6px,#ebe6da 12px);"></div>
+          </div>
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">INFERRED k(x) MAP</div>
+            <div style="height:88px;border:1.5px dashed #c9c2b2;border-radius:7px;margin-top:8px;background:repeating-linear-gradient(135deg,#eef0e6,#eef0e6 6px,#e3e7d3 6px,#e3e7d3 12px);"></div>
+          </div>
+          <div style="border:2px solid #b23b2e;border-radius:10px;padding:12px;background:#fbe3df;">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#b23b2e;">⚠ ANOMALY FEED</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;line-height:1.7;margin-top:6px;">14:00 k(x) −2.4σ @ OW-47<br>11:30 P-T inconsist. @ OW-31<br><span style="color:#74716a;">09:00 cleared</span></div>
+          </div>
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">TIME REPLAYER</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:14px;"><span style="font-family:'Space Mono',monospace;font-size:11px;">◀▶</span><div style="flex:1;height:7px;background:#ece7dc;border-radius:4px;position:relative;"><div style="position:absolute;left:70%;top:-4px;width:13px;height:13px;border-radius:50%;background:#c46a2b;border:2px solid #2b2a27;"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Everything on one screen, no scrolling — a control-room "glance" view. Map still anchors but profiles, k(x), anomalies & replay are co-visible.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Best for a fixed wall display. Trades the immersive single-map for parallel monitoring.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — tiles reflow to one column in priority order: map → anomalies → k(x) → profiles → replay.</div>
+      </div>
+    </div>
+
+    <!-- ============ NUKE 0 — VESSEL CROSS-SECTION ============ -->
+    <div style="display:{{ screenDisplay.nuke0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/apps/nuclear</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:16px;">⬡ Nuclear Materials Safety Monitor</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:4px 11px;background:#fff;">Vessel A · Eurofer97 ▾</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #2b2a27;border-radius:7px;padding:4px 11px;background:#fff;">⎙ IAEA report</div>
+        </div>
+        <div style="display:flex;gap:0;">
+          <!-- vessel cross-section -->
+          <div style="flex:0 0 320px;border-right:2px dashed #d2cbbb;padding:16px;">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-bottom:8px;">REACTOR VESSEL CROSS-SECTION · GNN damage heatmap</div>
+            <div style="position:relative;height:300px;border:2px solid #2b2a27;border-radius:10px;background:#faf7f0;display:flex;align-items:center;justify-content:center;">
+              <div style="width:170px;height:250px;border:2px solid #2b2a27;border-radius:80px;background:repeating-linear-gradient(180deg,#f6ddd6,#f6ddd6 14px,#f0c6bb 14px,#f0c6bb 28px);position:relative;">
+                <div style="position:absolute;top:30%;left:-2px;width:174px;height:46px;background:#e98c79;opacity:.6;"></div>
+                <div style="position:absolute;top:33%;right:-30px;font-family:'Space Mono',monospace;font-size:10px;color:#b23b2e;">← belt-line</div>
+              </div>
+              <div style="position:absolute;bottom:10px;left:10px;font-family:'Space Mono',monospace;font-size:10px;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:3px 8px;">severity ░▒▓█ by zone × depth</div>
+            </div>
+          </div>
+          <!-- right: properties + inspection -->
+          <div style="flex:1;padding:16px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+              <div style="border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">YIELD STRENGTH</div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;margin-top:3px;">548<span style="font-size:9px;color:#74716a;"> MPa</span></div></div>
+              <div style="border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">FRACTURE TOUGH.</div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#c46a2b;margin-top:3px;">112<span style="font-size:9px;color:#74716a;"> MPa√m</span></div></div>
+              <div style="border:2px solid #b23b2e;border-radius:9px;padding:11px;background:#fbe3df;"><div style="font-family:'Space Mono',monospace;font-size:9px;color:#b23b2e;">EMBRITTLEMENT</div><div style="font-family:'Space Mono',monospace;font-size:18px;color:#b23b2e;margin-top:3px;">0.78<span style="font-size:9px;color:#74716a;"> idx ↑</span></div></div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;margin-top:12px;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">YIELD STRENGTH — 180-DAY FORECAST</div>
+              <div style="height:120px;border:1.5px dashed #c9c2b2;border-radius:7px;margin-top:8px;background:repeating-linear-gradient(45deg,#f3f0e8,#f3f0e8 6px,#ebe6da 6px,#ebe6da 12px);position:relative;"><div style="position:absolute;top:24px;left:0;right:0;border-top:2px dashed #b23b2e;"></div><div style="position:absolute;top:8px;right:8px;font-family:'Space Mono',monospace;font-size:9px;color:#b23b2e;">hard safety limit</div><div style="position:absolute;bottom:8px;left:8px;font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">projection · 90% CI</div></div>
+            </div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;margin-top:12px;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">GNN INSPECTION RECOMMENDATION</div>
+              <div style="font-size:14px;margin-top:5px;">Advance belt-line inspection by 6 weeks</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2b2a27;margin-top:5px;line-height:1.6;">embrittlement index will cross limit before next cycle · confidence 88%</div>
+              <div style="display:flex;gap:7px;margin-top:9px;"><div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:6px;padding:5px 10px;">Accept → write to CMMS</div><div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #2b2a27;border-radius:6px;padding:5px 10px;background:#fff;">Review</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ The vessel cross-section makes abstract GNN output physically legible — an engineer sees WHERE damage concentrates (belt-line), not just a number.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Recommendation → "Accept → write to CMMS" closes the loop into their real maintenance system. One-click IAEA report up top.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — cross-section on top; property cards become a 2-wide grid; forecast + recommendation stack below.</div>
+      </div>
+    </div>
+
+    <!-- ============ NUKE 1 — FORECAST-FIRST ============ -->
+    <div style="display:{{ screenDisplay.nuke1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/apps/nuclear</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:16px;">⬡ Nuclear Materials Safety Monitor</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #2b2a27;border-radius:7px;padding:4px 11px;background:#fff;">⎙ IAEA report</div>
+        </div>
+        <div style="padding:18px 20px;">
+          <!-- hero forecast -->
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:16px;background:#fff;box-shadow:3px 3px 0 #e4dfd4;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font-size:18px;">Yield strength — 180-day forecast vs safety limit</div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;color:#b23b2e;">⚠ limit crossed in ~96 days</div>
+            </div>
+            <div style="height:200px;border:1.5px dashed #c9c2b2;border-radius:8px;margin-top:12px;background:repeating-linear-gradient(45deg,#f3f0e8,#f3f0e8 7px,#ebe6da 7px,#ebe6da 14px);position:relative;">
+              <div style="position:absolute;top:40px;left:0;right:0;border-top:2px dashed #b23b2e;"></div>
+              <div style="position:absolute;top:22px;right:10px;font-family:'Space Mono',monospace;font-size:10px;color:#b23b2e;">hard safety limit (480 MPa)</div>
+              <div style="position:absolute;bottom:34px;left:10px;right:55%;border-top:2px solid #c46a2b;"></div>
+              <div style="position:absolute;bottom:10px;left:10px;font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">measured ─── · forecast ··· · 90% CI shaded</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px;">
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">DEFECT CLUSTER RISK</div><div style="height:70px;border:1.5px dashed #c9c2b2;border-radius:7px;margin-top:8px;background:repeating-linear-gradient(135deg,#f6ddd6,#f6ddd6 6px,#f0c6bb 6px,#f0c6bb 12px);"></div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#b23b2e;margin-top:6px;">CNN class: elevated</div></div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">PROPERTIES NOW</div><div style="font-family:'Space Mono',monospace;font-size:12px;line-height:1.9;margin-top:6px;">yield &nbsp;<span style="color:#c46a2b;">548 MPa</span><br>fract. <span style="color:#c46a2b;">112</span><br>embrit. <span style="color:#b23b2e;">0.78 ↑</span></div></div>
+            <div style="border:2px solid #2b2a27;border-radius:9px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">INSPECTION SCHEDULE</div><div style="font-family:'Space Mono',monospace;font-size:11px;line-height:1.7;margin-top:6px;">current: <span style="color:#74716a;">Nov 2026</span><br>GNN rec: <span style="color:#b23b2e;">Sep 2026</span><br>Δ −6 weeks</div></div>
+          </div>
+          <div style="border:2px solid #c46a2b;border-radius:9px;padding:12px;background:#f3dcc4;margin-top:14px;display:flex;align-items:center;gap:14px;">
+            <div style="flex:1;"><div style="font-size:14px;color:#7a3f12;">Advance belt-line inspection by 6 weeks</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#7a3f12;margin-top:3px;">embrittlement crosses limit before next cycle · 88% confidence</div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #2b2a27;background:#fff;border-radius:7px;padding:7px 13px;">Accept → CMMS</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Decision-first: the one chart that drives the inspection call — forecast vs safety limit — is the hero, with the "days to limit" called out. Everything else supports it.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ The recommendation banner sits at the bottom as the natural "what do I do" conclusion. Good when the cross-section visual isn't available yet.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — hero chart keeps full width; 3 support cards stack; recommendation becomes a sticky bottom action.</div>
+      </div>
+    </div>
+
+    <!-- ============ GRID 0 — DISPATCH TIMELINE ============ -->
+    <div style="display:{{ screenDisplay.grid0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/apps/grid</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:16px;">⬡ National Grid Dispatch Optimiser</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:4px 11px;background:#fff;">Kenya · KETRACO ▾</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;color:#5b8a3a;">● RL re-runs every 15 min</div>
+        </div>
+        <div style="padding:16px 18px;">
+          <!-- 72h dispatch -->
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:14px;background:#fff;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font-size:16px;">72-hour dispatch schedule</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">RL recommended ── vs SCADA current ·····</div>
+            </div>
+            <div style="height:170px;border:1.5px dashed #c9c2b2;border-radius:8px;margin-top:10px;background:linear-gradient(180deg,#e9ecf0 0%,#e9ecf0 35%,#eef0e6 35%,#eef0e6 62%,#f4ead8 62%,#f4ead8 82%,#f6ddd6 82%);position:relative;">
+              <div style="position:absolute;top:6px;left:8px;font-family:'Space Mono',monospace;font-size:9px;color:#2b2a27;">geothermal · hydro · wind/solar · thermal (stacked area)</div>
+              <div style="position:absolute;bottom:6px;left:8px;font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">now ──────────── +24h ──────────── +48h ──────────── +72h</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:12px;margin-top:12px;">
+            <div style="border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">DEMAND FORECAST (LSTM · 72h)</div>
+              <div style="height:80px;border:1.5px dashed #c9c2b2;border-radius:7px;margin-top:8px;background:repeating-linear-gradient(45deg,#f3f0e8,#f3f0e8 6px,#ebe6da 6px,#ebe6da 12px);"></div>
+            </div>
+            <div style="border:2px solid #2f6db0;border-radius:10px;padding:12px;background:#eaf1f8;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;">⟲ CROSS-SYSTEM SIGNAL</div>
+              <div style="font-size:13px;margin-top:5px;line-height:1.3;">PINN reservoir alert is shaping this dispatch</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2b2a27;margin-top:5px;line-height:1.6;">Olkaria pressure declining → RL caps geothermal +8% this window</div>
+            </div>
+          </div>
+          <!-- recommendations -->
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;margin-top:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">RL DISPATCH RECOMMENDATIONS</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">accept all · review · export to SCADA (OPC-UA)</div></div>
+            <div style="display:flex;align-items:center;gap:12px;border:1.5px solid #ece7dc;border-radius:8px;padding:10px;margin-top:8px;">
+              <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;">Reduce Olkaria drawdown by 8% <span style="color:#74716a;">— reservoir pressure declining per PINN</span></div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#c46a2b;">−2.1% cost · −4% CO₂</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:6px;padding:5px 10px;">Accept</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;border:1.5px solid #ece7dc;border-radius:8px;padding:10px;margin-top:8px;">
+              <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;">Bring Kipevu thermal +40MW at 18:00 <span style="color:#74716a;">— evening demand peak</span></div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">+1.4% cost</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #2b2a27;border-radius:6px;padding:5px 10px;background:#fff;">Accept</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ The 72h schedule is the spine; demand + recommendations read against it top-down. The blue cross-system panel surfaces the unique geothermal→grid coupling — the platform's headline differentiator.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Each recommendation is plain-language + impact (cost / CO₂) + one-click Accept, mirroring the PRD's operator workflow.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — schedule scrolls horizontally; recommendations become the primary stacked list (the actionable part).</div>
+      </div>
+    </div>
+
+    <!-- ============ GRID 1 — CONTROL-ROOM GRID ============ -->
+    <div style="display:{{ screenDisplay.grid1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/apps/grid</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:16px;">⬡ National Grid Dispatch Optimiser</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c46a2b;color:#7a3f12;background:#f3dcc4;border-radius:7px;padding:4px 11px;">▶ Scenario simulator</div>
+        </div>
+        <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">LIVE MIX</div><div style="font-family:'Space Mono',monospace;font-size:24px;color:#c46a2b;margin-top:6px;">1,842<span style="font-size:10px;color:#74716a;"> MW</span></div><div style="font-family:'Space Mono',monospace;font-size:10px;line-height:1.7;margin-top:6px;">geo 38% · hydro 31%<br>wind 14% · thermal 17%</div></div>
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">CARBON INTENSITY</div><div style="font-family:'Space Mono',monospace;font-size:24px;color:#5b8a3a;margin-top:6px;">112<span style="font-size:10px;color:#74716a;"> g/kWh</span></div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:6px;">vs NDC target 140 ✓</div></div>
+          <div style="grid-column:span 2;border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">DEMAND vs GENERATION (live)</div><div style="height:78px;border:1.5px dashed #c9c2b2;border-radius:7px;margin-top:8px;background:repeating-linear-gradient(45deg,#f3f0e8,#f3f0e8 6px,#ebe6da 6px,#ebe6da 12px);"></div></div>
+          <div style="grid-column:span 2;border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">72H DISPATCH SCHEDULE (stacked)</div><div style="height:150px;border:1.5px dashed #c9c2b2;border-radius:7px;margin-top:8px;background:linear-gradient(180deg,#e9ecf0 0%,#e9ecf0 35%,#eef0e6 35%,#eef0e6 62%,#f4ead8 62%,#f4ead8 82%,#f6ddd6 82%);"></div></div>
+          <div style="border:2px solid #2f6db0;border-radius:10px;padding:12px;background:#eaf1f8;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;">⟲ CROSS-SYSTEM</div><div style="font-family:'Space Mono',monospace;font-size:11px;line-height:1.5;margin-top:6px;">PINN: Olkaria pressure ↓ → cap geo +8%</div></div>
+          <div style="border:2px solid #2b2a27;border-radius:10px;padding:12px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">RL RECOMMENDATIONS</div><div style="font-family:'Space Mono',monospace;font-size:11px;line-height:1.6;margin-top:6px;">↓ Olkaria −8%<br>↑ Kipevu +40MW @18:00<br><span style="color:#74716a;">+ 2 more</span></div><div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:6px;padding:5px;text-align:center;margin-top:8px;">Accept all</div></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ A true ops-wall: every signal — mix, carbon, demand, 72h schedule, cross-system, recommendations — visible simultaneously for a control room screen.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Scenario simulator promoted to the header — "what if Turkana wind drops / nuclear online 2034" re-runs the whole wall. Carbon vs NDC kept always-on.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — tiles reflow to 1 column; KPIs (mix, carbon) first, then recommendations; charts collapse to sparklines.</div>
+      </div>
+    </div>
+
+    <!-- ============ DATA 0 — REGISTRY LIST ============ -->
+    <div style="display:{{ screenDisplay.data0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/datasets</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:18px;padding:12px 22px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:18px;">⬡ EnergyHub</div>
+          <div style="display:flex;gap:14px;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;"><span>Models</span><span style="color:#2b2a27;border-bottom:2px solid #c46a2b;">Datasets</span><span>Benchmarks</span><span>Apps</span><span>Docs</span></div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;color:#9a958a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:5px 12px;">⌕ search datasets</div>
+        </div>
+        <div style="display:flex;">
+          <div style="flex:0 0 200px;border-right:2px dashed #d2cbbb;padding:16px;">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-bottom:6px;">PHYSICAL DOMAIN</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2;">▣ Geothermal<br>▢ Nuclear<br>▢ Grid<br>▢ Materials</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin:14px 0 6px;">SCHEMA</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2;">▣ PhysicsSpec<br>▣ SensorGraph<br>▢ MaterialSpec</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin:14px 0 6px;">ACCESS</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:2;">▣ Public<br>▢ Academic-only<br>▢ Restricted</div>
+            <div style="border:1.5px dashed #c9c2b2;border-radius:8px;padding:10px;margin-top:16px;font-family:'Space Mono',monospace;font-size:10px;color:#74716a;line-height:1.6;">only datasets w/ a PhysicsSpec + SensorGraph are accepted — not a general data hub.</div>
+          </div>
+          <div style="flex:1;padding:16px 18px;">
+            <div style="font-family:'Space Mono',monospace;font-size:12px;color:#74716a;margin-bottom:12px;">8 datasets · domain: geothermal</div>
+            <div style="display:flex;flex-direction:column;gap:11px;">
+              <!-- featured open dataset -->
+              <div style="border:2px solid #2f6db0;border-radius:10px;padding:14px;background:#eaf1f8;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+                  <div>
+                    <div style="font-size:16px;">Olkaria Synthetic Reservoir</div>
+                    <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:3px;">generated from inverse-PINN across reservoir parameter sweep</div>
+                  </div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #2f6db0;color:#2f6db0;border-radius:20px;padding:3px 10px;background:#fff;">● public · open</div>
+                </div>
+                <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;">
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c9c2b2;border-radius:6px;padding:3px 9px;background:#fff;">SensorGraph · 24 wells</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c9c2b2;border-radius:6px;padding:3px 9px;background:#fff;">PhysicsSpec · parabolic/heat</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c9c2b2;border-radius:6px;padding:3px 9px;background:#fff;">5 models trained →</div>
+                </div>
+                <div style="display:flex;gap:7px;margin-top:11px;">
+                  <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:7px;padding:6px 12px;">↓ Download</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #2b2a27;border-radius:7px;padding:6px 12px;background:#fff;">View schema</div>
+                </div>
+              </div>
+              <!-- other datasets -->
+              <div style="border:2px solid #2b2a27;border-radius:10px;padding:13px;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                <div><div style="font-family:'Space Mono',monospace;font-size:13px;">KenGen Olkaria operational logs</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:3px;">KenGen · KE · 2018–2026 · SensorGraph + PhysicsSpec · 3 models</div></div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #b23b2e;color:#b23b2e;border-radius:20px;padding:3px 10px;">🔒 restricted (MoU)</div>
+              </div>
+              <div style="border:2px solid #2b2a27;border-radius:10px;padding:13px;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                <div><div style="font-family:'Space Mono',monospace;font-size:13px;">Eurofer97 irradiation dataset</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:3px;">ORNL · MaterialSpec · 0–1 dpa · 6 models</div></div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c46a2b;color:#7a3f12;border-radius:20px;padding:3px 10px;">academic-only</div>
+              </div>
+              <div style="border:2px solid #2b2a27;border-radius:10px;padding:13px;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                <div><div style="font-family:'Space Mono',monospace;font-size:13px;">Kenya grid SCADA snapshots</div><div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:3px;">KETRACO · KE · GridEnvSpec · 2 models</div></div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #b23b2e;color:#b23b2e;border-radius:20px;padding:3px 10px;">🔒 restricted</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Not a general data hub: filters gate on schema presence (PhysicsSpec / SensorGraph / MaterialSpec). Access tier is a first-class badge — operators see "restricted (MoU)" before clicking.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ The open Olkaria synthetic set is promoted (blue) as the platform's flagship public dataset; each card reverse-links the models trained on it.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — filter rail → "Filters" sheet; cards single-column; access badge stays inline as the key scannable signal.</div>
+      </div>
+    </div>
+
+    <!-- ============ DATA 1 — DATASET DETAIL ============ -->
+    <div style="display:{{ screenDisplay.data1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/datasets/tsuma/olkaria-synthetic</div>
+        </div>
+        <div style="padding:18px 22px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+            <div>
+              <div style="font-size:22px;">Olkaria Synthetic Reservoir <span style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;">v1</span></div>
+              <div style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;">
+                <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #2f6db0;color:#2f6db0;border-radius:20px;padding:3px 10px;background:#eaf1f8;">● public · open</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c9c2b2;border-radius:20px;padding:3px 10px;">CC-BY-4.0</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;border:1.5px solid #c9c2b2;border-radius:20px;padding:3px 10px;">SensorGraph + PhysicsSpec</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:7px;">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:7px;padding:7px 13px;">↓ Download (.h5)</div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;border:2px solid #2b2a27;border-radius:7px;padding:7px 13px;background:#fff;">Cite</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-top:16px;">
+            <!-- sensorgraph viz -->
+            <div style="border:2px solid #2b2a27;border-radius:10px;padding:14px;background:#fff;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">SENSORGRAPH — 24 wells, hydraulic edges</div>
+              <div style="position:relative;height:230px;border:1.5px solid #c9c2b2;border-radius:8px;margin-top:8px;background:repeating-linear-gradient(135deg,#f4ead8,#f4ead8 10px,#eccfa6 10px,#eccfa6 20px);">
+                <div style="position:absolute;top:30%;left:26%;color:#b23b2e;font-size:14px;">◉</div>
+                <div style="position:absolute;top:52%;left:48%;color:#c46a2b;font-size:14px;">◉</div>
+                <div style="position:absolute;top:40%;left:68%;color:#c46a2b;font-size:14px;">◉</div>
+                <div style="position:absolute;top:66%;left:34%;color:#c46a2b;font-size:14px;">◉</div>
+                <div style="position:absolute;top:30%;left:27%;width:130px;height:2px;background:#2f6db0;transform:rotate(24deg);transform-origin:left;opacity:.6;"></div>
+                <div style="position:absolute;bottom:8px;left:8px;font-family:'Space Mono',monospace;font-size:9px;color:#2b2a27;background:#fff;border:1px solid #c9c2b2;border-radius:5px;padding:2px 7px;">◉ well node · ── hydraulically_connected (w=0.74)</div>
+              </div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin-top:8px;">columns: temp_C · pressure_bar · flow_kg_s · x/y/z (EPSG:21037)</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="border:2px solid #2b2a27;border-radius:10px;padding:13px;background:#fff;">
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">PHYSICS SPEC</div>
+                <div style="font-family:'Space Mono',monospace;font-size:11px;line-height:1.9;margin-top:6px;">pde_class: parabolic<br>equation: heat_conduction_3d<br>collected under: inverse PINN sweep</div>
+              </div>
+              <div style="border:2px solid #2b2a27;border-radius:10px;padding:13px;background:#fff;">
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">PROVENANCE</div>
+                <div style="font-family:'Space Mono',monospace;font-size:11px;line-height:1.9;margin-top:6px;">operator: KenGen (synthetic)<br>country: KE · period: 2026<br>calibration: simulated, exact</div>
+              </div>
+              <div style="border:2px solid #2b2a27;border-radius:10px;padding:13px;background:#fff;">
+                <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">MODELS TRAINED ON THIS (5)</div>
+                <div style="font-family:'Space Mono',monospace;font-size:11px;line-height:1.9;margin-top:6px;color:#2f6db0;">olkaria-inverse-pinn ↗<br>menengai-pinn-ft ↗<br><span style="color:#74716a;">+ 3 more</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ The SensorGraph is rendered as an actual node-edge layout (wells + hydraulic links) — the dataset's structure IS its identity here, not a file listing.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Reverse-linked models + the PhysicsSpec the data was collected under close the loop with the model card's "training field" section.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — SensorGraph keeps full width on top; the 3 metadata panels stack below; download becomes sticky.</div>
+      </div>
+    </div>
+
+    <!-- ============ MOL 0 — GENERATE & STEER STUDIO ============ -->
+    <div style="display:{{ screenDisplay.mol0 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/apps/energetic</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:16px;">⬡ Energetic Materials Discovery</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:4px 11px;background:#fff;">model: chno-gcdm-v1 ▾</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">GCDM diffusion · GNN scorer · MoLLaMA-Energy</div>
+        </div>
+        <div style="display:flex;gap:0;">
+          <!-- controls -->
+          <div style="flex:0 0 230px;border-right:2px dashed #d2cbbb;padding:15px;">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;">TARGET PROPERTIES</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:10px;">energy density ↑</div>
+            <div style="height:7px;background:#ece7dc;border-radius:4px;margin-top:6px;position:relative;"><div style="position:absolute;left:78%;top:-4px;width:13px;height:13px;border-radius:50%;background:#c46a2b;border:2px solid #2b2a27;"></div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:14px;">detonation velocity</div>
+            <div style="height:7px;background:#ece7dc;border-radius:4px;margin-top:6px;position:relative;"><div style="position:absolute;left:62%;top:-4px;width:13px;height:13px;border-radius:50%;background:#c46a2b;border:2px solid #2b2a27;"></div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:14px;">impact sensitivity (max)</div>
+            <div style="height:7px;background:#ece7dc;border-radius:4px;margin-top:6px;position:relative;"><div style="position:absolute;left:34%;top:-4px;width:13px;height:13px;border-radius:50%;background:#2f6db0;border:2px solid #2b2a27;"></div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;color:#74716a;margin:16px 0 6px;">CONSTRAINTS</div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;line-height:2;">▣ CHNO only<br>▣ synthesizable (SA&lt;4)<br>▢ ΔHf &gt; 0</div>
+            <div style="border:1.5px solid #2f6db0;border-radius:8px;background:#eaf1f8;padding:10px;margin-top:14px;">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;">⟲ ACTIVATION STEERING</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2b2a27;margin-top:5px;line-height:1.5;">nudge latent → energy density</div>
+              <div style="height:7px;background:#fff;border-radius:4px;margin-top:8px;position:relative;border:1px solid #c9c2b2;"><div style="position:absolute;left:55%;top:-4px;width:13px;height:13px;border-radius:50%;background:#2f6db0;border:2px solid #2b2a27;"></div></div>
+            </div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:8px;padding:9px;text-align:center;margin-top:14px;">⚛ Generate 12</div>
+          </div>
+          <!-- candidates -->
+          <div style="flex:1;padding:15px;">
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;margin-bottom:10px;">CANDIDATES · auto-scored by GNN · sorted by energy density</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;">
+              <div style="border:2px solid #c46a2b;border-radius:9px;padding:11px;background:#fff;box-shadow:3px 3px 0 #f0e0cf;">
+                <div style="height:64px;border:1.5px dashed #c9c2b2;border-radius:7px;background:repeating-linear-gradient(45deg,#f6f1e9,#f6f1e9 6px,#ece5d6 6px,#ece5d6 12px);display:flex;align-items:center;justify-content:center;font-size:26px;color:#74716a;">⌬</div>
+                <div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;margin-top:7px;">cand-014 · SELFIES</div>
+                <div style="font-family:'Space Mono',monospace;font-size:13px;color:#c46a2b;margin-top:5px;">ρ 1.92 <span style="font-size:8px;color:#74716a;">g/cc</span></div>
+                <div style="font-family:'Space Mono',monospace;font-size:9px;color:#2f6db0;margin-top:4px;">✓ CHNO ✓ SA 3.1</div>
+              </div>
+              <div style="border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;">
+                <div style="height:64px;border:1.5px dashed #c9c2b2;border-radius:7px;background:repeating-linear-gradient(45deg,#f6f1e9,#f6f1e9 6px,#ece5d6 6px,#ece5d6 12px);display:flex;align-items:center;justify-content:center;font-size:26px;color:#74716a;">⌬</div>
+                <div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;margin-top:7px;">cand-009 · SELFIES</div>
+                <div style="font-family:'Space Mono',monospace;font-size:13px;color:#c46a2b;margin-top:5px;">ρ 1.88 <span style="font-size:8px;color:#74716a;">g/cc</span></div>
+                <div style="font-family:'Space Mono',monospace;font-size:9px;color:#2f6db0;margin-top:4px;">✓ CHNO ✓ SA 2.7</div>
+              </div>
+              <div style="border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;">
+                <div style="height:64px;border:1.5px dashed #c9c2b2;border-radius:7px;background:repeating-linear-gradient(45deg,#f6f1e9,#f6f1e9 6px,#ece5d6 6px,#ece5d6 12px);display:flex;align-items:center;justify-content:center;font-size:26px;color:#74716a;">⌬</div>
+                <div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;margin-top:7px;">cand-021 · SELFIES</div>
+                <div style="font-family:'Space Mono',monospace;font-size:13px;color:#c46a2b;margin-top:5px;">ρ 1.81 <span style="font-size:8px;color:#74716a;">g/cc</span></div>
+                <div style="font-family:'Space Mono',monospace;font-size:9px;color:#b23b2e;margin-top:4px;">✓ CHNO ⚠ SA 4.3</div>
+              </div>
+            </div>
+            <!-- selected detail -->
+            <div style="border:2px solid #2b2a27;border-radius:10px;padding:13px;background:#faf7f0;margin-top:13px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Space Mono',monospace;font-size:11px;">SELECTED · cand-014</div><div style="font-family:'Space Mono',monospace;font-size:10px;border:2px solid #c46a2b;background:#f3dcc4;color:#7a3f12;border-radius:6px;padding:5px 10px;">→ Synthesis queue</div></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:9px;margin-top:10px;">
+                <div style="text-align:center;border:1.5px solid #c9c2b2;border-radius:7px;padding:7px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:14px;color:#c46a2b;">1.92</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">density g/cc</div></div>
+                <div style="text-align:center;border:1.5px solid #c9c2b2;border-radius:7px;padding:7px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:14px;color:#c46a2b;">8,940</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">Vdet m/s</div></div>
+                <div style="text-align:center;border:1.5px solid #c9c2b2;border-radius:7px;padding:7px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:14px;color:#c46a2b;">+412</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">ΔHf kJ/mol</div></div>
+                <div style="text-align:center;border:1.5px solid #c9c2b2;border-radius:7px;padding:7px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:14px;color:#2f6db0;">3.1</div><div style="font-family:'Space Mono',monospace;font-size:8px;color:#74716a;">SA score</div></div>
+              </div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#2f6db0;margin-top:9px;">✓ constraint-checked · ✓ valence-valid · GNN uncertainty ±0.04</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Bridges TorchPharma's drug-discovery DNA to energy: same diffusion + SELFIES-LM, retargeted to CHNO energetics. Generate → GNN auto-scores → pick.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Activation-steering panel (PRD open-question Q4) is a literal control — nudge the latent toward energy density, not just sample blindly. Sensitivity is a SAFETY ceiling (blue), not a target.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — controls become a top "Generate" sheet; candidates go 2-wide; selected detail is a bottom drawer.</div>
+      </div>
+    </div>
+
+    <!-- ============ MOL 1 — INVERSE-DESIGN PIPELINE ============ -->
+    <div style="display:{{ screenDisplay.mol1 }}">
+      <div style="background:#fffdf8;border:2px solid #2b2a27;border-radius:12px;box-shadow:7px 7px 0 #d8d2c4;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:2px solid #2b2a27;background:#efece4;">
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="width:11px;height:11px;border-radius:50%;border:1.5px solid #2b2a27;"></div>
+          <div style="flex:1;font-family:'Space Mono',monospace;font-size:12px;color:#74716a;background:#fff;border:1.5px solid #c9c2b2;border-radius:6px;padding:4px 10px;">energyhub.org/apps/energetic</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:2px dashed #d2cbbb;">
+          <div style="font-size:16px;">⬡ Energetic Materials Discovery</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c9c2b2;border-radius:20px;padding:4px 11px;background:#fff;">campaign: high-density-01 ▾</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;border:1.5px solid #c46a2b;color:#7a3f12;background:#f3dcc4;border-radius:7px;padding:4px 11px;">▶ Run campaign</div>
+        </div>
+        <div style="padding:16px 18px;">
+          <!-- pipeline stages -->
+          <div style="display:flex;align-items:stretch;gap:8px;">
+            <div style="flex:1;border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">1 · TARGET SPEC</div><div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:6px;line-height:1.6;">ρ&gt;1.85 · CHNO<br>SA&lt;4 · safety cap</div></div>
+            <div style="display:flex;align-items:center;font-family:'Space Mono',monospace;color:#74716a;">→</div>
+            <div style="flex:1;border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">2 · DIFFUSION SAMPLE</div><div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:6px;line-height:1.6;">GCDM-v1<br>n = 500 draws</div></div>
+            <div style="display:flex;align-items:center;font-family:'Space Mono',monospace;color:#74716a;">→</div>
+            <div style="flex:1;border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">3 · GNN PREDICT</div><div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:6px;line-height:1.6;">ρ · Vdet · ΔHf<br>+ uncertainty</div></div>
+            <div style="display:flex;align-items:center;font-family:'Space Mono',monospace;color:#74716a;">→</div>
+            <div style="flex:1;border:2px solid #2b2a27;border-radius:9px;padding:11px;background:#fff;"><div style="font-family:'Space Mono',monospace;font-size:9px;color:#74716a;">4 · CONSTRAINT FILTER</div><div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:6px;line-height:1.6;">500 → <span style="color:#c46a2b;">38</span> pass<br>valence · safety</div></div>
+            <div style="display:flex;align-items:center;font-family:'Space Mono',monospace;color:#74716a;">→</div>
+            <div style="flex:1;border:2px solid #c46a2b;border-radius:9px;padding:11px;background:#f3dcc4;"><div style="font-family:'Space Mono',monospace;font-size:9px;color:#7a3f12;">5 · RANKED</div><div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:6px;line-height:1.6;color:#7a3f12;">top 38<br>candidates ↓</div></div>
+          </div>
+          <!-- ranked leaderboard -->
+          <div style="border:2px solid #2b2a27;border-radius:10px;margin-top:14px;overflow:hidden;background:#fff;">
+            <div style="display:grid;grid-template-columns:0.5fr 2fr 0.9fr 0.9fr 0.9fr 0.9fr 1fr;gap:0;font-family:'Space Mono',monospace;font-size:10px;color:#74716a;padding:10px 14px;border-bottom:2px solid #2b2a27;">
+              <div>#</div><div>CANDIDATE (SELFIES)</div><div>ρ ▾</div><div>Vdet</div><div>ΔHf</div><div>SA</div><div>STATUS</div>
+            </div>
+            <div style="display:grid;grid-template-columns:0.5fr 2fr 0.9fr 0.9fr 0.9fr 0.9fr 1fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 14px;border-bottom:1px solid #ece7dc;align-items:center;">
+              <div>1</div><div style="color:#74716a;">⌬ cand-014 [C][N+]...</div><div style="color:#c46a2b;">1.92</div><div>8,940</div><div>+412</div><div style="color:#2f6db0;">3.1</div><div style="color:#2f6db0;">✓ pass</div>
+            </div>
+            <div style="display:grid;grid-template-columns:0.5fr 2fr 0.9fr 0.9fr 0.9fr 0.9fr 1fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 14px;border-bottom:1px solid #ece7dc;align-items:center;background:#fbf8f1;">
+              <div>2</div><div style="color:#74716a;">⌬ cand-009 [C][C][N]...</div><div style="color:#c46a2b;">1.88</div><div>8,710</div><div>+388</div><div style="color:#2f6db0;">2.7</div><div style="color:#2f6db0;">✓ pass</div>
+            </div>
+            <div style="display:grid;grid-template-columns:0.5fr 2fr 0.9fr 0.9fr 0.9fr 0.9fr 1fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 14px;border-bottom:1px solid #ece7dc;align-items:center;">
+              <div>3</div><div style="color:#74716a;">⌬ cand-021 [N][O][C]...</div><div style="color:#c46a2b;">1.81</div><div>8,520</div><div>+356</div><div style="color:#b23b2e;">4.3</div><div style="color:#b23b2e;">⚠ SA high</div>
+            </div>
+            <div style="display:grid;grid-template-columns:0.5fr 2fr 0.9fr 0.9fr 0.9fr 0.9fr 1fr;gap:0;font-family:'Space Mono',monospace;font-size:11px;padding:11px 14px;align-items:center;background:#fbf8f1;">
+              <div>4</div><div style="color:#74716a;">⌬ cand-007 [C][N+][O-]...</div><div style="color:#c46a2b;">1.79</div><div>8,330</div><div>+401</div><div style="color:#2f6db0;">3.5</div><div style="color:#2f6db0;">✓ pass</div>
+            </div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;color:#74716a;padding:11px 14px;">↓ 34 more · export campaign · push top-5 to model card</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 2px 0;">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Makes the generative method legible as a pipeline: sample → predict → filter → rank, with the funnel count (500 → 38) showing how hard the constraints bite. Good for reproducible campaigns + papers.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2f6db0;background:#eaf1f8;border:1.5px dashed #2f6db0;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;">→ Leaderboard mirrors the Benchmarks pattern; SA-score flags (blue ok / red high) keep synthesizability honest. "Push top-5 to model card" links generation back to the hub.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;color:#2b2a27;background:#fff;border:1.5px solid #2b2a27;border-radius:8px;padding:9px 12px;max-width:330px;line-height:1.5;"><b>MOBILE</b> — pipeline becomes a vertical stepper; leaderboard collapses to ranked cards w/ ρ + status.</div>
+      </div>
+    </div>
+
+    <!--MORE-SCREENS-->
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { page:'home', variant:{home:0,hub:0,card:0,upload:0,geo:0,nuke:0,grid:0} };
+  PAGES = [
+    ['home','Home / Landing'],
+    ['hub','Model Hub'],
+    ['card','Model Card'],
+    ['upload','Upload Flow'],
+    ['geo','Geothermal Dash'],
+    ['nuke','Nuclear Monitor'],
+    ['grid','Grid Optimiser'],
+    ['data','Datasets'],
+    ['mol','Energetic Discovery'],
+  ];
+  VARIANTS = {
+    home:[
+      ['A · Live-demo hero',"Show-don't-tell: a running PINN demo answers \u201cwhat is this?\u201d in the hero, then 3 equal CTAs (browse / run / upload). Strongest for the 60-second test."],
+      ['B · Audience router',"Routes the 5 PRD personas straight off the homepage \u2014 operator-first IA. Each card lands on a pre-filtered hub + its flagship app."],
+      ['C · Search-first',"Discovery-led, Hugging-Face style: one big search across equations, fields and materials. Best when the visitor already knows what they need."],
+    ],
+    hub:[
+      ['A · Left filter rail',"Classic faceted browse: persistent left filter column (domain / PDE / safety / license), card grid on the right. Familiar to researchers."],
+      ['B · Dense table',"Spreadsheet density \u2014 every model is a row, metrics are sortable columns. Built for comparing many models at a glance."],
+      ['C · Faceted gallery',"Visual cards with inline mini-charts and filter chips on top instead of a rail. Scannable, image-forward."],
+    ],
+    card:[
+      ['A · Long scroll',"All 7 model-card sections stacked top-to-bottom \u2014 header, physics, performance, map, constraints, usage, community. Skim or deep-read."],
+      ['B · Sticky two-column',"Sticky identity + action panel on the left, scrolling detail on the right. Actions (fine-tune / run / download) always reachable."],
+    ],
+    upload:[
+      ['A · Linear stepper',"6 guided steps, one decision per screen \u2014 file \u2192 physics \u2192 field \u2192 metrics \u2192 safety \u2192 preview. Low overwhelm for first-time contributors."],
+      ['B · One-page accordion',"Every section on a single page, collapsible, with a live validation checklist. Faster for power users who upload often."],
+    ],
+    geo:[
+      ['A · Map-centric',"The reservoir thermal map is the hero; well profiles, k(x) and anomaly panels dock around it. Spatial-first for field operators."],
+      ['B · Panel grid',"Equal-weight tiles \u2014 map, T-depth profiles, k(x) map, anomaly feed, time replayer. Everything visible without scrolling."],
+    ],
+    nuke:[
+      ['A · Vessel cross-section',"Reactor vessel cross-section degradation heatmap drives the view; property dashboards and inspection schedule sit alongside."],
+      ['B · Forecast-first',"The yield-strength forecast against the hard safety limit is the headline chart; everything else supports the inspection decision."],
+    ],
+    grid:[
+      ['A · Dispatch timeline',"The 72-hour stacked-area dispatch schedule is the spine; demand forecast, recommendations and cross-system signals read against it."],
+      ['B · Control-room grid',"Multi-panel ops wall \u2014 live mix, demand, carbon, RL recommendations, scenario simulator. Built for a wall display."],
+    ],
+    data:[
+      ['A · Registry list',"Faceted registry of physical datasets \u2014 only those carrying a PhysicsSpec + SensorGraph schema. Each card shows provenance, access tier and the models trained on it."],
+      ['B · Dataset detail',"Single-dataset page: SensorGraph well layout, the PhysicsSpec it was collected under, provenance + calibration metadata, access controls, and reverse-linked models."],
+    ],
+    mol:[
+      ['A · Generate & steer studio',"Generative studio: set target properties (energy density, sensitivity), the diffusion / SELFIES-LM model proposes CHNO candidates, each auto-scored by the GNN. Activation-steering sliders nudge the latent toward higher energy density."],
+      ['B · Inverse-design pipeline',"Batch campaign view: target spec \u2192 diffusion sample \u2192 GNN property prediction \u2192 constraint filter \u2192 ranked candidate leaderboard. Built for running and comparing design runs."],
+    ],
+  };
+  setPage(k){ this.setState({page:k}); }
+  setVariant(i){ const v={...this.state.variant}; v[this.state.page]=i; this.setState({variant:v}); }
+  renderVals(){
+    const ink='#2b2a27', sub='#74716a', amber='#c46a2b';
+    const page=this.state.page;
+    const tab=(a)=>"font-family:'Architects Daughter',cursive;font-size:16px;cursor:pointer;padding:6px 14px;border-radius:9px 7px 10px 8px;border:2px solid "+ink+";background:"+(a?ink:'#fff')+";color:"+(a?'#fff':ink)+";";
+    const seg=(a)=>"font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;padding:6px 11px;border-radius:7px;border:1.5px solid "+(a?amber:'#c9c2b2')+";background:"+(a?'#f3dcc4':'#fff')+";color:"+(a?'#7a3f12':sub)+";";
+    const pages=this.PAGES.map(([key,label])=>({key,label,tabStyle:tab(page===key),onClick:()=>this.setPage(key)}));
+    const vlist=this.VARIANTS[page]||[];
+    const vi=this.state.variant[page]||0;
+    const variantsForPage=vlist.map((v,i)=>({label:v[0],segStyle:seg(vi===i),onClick:()=>this.setVariant(i)}));
+    const variantDesc=(vlist[vi]&&vlist[vi][1])||'';
+    const pageTitle=(this.PAGES.find(p=>p[0]===page)||[])[1]||'';
+    const screenDisplay={};
+    for(const k of Object.keys(this.VARIANTS)){
+      this.VARIANTS[k].forEach((_,i)=>{ screenDisplay[k+i]=(page===k && vi===i)?'block':'none'; });
+    }
+    return {pages,variantsForPage,variantDesc,pageTitle,screenDisplay};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" fill="#faf7f0"/>
+  <defs>
+    <pattern id="dots4" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="11" cy="11" r="1" fill="#e7e0d1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="450" fill="url(#dots4)"/>
+  <path d="M28 28h18M28 28v18M772 28h-18M772 28v18M28 422h18M28 422v-18M772 422h-18M772 422v-18" stroke="#b6ae9d" stroke-width="1.5"/>
+  <text x="48" y="44" font-family="monospace" font-size="10" fill="#8a857a" letter-spacing="0.06em">FIG.05  PHYSICS CONSTRAINT GATE</text>
+
+  <!-- incoming checkpoint slab -->
+  <g stroke="#34322d" stroke-width="1.5" stroke-linejoin="round">
+    <polygon points="140,220 210,255 140,290 70,255" fill="#ffffff"/>
+    <polygon points="70,255 140,290 140,318 70,283" fill="#efeadf"/>
+    <polygon points="140,290 210,255 210,283 140,318" fill="#e4ddcf"/>
+    <path d="M100,255 l0,-18 M100,237 l-7,7 M100,237 l7,7" fill="none" stroke="#cf5a2a" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="200" cy="232" r="3" fill="#34c759"/>
+  </g>
+  <text x="140" y="212" font-family="monospace" font-size="9" fill="#8a857a" text-anchor="middle">CHECKPOINT</text>
+
+  <!-- gate frame (iso arch) -->
+  <g stroke="#34322d" stroke-width="1.8" stroke-linejoin="round" fill="none">
+    <path d="M310,290 L310,180 L400,130 L490,180 L490,290"/>
+    <line x1="310" y1="290" x2="490" y2="290"/>
+    <!-- gate pillars -->
+    <line x1="330" y1="290" x2="330" y2="200"/>
+    <line x1="470" y1="290" x2="470" y2="200"/>
+  </g>
+  <!-- gate lintel accent -->
+  <polygon points="360,168 400,148 440,168 400,188" fill="#f7e2d5" stroke="#cf5a2a" stroke-width="1.5"/>
+  <circle cx="400" cy="168" r="4" fill="#cf5a2a"/>
+
+  <!-- PDE wave passing through -->
+  <path d="M210,255 C260,255 280,210 340,230 C380,242 390,268 430,255" fill="none" stroke="#34322d" stroke-width="1.6"/>
+  <path d="M430,255 C470,255 480,220 520,240" fill="none" stroke="#cf5a2a" stroke-width="2"/>
+  <!-- checkmark at gate center -->
+  <path d="M388,230 l12,12 l22,-24" fill="none" stroke="#cf5a2a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- rejected branch (faint) -->
+  <path d="M400,290 L400,340 L340,370" fill="none" stroke="#bdb6a6" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <text x="310" y="388" font-family="monospace" font-size="9" fill="#8a857a">REJECT</text>
+
+  <!-- output model card -->
+  <g stroke="#34322d" stroke-width="1.5" stroke-linejoin="round">
+    <polygon points="580,210 650,245 580,280 510,245" fill="#ffffff"/>
+    <polygon points="510,245 580,280 580,308 510,273" fill="#efeadf"/>
+    <polygon points="580,280 650,245 650,273 580,308" fill="#e4ddcf"/>
+    <polygon points="550,222 580,237 610,222 580,207" fill="#f7e2d5" stroke="#cf5a2a" stroke-width="1.2"/>
+  </g>
+  <text x="580" y="202" font-family="monospace" font-size="9" fill="#8a857a" text-anchor="middle">MODEL CARD</text>
+
+  <!-- conservation meter -->
+  <g transform="translate(400,320)">
+    <rect x="-40" y="0" width="80" height="8" rx="2" fill="#efeadf" stroke="#cfc8b9" stroke-width="1"/>
+    <rect x="-40" y="0" width="62" height="8" rx="2" fill="#cf5a2a" opacity="0.7"/>
+    <text x="0" y="24" font-family="monospace" font-size="8.5" fill="#8a857a" text-anchor="middle">PDE RESIDUAL PASS</text>
+  </g>
+</svg>
