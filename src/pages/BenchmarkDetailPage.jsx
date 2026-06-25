@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchBenchmark, fetchRelatedBenchmarks, SUITE_COLORS } from '../api/benchmarks'
-import { MODELS } from '../api/models'
+import { fetchModel } from '../api/models'
 import CodeBlock from '../components/CodeBlock'
 
 const ACCENT = '#cf5a2a'
@@ -237,17 +237,23 @@ export default function BenchmarkDetailPage() {
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
-  const leaderModel = benchmark
-    ? MODELS.find(m => m.id === benchmark.leaderModelId)
-    : null
+  const [leaderModel, setLeaderModel] = useState(null)
 
   useEffect(() => {
     setLoading(true)
     setNotFound(false)
+    setLeaderModel(null)
     fetchBenchmark(benchmarkId).then(data => {
       if (!data) { setNotFound(true); setLoading(false); return }
       setBenchmark(data)
-      fetchRelatedBenchmarks(data.relatedSuiteIds).then(r => { setRelatedBenchmarks(r); setLoading(false) })
+      Promise.all([
+        fetchRelatedBenchmarks(data.relatedSuiteIds),
+        data.leaderModelId ? fetchModel(data.leaderModelId) : Promise.resolve(null),
+      ]).then(([related, leader]) => {
+        setRelatedBenchmarks(related)
+        setLeaderModel(leader)
+        setLoading(false)
+      })
     })
   }, [benchmarkId])
 

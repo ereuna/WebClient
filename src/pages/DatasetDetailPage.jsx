@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchDataset, fetchRelatedDatasets, DOMAIN_COLORS } from '../api/datasets'
-import { MODELS } from '../api/models'
+import { fetchRelatedModels } from '../api/models'
 import CodeBlock from '../components/CodeBlock'
+import StarButton from '../components/StarButton'
+import { useAuth } from '../context/AuthContext.jsx'
 
 const ACCENT = '#cf5a2a'
 const DOT_BG = 'radial-gradient(#e7e0d1 1px,transparent 1px)'
@@ -220,14 +222,13 @@ function Skeleton() {
 
 export default function DatasetDetailPage() {
   const { datasetId } = useParams()
+  const { user, authenticated } = useAuth()
   const [dataset, setDataset] = useState(null)
   const [relatedDatasets, setRelatedDatasets] = useState([])
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
-  const relatedModels = dataset
-    ? MODELS.filter(m => dataset.relatedModelIds.includes(m.id))
-    : []
+  const [relatedModels, setRelatedModels] = useState([])
 
   useEffect(() => {
     setLoading(true)
@@ -235,7 +236,14 @@ export default function DatasetDetailPage() {
     fetchDataset(datasetId).then(data => {
       if (!data) { setNotFound(true); setLoading(false); return }
       setDataset(data)
-      fetchRelatedDatasets(data.relatedDatasetIds).then(r => { setRelatedDatasets(r); setLoading(false) })
+      Promise.all([
+        fetchRelatedDatasets(data.relatedDatasetIds),
+        fetchRelatedModels(data.relatedModelIds),
+      ]).then(([ds, ms]) => {
+        setRelatedDatasets(ds)
+        setRelatedModels(ms)
+        setLoading(false)
+      })
     })
   }, [datasetId])
 
@@ -286,11 +294,12 @@ export default function DatasetDetailPage() {
                 {desc}
               </p>
 
-              <div style={{ display: 'flex', gap: 18, marginTop: 18, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 14, marginTop: 18, flexWrap: 'wrap', alignItems: 'center' }}>
                 <StatPill icon="↓" label={`${downloads} downloads`} />
                 <StatPill icon="⬢" label={`${rows} rows`} />
                 <StatPill icon="◉" label={size} />
                 <StatPill icon="↺" label={`Updated ${updated}`} />
+                <StarButton repoId={dataset._repoId} initialCount={0} />
               </div>
             </div>
 
@@ -308,6 +317,18 @@ export default function DatasetDetailPage() {
               }}>
                 Query via API
               </button>
+              {(user || authenticated) && dataset?._repoId && (
+                <Link
+                  to={`/datasets/${datasetId}/upload`}
+                  style={{
+                    fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                    border: `1.4px solid ${ACCENT}`, color: ACCENT, fontWeight: 500,
+                    textDecoration: 'none', textAlign: 'center', whiteSpace: 'nowrap',
+                  }}
+                >
+                  Upload files ↑
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -325,48 +346,58 @@ export default function DatasetDetailPage() {
           </SectionCard>
 
           {/* Coverage */}
-          <SectionCard label="Coverage">
-            <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
-              <div style={{ height: 8, background: '#faf7f0', backgroundImage: DOT_BG, backgroundSize: '14px 14px', borderBottom: '1px solid #ece5d6' }} />
-              <div style={{ padding: '2px 20px 8px' }}>
-                {Object.entries(coverage).map(([k, v]) => (
-                  <CoverageRow key={k} k={k.replace(/([A-Z])/g, ' $1').toLowerCase()} v={v} />
-                ))}
+          {Object.keys(coverage).length > 0 && (
+            <SectionCard label="Coverage">
+              <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
+                <div style={{ height: 8, background: '#faf7f0', backgroundImage: DOT_BG, backgroundSize: '14px 14px', borderBottom: '1px solid #ece5d6' }} />
+                <div style={{ padding: '2px 20px 8px' }}>
+                  {Object.entries(coverage).map(([k, v]) => (
+                    <CoverageRow key={k} k={k.replace(/([A-Z])/g, ' $1').toLowerCase()} v={v} />
+                  ))}
+                </div>
               </div>
-            </div>
-          </SectionCard>
+            </SectionCard>
+          )}
 
           {/* Schema */}
-          <SectionCard label={`Schema — ${schema.length} columns`}>
-            <SchemaTable columns={schema} />
-          </SectionCard>
+          {schema.length > 0 && (
+            <SectionCard label={`Schema — ${schema.length} columns`}>
+              <SchemaTable columns={schema} />
+            </SectionCard>
+          )}
 
           {/* Collection & preprocessing */}
-          <SectionCard label="Collection & Preprocessing">
-            <div style={{
-              background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12,
-              padding: '18px 20px', fontSize: 14, color: '#3b3830', lineHeight: 1.7,
-            }}>
-              {collection}
-            </div>
-          </SectionCard>
+          {collection && (
+            <SectionCard label="Collection & Preprocessing">
+              <div style={{
+                background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12,
+                padding: '18px 20px', fontSize: 14, color: '#3b3830', lineHeight: 1.7,
+              }}>
+                {collection}
+              </div>
+            </SectionCard>
+          )}
 
           {/* Usage notes */}
-          <SectionCard label="Usage Notes">
-            <div style={{
-              background: '#fdf9f3', border: '1.5px solid #e8d9c0', borderRadius: 12,
-              padding: '16px 20px', fontSize: 14, color: '#3b3830', lineHeight: 1.65,
-              display: 'flex', gap: 12, alignItems: 'flex-start',
-            }}>
-              <span style={{ fontSize: 18, flexShrink: 0 }}>ⓘ</span>
-              <span>{usageNotes}</span>
-            </div>
-          </SectionCard>
+          {usageNotes && (
+            <SectionCard label="Usage Notes">
+              <div style={{
+                background: '#fdf9f3', border: '1.5px solid #e8d9c0', borderRadius: 12,
+                padding: '16px 20px', fontSize: 14, color: '#3b3830', lineHeight: 1.65,
+                display: 'flex', gap: 12, alignItems: 'flex-start',
+              }}>
+                <span style={{ fontSize: 18, flexShrink: 0 }}>ⓘ</span>
+                <span>{usageNotes}</span>
+              </div>
+            </SectionCard>
+          )}
 
           {/* Code */}
-          <SectionCard label="Usage">
-            <CodeBlock tabs={codeSnippet} />
-          </SectionCard>
+          {Object.keys(codeSnippet).length > 0 && (
+            <SectionCard label="Usage">
+              <CodeBlock tabs={codeSnippet} />
+            </SectionCard>
+          )}
         </div>
 
         {/* ── Sidebar ── */}

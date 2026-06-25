@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom'
 import { fetchModel, fetchRelatedModels, FAMILY_COLORS } from '../api/models'
 import MetricCard from '../components/MetricCard'
 import CodeBlock from '../components/CodeBlock'
+import StarButton from '../components/StarButton'
+import { useAuth } from '../context/AuthContext.jsx'
 
 const ACCENT = '#cf5a2a'
 const DOT_BG = 'radial-gradient(#e7e0d1 1px,transparent 1px)'
@@ -155,6 +157,7 @@ function Skeleton() {
 
 export default function ModelDetailPage() {
   const { modelId } = useParams()
+  const { user, authenticated } = useAuth()
   const [model, setModel] = useState(null)
   const [related, setRelated] = useState([])
   const [loading, setLoading] = useState(true)
@@ -217,11 +220,11 @@ export default function ModelDetailPage() {
               </p>
 
               {/* Stats row */}
-              <div style={{ display: 'flex', gap: 18, marginTop: 18, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 14, marginTop: 18, flexWrap: 'wrap', alignItems: 'center' }}>
                 <StatPill icon="↓" label={`${downloads} downloads`} />
-                <StatPill icon="★" label={`${stars} stars`} />
                 <StatPill icon="⬡" label={size} />
                 <StatPill icon="↺" label={`Updated ${updated}`} />
+                <StarButton repoId={model._repoId} initialCount={parseInt(stars) || 0} />
               </div>
             </div>
 
@@ -240,6 +243,18 @@ export default function ModelDetailPage() {
               }}>
                 Download ↓
               </button>
+              {(user || authenticated) && model?._repoId && (
+                <Link
+                  to={`/models/${modelId}/upload`}
+                  style={{
+                    fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                    border: `1.4px solid ${ACCENT}`, color: ACCENT, fontWeight: 500,
+                    textDecoration: 'none', textAlign: 'center', whiteSpace: 'nowrap',
+                  }}
+                >
+                  Upload files ↑
+                </Link>
+              )}
             </div>
           </div>
 
@@ -267,66 +282,76 @@ export default function ModelDetailPage() {
           </SectionCard>
 
           {/* Performance metrics */}
-          <SectionCard label="Performance">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 14 }}>
-              {metrics.map(m => (
-                <MetricCard key={m.label} {...m} />
-              ))}
-            </div>
-          </SectionCard>
+          {metrics.length > 0 && (
+            <SectionCard label="Performance">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 14 }}>
+                {metrics.map(m => (
+                  <MetricCard key={m.label} {...m} />
+                ))}
+              </div>
+            </SectionCard>
+          )}
 
           {/* Architecture */}
-          <SectionCard label="Architecture">
-            <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
-              <div style={{ height: 8, backgroundImage: DOT_BG, backgroundSize: '14px 14px', background: '#faf7f0', borderBottom: '1px solid #ece5d6', backgroundImage: DOT_BG }} />
-              <div style={{ padding: '2px 20px 8px' }}>
-                {Object.entries({
-                  Type: architecture.type,
-                  Parameters: architecture.params,
-                  Framework: architecture.framework,
-                  Input: architecture.input,
-                  Output: architecture.output,
-                  Optimizer: architecture.optimizer,
-                  Hardware: architecture.hardware,
-                }).map(([k, v]) => <ArchRow key={k} k={k} v={v} />)}
+          {Object.keys(architecture).length > 0 && (
+            <SectionCard label="Architecture">
+              <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
+                <div style={{ height: 8, backgroundImage: DOT_BG, backgroundSize: '14px 14px', background: '#faf7f0', borderBottom: '1px solid #ece5d6', backgroundImage: DOT_BG }} />
+                <div style={{ padding: '2px 20px 8px' }}>
+                  {Object.entries({
+                    Type: architecture.type,
+                    Parameters: architecture.params,
+                    Framework: architecture.framework,
+                    Input: architecture.input,
+                    Output: architecture.output,
+                    Optimizer: architecture.optimizer,
+                    Hardware: architecture.hardware,
+                  }).filter(([, v]) => v).map(([k, v]) => <ArchRow key={k} k={k} v={v} />)}
+                </div>
               </div>
-            </div>
-          </SectionCard>
+            </SectionCard>
+          )}
 
           {/* Usage */}
-          <SectionCard label="Usage">
-            <CodeBlock tabs={codeSnippet} />
-          </SectionCard>
+          {Object.keys(codeSnippet).length > 0 && (
+            <SectionCard label="Usage">
+              <CodeBlock tabs={codeSnippet} />
+            </SectionCard>
+          )}
 
           {/* Model card */}
-          <SectionCard label="Model Card">
-            <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
-              {Object.entries({
-                'Intended use': modelCard.intendedUse,
-                'Limitations': modelCard.limitations,
-                'Evaluation': modelCard.evaluation,
-                'Known biases': modelCard.biases,
-              }).map(([k, v], i, arr) => (
-                <div key={k} style={{
-                  display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16,
-                  padding: '16px 20px',
-                  borderBottom: i < arr.length - 1 ? '1px solid #f0ebe0' : 'none',
-                }}>
-                  <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a', paddingTop: 2 }}>{k}</div>
-                  <div style={{ fontSize: 13.5, color: '#3b3830', lineHeight: 1.6 }}>{v}</div>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
+          {modelCard.intendedUse && (
+            <SectionCard label="Model Card">
+              <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
+                {Object.entries({
+                  'Intended use': modelCard.intendedUse,
+                  'Limitations': modelCard.limitations,
+                  'Evaluation': modelCard.evaluation,
+                  'Known biases': modelCard.biases,
+                }).filter(([, v]) => v).map(([k, v], i, arr) => (
+                  <div key={k} style={{
+                    display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16,
+                    padding: '16px 20px',
+                    borderBottom: i < arr.length - 1 ? '1px solid #f0ebe0' : 'none',
+                  }}>
+                    <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a', paddingTop: 2 }}>{k}</div>
+                    <div style={{ fontSize: 13.5, color: '#3b3830', lineHeight: 1.6 }}>{v}</div>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+          )}
 
           {/* Version history */}
-          <SectionCard label="Versions">
-            <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '4px 20px' }}>
-              {versions.map((v, i) => (
-                <VersionRow key={v.tag} {...v} isLast={i === versions.length - 1} />
-              ))}
-            </div>
-          </SectionCard>
+          {versions.length > 0 && (
+            <SectionCard label="Versions">
+              <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '4px 20px' }}>
+                {versions.map((v, i) => (
+                  <VersionRow key={v.tag} {...v} isLast={i === versions.length - 1} />
+                ))}
+              </div>
+            </SectionCard>
+          )}
         </div>
 
         {/* ── Sidebar ── */}
@@ -376,14 +401,20 @@ export default function ModelDetailPage() {
           </div>
 
           {/* Training dataset */}
-          <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '14px 18px', marginBottom: 16 }}>
-            <SectionLabel>Training data</SectionLabel>
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#1b1a17', marginBottom: 4 }}>{trainingDataset}</div>
-            <div style={{ fontSize: 12.5, color: '#56524a', lineHeight: 1.5 }}>{architecture.training}</div>
-            <Link to="/datasets" style={{ display: 'block', marginTop: 10, fontSize: 12, color: ACCENT, textDecoration: 'none', fontWeight: 500 }}>
-              View in datasets →
-            </Link>
-          </div>
+          {(trainingDataset !== '—' || architecture.training) && (
+            <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '14px 18px', marginBottom: 16 }}>
+              <SectionLabel>Training data</SectionLabel>
+              {trainingDataset !== '—' && (
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#1b1a17', marginBottom: 4 }}>{trainingDataset}</div>
+              )}
+              {architecture.training && (
+                <div style={{ fontSize: 12.5, color: '#56524a', lineHeight: 1.5 }}>{architecture.training}</div>
+              )}
+              <Link to="/datasets" style={{ display: 'block', marginTop: 10, fontSize: 12, color: ACCENT, textDecoration: 'none', fontWeight: 500 }}>
+                View in datasets →
+              </Link>
+            </div>
+          )}
 
           {/* Related models */}
           {related.length > 0 && (

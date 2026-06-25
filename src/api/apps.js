@@ -481,14 +481,29 @@ curl -X POST https://api.aether.energy/v1/apps/nucleval/run \\
   },
 ]
 
-export function fetchAllApps() {
-  return new Promise(resolve => setTimeout(() => resolve(APPS), 300))
+// ── Live-data integration ─────────────────────────────────────────────────────
+import { fetchLiveStats } from './repositories.js'
+
+function mergeStats(app, liveMap) {
+  // Apps are SPACE-type repositories in the backend
+  const live = liveMap.get(app.id)
+  if (!live) return app
+  return {
+    ...app,
+    _repoId: live.id,
+    // apps don't show download counts in the UI — just record the link
+  }
 }
 
-export function fetchApp(id) {
-  return new Promise(resolve =>
-    setTimeout(() => resolve(APPS.find(a => a.id === id) ?? null), 350)
-  )
+export async function fetchAllApps() {
+  const liveMap = await fetchLiveStats('SPACE')
+  return APPS.map(a => mergeStats(a, liveMap))
+}
+
+export async function fetchApp(id) {
+  const liveMap = await fetchLiveStats('SPACE')
+  const app = APPS.find(a => a.id === id) ?? null
+  return app ? mergeStats(app, liveMap) : null
 }
 
 export { APPS }

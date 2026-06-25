@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchApp, STATUS_COLORS } from '../api/apps'
-import { MODELS } from '../api/models'
-import { DATASETS } from '../api/datasets'
+import { fetchRelatedModels } from '../api/models'
+import { fetchRelatedDatasets } from '../api/datasets'
 import CodeBlock from '../components/CodeBlock'
 
 const ACCENT = '#cf5a2a'
@@ -180,17 +180,26 @@ export default function AppDetailPage() {
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
-  const poweredByModels = app ? MODELS.filter(m => app.poweredByIds.includes(m.id)) : []
-  const trainingDatasets = app ? DATASETS.filter(d => app.trainingDatasetIds?.includes(d.id)) : []
+  const [poweredByModels, setPoweredByModels] = useState([])
+  const [trainingDatasets, setTrainingDatasets] = useState([])
   const isComingSoon = app?.status === 'Coming soon'
 
   useEffect(() => {
     setLoading(true)
     setNotFound(false)
+    setPoweredByModels([])
+    setTrainingDatasets([])
     fetchApp(appId).then(data => {
       if (!data) { setNotFound(true); setLoading(false); return }
       setApp(data)
-      setLoading(false)
+      Promise.all([
+        fetchRelatedModels(data.poweredByIds || []),
+        fetchRelatedDatasets(data.trainingDatasetIds || []),
+      ]).then(([models, datasets]) => {
+        setPoweredByModels(models)
+        setTrainingDatasets(datasets)
+        setLoading(false)
+      })
     })
   }, [appId])
 

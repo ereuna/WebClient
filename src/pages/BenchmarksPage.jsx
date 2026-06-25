@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchAllBenchmarks, SUITE_COLORS } from '../api/benchmarks'
-import { MODELS } from '../api/models'
 
 const ACCENT = '#cf5a2a'
 const FAMILY_COLORS = {
