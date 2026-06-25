@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
-import { PAGE_ILLUSTRATIONS, ACTION_ILLUSTRATIONS } from '../lib/illustrations'
+import { CardIllustration } from '../components/CardIllustration'
+import { PAGE_ILLUSTRATIONS, ACTION_ILLUSTRATIONS, METRIC_ILLUSTRATIONS } from '../lib/illustrations'
 import { fetchDashboardData } from '../api/dashboard'
 import { useAuth } from '../context/AuthContext.jsx'
 
@@ -23,10 +24,10 @@ const QUICK_ACTIONS = [
 ]
 
 const METRICS_DEFAULT = [
-  { label: 'Models', value: '0', accent: '#cf5a2a' },
-  { label: 'Datasets', value: '0', accent: '#7c6af7' },
-  { label: 'Pipelines', value: '0', accent: '#2db88a' },
-  { label: 'Spaces', value: '0', accent: '#3498db' },
+  { label: 'Models', value: '0', accent: '#cf5a2a', illo: METRIC_ILLUSTRATIONS.Models },
+  { label: 'Datasets', value: '0', accent: '#7c6af7', illo: METRIC_ILLUSTRATIONS.Datasets },
+  { label: 'Pipelines', value: '0', accent: '#2db88a', illo: METRIC_ILLUSTRATIONS.Pipelines },
+  { label: 'Spaces', value: '0', accent: '#3498db', illo: METRIC_ILLUSTRATIONS.Spaces },
 ]
 
 function SectionLabel({ children }) {
@@ -42,49 +43,48 @@ function SectionLabel({ children }) {
 
 function QuickActionCard({ illo, label, desc, to }) {
   return (
-    <Link to={to} style={{ textDecoration: 'none', color: 'inherit', flex: 1 }}>
+    <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
         style={{
-          background: '#fff', border: CARD_BORDER, borderRadius: 14,
-          padding: '20px 18px', cursor: 'pointer', transition: 'box-shadow .15s, transform .15s',
-          height: '100%', boxSizing: 'border-box',
+          background: '#fff', border: CARD_BORDER, borderRadius: 16,
+          overflow: 'hidden', height: '100%',
+          transition: 'box-shadow .15s, transform .15s',
         }}
         onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
         onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
       >
-        <div style={{
-          width: 56, height: 56, borderRadius: 12, marginBottom: 14,
-          background: '#faf7f0', border: '1px solid #ece5d6', overflow: 'hidden',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <img
-            src={illo}
-            alt={label}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
+        <CardIllustration src={illo} alt={label} height={130} />
+        <div style={{ padding: '18px 20px 20px' }}>
+          <div style={{ fontSize: 16, fontWeight: 600, color: DARK }}>{label}</div>
+          <div style={{ fontSize: 13, color: MEDIUM, lineHeight: 1.5, marginTop: 6 }}>{desc}</div>
         </div>
-        <div style={{ fontSize: 14.5, fontWeight: 600, color: DARK, marginBottom: 5 }}>{label}</div>
-        <div style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.5 }}>{desc}</div>
       </div>
     </Link>
   )
 }
 
-function MetricStatCard({ label, value, accent }) {
+function MetricStatCard({ label, value, accent, illo }) {
   return (
-    <div style={{
-      background: '#fff', border: CARD_BORDER, borderRadius: 14,
-      padding: '20px 22px', flex: 1,
-      borderTop: `3px solid ${accent}`,
-    }}>
-      <div style={{ fontSize: 30, fontWeight: 700, color: DARK, letterSpacing: '-0.03em', lineHeight: 1 }}>
-        {value}
-      </div>
-      <div style={{
-        fontFamily: MONO, fontSize: 11, color: MUTED,
-        marginTop: 8, textTransform: 'uppercase', letterSpacing: '0.08em',
-      }}>
-        {label}
+    <div
+      style={{
+        background: '#fff', border: CARD_BORDER, borderRadius: 16,
+        overflow: 'hidden', height: '100%',
+        transition: 'box-shadow .15s',
+      }}
+      onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'}
+      onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+    >
+      <CardIllustration src={illo} alt={`${label} illustration`} height={130} />
+      <div style={{ padding: '18px 20px 20px' }}>
+        <div style={{ fontSize: 32, fontWeight: 700, color: accent, letterSpacing: '-0.03em', lineHeight: 1 }}>
+          {value}
+        </div>
+        <div style={{
+          fontFamily: MONO, fontSize: 11, color: MUTED,
+          marginTop: 8, textTransform: 'uppercase', letterSpacing: '0.08em',
+        }}>
+          {label}
+        </div>
       </div>
     </div>
   )
@@ -180,10 +180,10 @@ export default function DashboardPage() {
     fetchDashboardData()
       .then(data => {
         setMetrics([
-          { label: 'Models', value: String(data.metrics.models), accent: '#cf5a2a' },
-          { label: 'Datasets', value: String(data.metrics.datasets), accent: '#7c6af7' },
-          { label: 'Pipelines', value: String(data.metrics.pipelines), accent: '#2db88a' },
-          { label: 'Spaces', value: String(data.metrics.spaces), accent: '#3498db' },
+          { label: 'Models', value: String(data.metrics.models), accent: '#cf5a2a', illo: METRIC_ILLUSTRATIONS.Models },
+          { label: 'Datasets', value: String(data.metrics.datasets), accent: '#7c6af7', illo: METRIC_ILLUSTRATIONS.Datasets },
+          { label: 'Pipelines', value: String(data.metrics.pipelines), accent: '#2db88a', illo: METRIC_ILLUSTRATIONS.Pipelines },
+          { label: 'Spaces', value: String(data.metrics.spaces), accent: '#3498db', illo: METRIC_ILLUSTRATIONS.Spaces },
         ])
         const recent = (data.recentRepos || []).slice(0, 5).map(r => ({
           title: `${r.repo_type} updated`,
@@ -226,7 +226,7 @@ export default function DashboardPage() {
 
         <div style={{ marginBottom: 36 }}>
           <SectionLabel>Quick Actions</SectionLabel>
-          <div style={{ display: 'flex', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
             {QUICK_ACTIONS.map(a => (
               <QuickActionCard key={a.label} {...a} />
             ))}
@@ -238,7 +238,7 @@ export default function DashboardPage() {
           {loading ? (
             <div style={{ color: MUTED, fontFamily: MONO, fontSize: 13 }}>Loading metrics…</div>
           ) : (
-            <div style={{ display: 'flex', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
               {metrics.map(m => (
                 <MetricStatCard key={m.label} {...m} />
               ))}

@@ -31,6 +31,13 @@ export const ACTION_ILLUSTRATIONS = {
   deployModel: '/illustrations/action-deploy-model.png',
 }
 
+export const METRIC_ILLUSTRATIONS = {
+  Models: '/illustrations/metric-models.png',
+  Datasets: '/illustrations/metric-datasets.png',
+  Pipelines: '/illustrations/metric-pipelines.png',
+  Spaces: '/illustrations/metric-spaces.png',
+}
+
 export const PAGE_ILLUSTRATIONS = {
   models: '/illustrations/page-models-hero.png',
   datasets: '/illustrations/page-datasets-hero.png',
