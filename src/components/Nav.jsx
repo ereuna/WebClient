@@ -6,11 +6,14 @@ import GlobalSearch from './GlobalSearch.jsx'
 const ACCENT = '#cf5a2a'
 
 const navLinks = [
+  { label: 'Repositories', to: '/repositories' },
   { label: 'Models', to: '/models' },
   { label: 'Datasets', to: '/datasets' },
-  { label: 'Benchmarks', to: '/benchmarks' },
-  { label: 'Apps', to: '/apps' },
-  { label: 'Docs', to: '/docs' },
+  { label: 'Pipelines', to: '/pipelines' },
+  { label: 'Experiments', to: '/experiments' },
+  { label: 'Deployments', to: '/deployments' },
+  { label: 'Spaces', to: '/apps' },
+  { label: 'Organizations', to: '/organizations' },
 ]
 
 function UserMenu({ user, onLogout }) {
@@ -63,18 +66,39 @@ function UserMenu({ user, onLogout }) {
             <div style={{ fontSize: 13, fontWeight: 600 }}>{user.username}</div>
             <div style={{ fontSize: 11, color: '#8a857a', marginTop: 2 }}>{user.email}</div>
           </div>
-          <button
-            onClick={() => { setOpen(false); onLogout() }}
-            style={{
-              display: 'block', width: '100%', textAlign: 'left',
-              padding: '11px 16px', background: 'none', border: 'none',
-              cursor: 'pointer', fontSize: 13, color: '#56524a', fontFamily: 'inherit',
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = '#f5f0e8'}
-            onMouseLeave={e => e.currentTarget.style.background = 'none'}
-          >
-            Sign out
-          </button>
+          {[
+            { label: 'Dashboard', to: '/dashboard' },
+            { label: 'Settings', to: '/settings' },
+          ].map(({ label, to }) => (
+            <Link
+              key={to}
+              to={to}
+              onClick={() => setOpen(false)}
+              style={{
+                display: 'block', width: '100%', textAlign: 'left',
+                padding: '11px 16px', fontSize: 13, color: '#56524a',
+                textDecoration: 'none', boxSizing: 'border-box',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#f5f0e8'}
+              onMouseLeave={e => e.currentTarget.style.background = 'none'}
+            >
+              {label}
+            </Link>
+          ))}
+          <div style={{ borderTop: '1px solid #f0ebe0' }}>
+            <button
+              onClick={() => { setOpen(false); onLogout() }}
+              style={{
+                display: 'block', width: '100%', textAlign: 'left',
+                padding: '11px 16px', background: 'none', border: 'none',
+                cursor: 'pointer', fontSize: 13, color: '#56524a', fontFamily: 'inherit',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#f5f0e8'}
+              onMouseLeave={e => e.currentTarget.style.background = 'none'}
+            >
+              Sign out
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -136,6 +160,8 @@ export default function Nav() {
         </div>
 
         <GlobalSearch style={{ width: 240 }} placeholder="Search…" />
+
+        <Link to="/notifications" style={{ color: '#56524a', fontSize: 18, textDecoration: 'none', lineHeight: 1 }}>🔔</Link>
 
         <div style={{ flex: 1 }} />
 
