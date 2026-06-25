@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import PageHero from '../components/PageHero'
+import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
 
@@ -308,15 +310,13 @@ export default function DocsPage() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Page header */}
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '40px 28px 34px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, letterSpacing: '0.08em', color: ACCENT, marginBottom: 14 }}>
-            DOCUMENTATION
-          </div>
-          <h1 style={{ fontSize: 40, letterSpacing: '-0.03em', fontWeight: 600, lineHeight: 1.06, margin: 0 }}>Docs</h1>
-        </div>
-      </div>
+      <PageHero
+        eyebrow="DOCUMENTATION"
+        title="Docs"
+        description="EnergyGraph spec, model cards, physics checks, SDK reference and REST API guides."
+        illustration={PAGE_ILLUSTRATIONS.docs}
+        illustrationAlt="Documentation illustration"
+      />
 
       {/* Body: sidebar + content */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 28px 64px', flex: 1, display: 'flex', gap: 48, paddingTop: 36, width: '100%', boxSizing: 'border-box' }}>

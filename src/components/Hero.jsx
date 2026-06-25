@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const ACCENT = '#cf5a2a'
 
 export default function Hero() {
@@ -20,15 +22,20 @@ export default function Hero() {
             so every model travels.
           </p>
           <div style={{ display: 'flex', gap: 13, marginTop: 30, flexWrap: 'wrap' }}>
-            <button style={{
-              background: ACCENT, color: '#fff', fontWeight: 500, fontSize: 15,
-              padding: '13px 22px', borderRadius: 11, border: 'none', cursor: 'pointer',
-              display: 'inline-flex', alignItems: 'center', gap: 9, fontFamily: 'inherit',
-            }}>Browse models <span style={{ fontSize: 13 }}>→</span></button>
-            <button style={{
-              background: '#fff', border: '1.4px solid #d8d1c2', color: '#1b1a17', fontWeight: 500,
-              fontSize: 15, padding: '13px 22px', borderRadius: 11, cursor: 'pointer', fontFamily: 'inherit',
-            }}>See how it works</button>
+            <Link to="/models" style={{ textDecoration: 'none' }}>
+              <span style={{
+                background: ACCENT, color: '#fff', fontWeight: 500, fontSize: 15,
+                padding: '13px 22px', borderRadius: 11, border: 'none', cursor: 'pointer',
+                display: 'inline-flex', alignItems: 'center', gap: 9, fontFamily: 'inherit',
+              }}>Browse models <span style={{ fontSize: 13 }}>→</span></span>
+            </Link>
+            <Link to="/docs" style={{ textDecoration: 'none' }}>
+              <span style={{
+                background: '#fff', border: '1.4px solid #d8d1c2', color: '#1b1a17', fontWeight: 500,
+                fontSize: 15, padding: '13px 22px', borderRadius: 11, cursor: 'pointer', fontFamily: 'inherit',
+                display: 'inline-block',
+              }}>See how it works</span>
+            </Link>
           </div>
           <div style={{ display: 'flex', gap: 30, marginTop: 42, fontFamily: "'Space Mono',monospace" }}>
             {[['20','models hosted'],['1,048','inference calls/mo'],['5','countries']].map(([n, l]) => (

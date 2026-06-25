@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchAllApps, STATUS_COLORS } from '../api/apps'
+import PageHero from '../components/PageHero'
+import { CardIllustration } from '../components/CardIllustration'
+import { APP_ILLUSTRATIONS, PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
-const DOT_BG = 'radial-gradient(#e7e0d1 1px,transparent 1px)'
 
 function AppCard({ app }) {
   const isComingSoon = app.status === 'Coming soon'
+  const illo = APP_ILLUSTRATIONS[app.id]
   return (
     <Link
       to={`/apps/${app.id}`}
@@ -23,15 +26,14 @@ function AppCard({ app }) {
         onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'}
         onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
       >
-        {/* Illustration area */}
-        <div style={{
-          height: 140, background: '#faf7f0', borderBottom: '1px solid #ece5d6',
-          backgroundImage: DOT_BG, backgroundSize: '18px 18px',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 52,
-        }}>
-          {app.emoji}
-        </div>
+        {illo && (
+          <CardIllustration
+            src={illo}
+            alt={`${app.title} illustration`}
+            height={140}
+            dark={isComingSoon}
+          />
+        )}
 
         <div style={{ padding: '20px 22px 22px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
@@ -77,37 +79,30 @@ export default function AppsPage() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      {/* Header */}
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '52px 28px 44px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, letterSpacing: '0.08em', color: ACCENT, marginBottom: 16 }}>
-            FLAGSHIP APPLICATIONS
-          </div>
-          <h1 style={{ fontSize: 46, letterSpacing: '-0.03em', fontWeight: 600, lineHeight: 1.06, margin: 0 }}>
-            Apps
-          </h1>
-          <p style={{ fontSize: 16, color: '#56524a', marginTop: 14, maxWidth: 540, lineHeight: 1.6 }}>
-            Interactive tools built on Aether models. Run them in-browser, fork and self-host, or embed via the REST API.
-          </p>
-
-          <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
-            <button style={{
-              fontFamily: 'inherit', fontSize: 14, padding: '10px 20px', borderRadius: 10,
-              border: 'none', background: ACCENT, color: '#fff', fontWeight: 500, cursor: 'pointer',
-            }}>
-              Submit your app →
-            </button>
-            <button style={{
-              fontFamily: 'inherit', fontSize: 14, padding: '10px 20px', borderRadius: 10,
-              border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500, cursor: 'pointer',
-            }}>
-              View API docs
-            </button>
-          </div>
+      <PageHero
+        eyebrow="FLAGSHIP APPLICATIONS"
+        title="Apps"
+        description="Interactive tools built on Aether models. Run them in-browser, fork and self-host, or embed via the REST API."
+        illustration={PAGE_ILLUSTRATIONS.apps}
+        illustrationAlt="Apps illustration"
+      >
+        <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+          <button style={{
+            fontFamily: 'inherit', fontSize: 14, padding: '10px 20px', borderRadius: 10,
+            border: 'none', background: ACCENT, color: '#fff', fontWeight: 500, cursor: 'pointer',
+          }}>
+            Submit your app →
+          </button>
+          <Link to="/docs" style={{
+            fontFamily: 'inherit', fontSize: 14, padding: '10px 20px', borderRadius: 10,
+            border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500,
+            textDecoration: 'none', display: 'inline-block',
+          }}>
+            View API docs
+          </Link>
         </div>
-      </div>
+      </PageHero>
 
-      {/* Apps grid */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 64px' }}>
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>

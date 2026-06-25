@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchApp, STATUS_COLORS } from '../api/apps'
+import { APP_ILLUSTRATIONS } from '../lib/illustrations'
 import { fetchRelatedModels } from '../api/models'
 import { fetchRelatedDatasets } from '../api/datasets'
 import CodeBlock from '../components/CodeBlock'
@@ -234,11 +235,22 @@ export default function AppDetailPage() {
             <div style={{ flex: 1 }}>
               {/* Emoji + chips row */}
               <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 16, flexWrap: 'wrap' }}>
-                <div style={{
-                  width: 52, height: 52, borderRadius: 14, background: '#fff',
-                  border: '1px solid #e7e0d2', display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', fontSize: 28, flexShrink: 0,
-                }}>{emoji}</div>
+                {APP_ILLUSTRATIONS[appId] ? (
+                  <img
+                    src={APP_ILLUSTRATIONS[appId]}
+                    alt={`${title} illustration`}
+                    style={{
+                      width: 52, height: 52, borderRadius: 14, objectFit: 'cover',
+                      border: '1px solid #e7e0d2', flexShrink: 0,
+                    }}
+                  />
+                ) : (
+                  <div style={{
+                    width: 52, height: 52, borderRadius: 14, background: '#fff',
+                    border: '1px solid #e7e0d2', display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', fontSize: 28, flexShrink: 0,
+                  }}>{emoji}</div>
+                )}
                 <StatusBadge status={status} />
                 {tags.map(t => (
                   <span key={t} style={{
@@ -271,30 +283,41 @@ export default function AppDetailPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 160 }}>
               {isComingSoon ? (
                 <>
-                  <button style={{
-                    fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
-                    border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
-                  }}>
+                  <Link
+                    to="/docs"
+                    style={{
+                      display: 'block', fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                      border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500,
+                      textDecoration: 'none', textAlign: 'center',
+                    }}
+                  >
                     Join waitlist →
-                  </button>
+                  </Link>
                   <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a', textAlign: 'center' }}>
                     Expected {changelog[0]?.date}
                   </div>
                 </>
               ) : (
                 <>
-                  <button style={{
-                    fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
-                    border: 'none', background: ACCENT, color: '#fff', fontWeight: 500, cursor: 'pointer',
-                  }}>
+                  <button
+                    onClick={() => document.getElementById('app-preview')?.scrollIntoView({ behavior: 'smooth' })}
+                    style={{
+                      fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                      border: 'none', background: ACCENT, color: '#fff', fontWeight: 500, cursor: 'pointer',
+                    }}
+                  >
                     Launch app →
                   </button>
-                  <button style={{
-                    fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
-                    border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500, cursor: 'pointer',
-                  }}>
+                  <Link
+                    to="/docs"
+                    style={{
+                      display: 'block', fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                      border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500,
+                      textDecoration: 'none', textAlign: 'center',
+                    }}
+                  >
                     Embed / API
-                  </button>
+                  </Link>
                 </>
               )}
             </div>
@@ -309,26 +332,45 @@ export default function AppDetailPage() {
         <div style={{ flex: 1, minWidth: 0 }}>
 
           {/* App preview area */}
-          <div style={{ marginBottom: 32 }}>
+          <div id="app-preview" style={{ marginBottom: 32 }}>
             <div style={{
-              height: 220, borderRadius: 14, overflow: 'hidden', border: '1px solid #e7e0d2',
+              borderRadius: 14, overflow: 'hidden', border: '1px solid #e7e0d2',
               background: '#faf7f0',
-              backgroundImage: DOT_BG, backgroundSize: '18px 18px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexDirection: 'column', gap: 12,
             }}>
-              <span style={{ fontSize: 64 }}>{emoji}</span>
-              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#b0a99a' }}>
-                {isComingSoon ? 'Preview available at launch' : `${title} — interactive preview`}
-              </div>
-              {!isComingSoon && (
-                <button style={{
-                  fontFamily: 'inherit', fontSize: 13, padding: '9px 18px', borderRadius: 9,
-                  border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
+              {APP_ILLUSTRATIONS[appId] ? (
+                <img
+                  src={APP_ILLUSTRATIONS[appId]}
+                  alt={`${title} preview`}
+                  style={{ width: '100%', display: 'block' }}
+                />
+              ) : (
+                <div style={{
+                  height: 220, backgroundImage: DOT_BG, backgroundSize: '18px 18px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexDirection: 'column', gap: 12,
                 }}>
-                  Open full app →
-                </button>
+                  <span style={{ fontSize: 64 }}>{emoji}</span>
+                </div>
               )}
+              <div style={{
+                padding: '14px 18px', borderTop: '1px solid #ece5d6',
+                fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#b0a99a',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              }}>
+                <span>{isComingSoon ? 'Preview available at launch' : `${title} — interactive preview`}</span>
+              {!isComingSoon && (
+                <Link
+                  to="/docs"
+                  style={{
+                    fontFamily: 'inherit', fontSize: 13, padding: '9px 18px', borderRadius: 9,
+                    border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500,
+                    textDecoration: 'none', cursor: 'pointer',
+                  }}
+                >
+                  Open full app →
+                </Link>
+              )}
+              </div>
             </div>
           </div>
 

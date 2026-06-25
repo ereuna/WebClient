@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PAGE_ILLUSTRATIONS } from "../lib/illustrations";
 
 const MODELS = [
   { id: "bert-sentiment-v2", label: "bert-sentiment-v2", type: "text", category: "Text Classification" },
@@ -91,25 +92,22 @@ export default function InferenceStudioPage() {
           color: "#fff",
         }}
       >
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-            <div
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 8,
-                background: "#cf5a2a",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 18,
-              }}
-            >
-              ▶
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: 8, background: "#cf5a2a",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
+              }}>▶</div>
+              <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700, letterSpacing: "-0.5px" }}>Inference Studio</h1>
             </div>
-            <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700, letterSpacing: "-0.5px" }}>Inference Studio</h1>
+            <p style={{ margin: 0, color: "#a09890", fontSize: 15 }}>Interactive model playground — run live inference on deployed models</p>
           </div>
-          <p style={{ margin: 0, color: "#a09890", fontSize: 15 }}>Interactive model playground — run live inference on deployed models</p>
+          <img
+            src={PAGE_ILLUSTRATIONS.inference}
+            alt="Inference studio illustration"
+            style={{ width: "100%", borderRadius: 12, display: "block", opacity: 0.95 }}
+          />
         </div>
       </div>
 

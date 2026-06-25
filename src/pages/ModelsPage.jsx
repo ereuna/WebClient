@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchAllModels, FAMILY_COLORS } from '../api/models'
+import PageHero from '../components/PageHero'
+import { CardIllustration } from '../components/CardIllustration'
+import { FAMILY_ILLUSTRATIONS, PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
-const DOT_BG = 'radial-gradient(#e7e0d1 1px,transparent 1px)'
 
 const FAMILIES = ['All', 'PINN', 'GNN / NNP', 'Grid RL', 'Forecasting', 'Generative']
 const LICENSES = ['All licenses', 'Apache-2.0', 'MIT', 'CC BY 4.0', 'Restricted']
@@ -18,6 +20,7 @@ function FamilyDot({ family }) {
 }
 
 function ModelCard({ model }) {
+  const illo = FAMILY_ILLUSTRATIONS[model.family]
   return (
     <Link to={`/models/${model.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
@@ -28,11 +31,7 @@ function ModelCard({ model }) {
         onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'}
         onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
       >
-        <div style={{
-          height: 10, background: '#faf7f0',
-          backgroundImage: DOT_BG, backgroundSize: '14px 14px',
-          borderBottom: '1px solid #ece5d6',
-        }} />
+        {illo && <CardIllustration src={illo} alt={`${model.family} illustration`} height={140} />}
         <div style={{ padding: '18px 20px 20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
@@ -87,20 +86,13 @@ export default function ModelsPage() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      {/* Page header */}
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '52px 28px 44px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, letterSpacing: '0.08em', color: ACCENT, marginBottom: 16 }}>
-            THE MODEL ZOO
-          </div>
-          <h1 style={{ fontSize: 46, letterSpacing: '-0.03em', fontWeight: 600, lineHeight: 1.06, margin: 0 }}>
-            Models
-          </h1>
-          <p style={{ fontSize: 16, color: '#56524a', marginTop: 14, maxWidth: 540, lineHeight: 1.6 }}>
-            Physics-informed models across geothermal, nuclear, wind, solar, hydro and grid — all passing the physics constraint checker.
-          </p>
-
-          {/* Filter bar */}
+      <PageHero
+        eyebrow="THE MODEL ZOO"
+        title="Models"
+        description="Physics-informed models across geothermal, nuclear, wind, solar, hydro and grid — all passing the physics constraint checker."
+        illustration={PAGE_ILLUSTRATIONS.models}
+        illustrationAlt="Model zoo illustration"
+      >
           <div style={{ display: 'flex', gap: 10, marginTop: 28, flexWrap: 'wrap', alignItems: 'center' }}>
             <input
               value={query}
@@ -141,8 +133,7 @@ export default function ModelsPage() {
               </button>
             ))}
           </div>
-        </div>
-      </div>
+      </PageHero>
 
       {/* Model grid */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 64px' }}>

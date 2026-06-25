@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchAllPipelines } from '../api/pipelines'
+import PageHero from '../components/PageHero'
+import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
@@ -166,62 +168,22 @@ export default function PipelinesPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f1ede4' }}>
-      <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
-        padding: '52px 28px 44px',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20 }}>
-            <div>
-              <div style={{
-                fontFamily: "'Space Mono',monospace",
-                fontSize: 11,
-                letterSpacing: '0.08em',
-                color: ACCENT,
-                marginBottom: 16,
-              }}>
-                WORKFLOWS
-              </div>
-              <h1 style={{
-                fontSize: 46,
-                letterSpacing: '-0.03em',
-                fontWeight: 600,
-                lineHeight: 1.06,
-                margin: 0,
-                color: DARK,
-              }}>
-                Pipelines
-              </h1>
-              <p style={{ fontSize: 16, color: MEDIUM, marginTop: 14, maxWidth: 540, lineHeight: 1.6 }}>
-                Automate your ML workflows with scheduled DAG pipelines.
-              </p>
-            </div>
-            <div style={{ flexShrink: 0, paddingTop: 8 }}>
-              <button style={{
-                fontFamily: 'inherit',
-                fontSize: 14,
-                fontWeight: 600,
-                padding: '10px 20px',
-                borderRadius: 9,
-                border: 'none',
-                background: ACCENT,
-                color: '#fff',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                whiteSpace: 'nowrap',
-              }}
-                onMouseEnter={e => e.currentTarget.style.background = '#b84e24'}
-                onMouseLeave={e => e.currentTarget.style.background = ACCENT}
-              >
-                + New Pipeline
-              </button>
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', gap: 10, marginTop: 32, flexWrap: 'wrap', alignItems: 'center' }}>
+      <PageHero
+        eyebrow="WORKFLOWS"
+        title="Pipelines"
+        description="Automate your ML workflows with scheduled DAG pipelines."
+        illustration={PAGE_ILLUSTRATIONS.pipelines}
+        illustrationAlt="Pipelines illustration"
+      >
+        <div style={{ display: 'flex', gap: 12, marginTop: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+          <button style={{
+            fontFamily: 'inherit', fontSize: 14, fontWeight: 600, padding: '10px 20px',
+            borderRadius: 9, border: 'none', background: ACCENT, color: '#fff', cursor: 'pointer',
+          }}>
+            + New Pipeline
+          </button>
+        </div>
+        <div style={{ display: 'flex', gap: 10, marginTop: 20, flexWrap: 'wrap', alignItems: 'center' }}>
             <input
               value={query}
               onChange={e => setQuery(e.target.value)}
@@ -260,9 +222,8 @@ export default function PipelinesPage() {
                 </button>
               ))}
             </div>
-          </div>
         </div>
-      </div>
+      </PageHero>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 64px' }}>
         <div style={{

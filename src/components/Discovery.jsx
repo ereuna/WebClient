@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const ACCENT = '#cf5a2a'
 
 export default function Discovery() {
@@ -37,9 +39,11 @@ export default function Discovery() {
               }}>{label}</span>
             ))}
           </div>
-          <div style={{ marginTop: 24, fontWeight: 500, fontSize: 14, color: '#f1ede4', borderBottom: `1.5px solid ${ACCENT}`, display: 'inline-block', paddingBottom: 2, cursor: 'pointer' }}>
-            Open the studio →
-          </div>
+          <Link to="/apps/matexplorer" style={{ textDecoration: 'none' }}>
+            <div style={{ marginTop: 24, fontWeight: 500, fontSize: 14, color: '#f1ede4', borderBottom: `1.5px solid ${ACCENT}`, display: 'inline-block', paddingBottom: 2, cursor: 'pointer' }}>
+              Open the studio →
+            </div>
+          </Link>
         </div>
         <div style={{ position: 'relative' }}>
           <img

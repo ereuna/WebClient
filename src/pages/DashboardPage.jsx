@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import PageHero from '../components/PageHero'
+import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
@@ -182,26 +184,13 @@ function ResourceTabs() {
 export default function DashboardPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
-      <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
-        padding: '40px 28px 36px',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{
-            fontFamily: MONO, fontSize: 10, letterSpacing: '0.08em',
-            color: MUTED, marginBottom: 10, textTransform: 'uppercase',
-          }}>
-            {TODAY}
-          </div>
-          <h1 style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-0.03em', color: DARK, margin: 0, lineHeight: 1.1 }}>
-            Dashboard
-          </h1>
-          <div style={{ fontSize: 15, color: MEDIUM, marginTop: 6 }}>
-            Good morning, TomiTsuma
-          </div>
-        </div>
-      </div>
+      <PageHero
+        eyebrow={TODAY}
+        title="Dashboard"
+        description="Good morning, TomiTsuma"
+        illustration={PAGE_ILLUSTRATIONS.dashboard}
+        illustrationAlt="Dashboard illustration"
+      />
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 80px' }}>
 

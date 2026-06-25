@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchDataset, fetchRelatedDatasets, DOMAIN_COLORS } from '../api/datasets'
+import { DOMAIN_ILLUSTRATIONS } from '../lib/illustrations'
 import { fetchRelatedModels } from '../api/models'
 import CodeBlock from '../components/CodeBlock'
 import StarButton from '../components/StarButton'
@@ -303,18 +304,33 @@ export default function DatasetDetailPage() {
               </div>
             </div>
 
-            {/* CTA */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 160 }}>
-              <button style={{
-                fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
-                border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
-              }}>
+            {/* CTA + illustration */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 200, maxWidth: 280 }}>
+              {DOMAIN_ILLUSTRATIONS[domain] && (
+                <img
+                  src={DOMAIN_ILLUSTRATIONS[domain]}
+                  alt={`${domain} illustration`}
+                  style={{ width: '100%', borderRadius: 12, display: 'block' }}
+                />
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <Link
+                to="/docs"
+                style={{
+                  display: 'block', fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                  border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500,
+                  textDecoration: 'none', textAlign: 'center',
+                }}
+              >
                 Download ↓
-              </button>
-              <button style={{
-                fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
-                border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500, cursor: 'pointer',
-              }}>
+              </Link>
+              <button
+                onClick={() => document.getElementById('usage-section')?.scrollIntoView({ behavior: 'smooth' })}
+                style={{
+                  fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                  border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500, cursor: 'pointer',
+                }}
+              >
                 Query via API
               </button>
               {(user || authenticated) && dataset?._repoId && (
@@ -329,6 +345,7 @@ export default function DatasetDetailPage() {
                   Upload files ↑
                 </Link>
               )}
+              </div>
             </div>
           </div>
         </div>
@@ -394,9 +411,11 @@ export default function DatasetDetailPage() {
 
           {/* Code */}
           {Object.keys(codeSnippet).length > 0 && (
-            <SectionCard label="Usage">
-              <CodeBlock tabs={codeSnippet} />
-            </SectionCard>
+            <div id="usage-section">
+              <SectionCard label="Usage">
+                <CodeBlock tabs={codeSnippet} />
+              </SectionCard>
+            </div>
           )}
         </div>
 

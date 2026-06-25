@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+import { CardIllustration } from './CardIllustration'
+
 const ACCENT = '#cf5a2a'
 
 const cards = [
@@ -38,21 +41,6 @@ const cards = [
   },
 ]
 
-function CardIllustration({ src, alt }) {
-  return (
-    <div style={{
-      height: 158, background: '#faf7f0', borderBottom: '1px solid #ece5d6',
-      overflow: 'hidden',
-    }}>
-      <img
-        src={src}
-        alt={alt}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-      />
-    </div>
-  )
-}
-
 export default function ModelZoo() {
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '64px 28px 20px' }}>
@@ -77,14 +65,20 @@ export default function ModelZoo() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
         {cards.map(({ title, desc, tags, illo, illoAlt }) => (
-          <div key={title} style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 16, overflow: 'hidden' }}>
-            <CardIllustration src={illo} alt={illoAlt} />
-            <div style={{ padding: '20px 22px 22px' }}>
-              <div style={{ fontSize: 18, fontWeight: 600 }}>{title}</div>
-              <div style={{ fontSize: 13.5, color: '#56524a', lineHeight: 1.55, marginTop: 7 }}>{desc}</div>
-              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a', marginTop: 12 }}>{tags}</div>
+          <Link key={title} to="/models" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div
+              style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 16, overflow: 'hidden', height: '100%' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+            >
+              <CardIllustration src={illo} alt={illoAlt} />
+              <div style={{ padding: '20px 22px 22px' }}>
+                <div style={{ fontSize: 18, fontWeight: 600 }}>{title}</div>
+                <div style={{ fontSize: 13.5, color: '#56524a', lineHeight: 1.55, marginTop: 7 }}>{desc}</div>
+                <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a', marginTop: 12 }}>{tags}</div>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
 
         <div style={{ background: '#1b1a17', color: '#f1ede4', borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -99,7 +93,9 @@ export default function ModelZoo() {
               Guided model-card flow with an automated physics check. Apache-2.0, MIT or restricted — your call.
             </div>
             <div style={{ flex: 1 }} />
-            <div style={{ marginTop: 14, fontWeight: 500, fontSize: 14, color: ACCENT, cursor: 'pointer' }}>Contribute →</div>
+            <Link to="/docs" style={{ textDecoration: 'none' }}>
+              <div style={{ marginTop: 14, fontWeight: 500, fontSize: 14, color: ACCENT, cursor: 'pointer' }}>Contribute →</div>
+            </Link>
           </div>
         </div>
       </div>

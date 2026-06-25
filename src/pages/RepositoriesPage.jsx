@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import PageHero from '../components/PageHero'
+import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
@@ -198,37 +200,13 @@ export default function RepositoriesPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f1ede4' }}>
-      <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
-        padding: '52px 28px 44px',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{
-            fontFamily: "'Space Mono',monospace",
-            fontSize: 11,
-            letterSpacing: '0.08em',
-            color: ACCENT,
-            marginBottom: 16,
-            textTransform: 'uppercase',
-          }}>
-            Aether ML Platform
-          </div>
-          <h1 style={{
-            fontSize: 46,
-            fontWeight: 700,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.05,
-            color: DARK,
-            margin: '0 0 12px',
-          }}>
-            Repositories
-          </h1>
-          <p style={{ fontSize: 16, color: MEDIUM, margin: 0, lineHeight: 1.55 }}>
-            {MOCK_REPOS.length} repositories — models, datasets, and utilities from the Aether community.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        eyebrow="AETHER ML PLATFORM"
+        title="Repositories"
+        description={`${MOCK_REPOS.length} repositories — models, datasets, and utilities from the Aether community.`}
+        illustration={PAGE_ILLUSTRATIONS.repositories}
+        illustrationAlt="Repositories illustration"
+      />
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '28px 28px 80px' }}>
         <div style={{

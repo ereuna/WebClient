@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom'
+
 const ACCENT = '#cf5a2a'
 
-function AppRow({ tag, title, desc, bullets, illoSrc, illoAlt, illoLeft }) {
+function AppRow({ tag, title, desc, bullets, illoSrc, illoAlt, illoLeft, linkTo }) {
   const illo = (
     <img
       src={illoSrc}
@@ -21,7 +23,9 @@ function AppRow({ tag, title, desc, bullets, illoSrc, illoAlt, illoLeft }) {
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 20, fontWeight: 500, fontSize: 14, color: '#1b1a17', borderBottom: `1.5px solid ${ACCENT}`, display: 'inline-block', paddingBottom: 2, cursor: 'pointer' }}>Launch app →</div>
+      <Link to={linkTo} style={{ textDecoration: 'none' }}>
+        <div style={{ marginTop: 20, fontWeight: 500, fontSize: 14, color: '#1b1a17', borderBottom: `1.5px solid ${ACCENT}`, display: 'inline-block', paddingBottom: 2, cursor: 'pointer' }}>Launch app →</div>
+      </Link>
     </div>
   )
   return (
@@ -43,7 +47,7 @@ export default function FlagshipApps() {
       </div>
 
       <AppRow
-        tag="/apps/geothermal"
+        tag="/apps/geosight"
         title="Geothermal Field Intelligence"
         desc="A live reservoir thermal map from the inverse PINN, inferred k(x), and plain-language anomaly alerts before they become production losses."
         bullets={[
@@ -53,10 +57,11 @@ export default function FlagshipApps() {
         ]}
         illoSrc="/illustrations/05-geothermal-reservoir-slab.png"
         illoAlt="Geothermal reservoir slab"
+        linkTo="/apps/geosight"
       />
 
       <AppRow
-        tag="/apps/nuclear"
+        tag="/apps/nucleval"
         title="Nuclear Materials Safety Monitor"
         desc="A vessel cross-section degradation heatmap from the materials GNN, 180-day property forecasts against hard safety limits, and inspection recommendations that write to your CMMS."
         bullets={[
@@ -67,10 +72,11 @@ export default function FlagshipApps() {
         illoSrc="/illustrations/06-nuclear-vessel-monitor.png"
         illoAlt="Nuclear vessel monitor"
         illoLeft
+        linkTo="/apps/nucleval"
       />
 
       <AppRow
-        tag="/apps/grid"
+        tag="/apps/gridlens"
         title="National Grid Dispatch Optimiser"
         desc="A 72-hour RL dispatch schedule that couples PINN reservoir-health signals into the reward — the unique geothermal-to-grid integration — with plain-language recommendations and a scenario simulator."
         bullets={[
@@ -80,6 +86,7 @@ export default function FlagshipApps() {
         ]}
         illoSrc="/illustrations/07-grid-dispatch-convergence.png"
         illoAlt="Grid dispatch convergence"
+        linkTo="/apps/gridlens"
       />
     </div>
   )

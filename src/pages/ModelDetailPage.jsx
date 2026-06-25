@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchModel, fetchRelatedModels, FAMILY_COLORS } from '../api/models'
+import { FAMILY_ILLUSTRATIONS } from '../lib/illustrations'
 import MetricCard from '../components/MetricCard'
 import CodeBlock from '../components/CodeBlock'
 import StarButton from '../components/StarButton'
@@ -228,21 +229,36 @@ export default function ModelDetailPage() {
               </div>
             </div>
 
-            {/* CTA */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 160 }}>
-              <button style={{
-                fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
-                border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
-                whiteSpace: 'nowrap',
-              }}>
+            {/* CTA + illustration */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 200, maxWidth: 280 }}>
+              {FAMILY_ILLUSTRATIONS[family] && (
+                <img
+                  src={FAMILY_ILLUSTRATIONS[family]}
+                  alt={`${family} illustration`}
+                  style={{ width: '100%', borderRadius: 12, display: 'block' }}
+                />
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <button
+                onClick={() => document.getElementById('usage-section')?.scrollIntoView({ behavior: 'smooth' })}
+                style={{
+                  fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                  border: 'none', background: '#1b1a17', color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 Use via API →
               </button>
-              <button style={{
-                fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
-                border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500, cursor: 'pointer',
-              }}>
+              <Link
+                to="/docs"
+                style={{
+                  display: 'block', fontFamily: 'inherit', fontSize: 14, padding: '11px 20px', borderRadius: 10,
+                  border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500,
+                  textDecoration: 'none', textAlign: 'center',
+                }}
+              >
                 Download ↓
-              </button>
+              </Link>
               {(user || authenticated) && model?._repoId && (
                 <Link
                   to={`/models/${modelId}/upload`}
@@ -255,6 +271,7 @@ export default function ModelDetailPage() {
                   Upload files ↑
                 </Link>
               )}
+              </div>
             </div>
           </div>
 
@@ -314,9 +331,11 @@ export default function ModelDetailPage() {
 
           {/* Usage */}
           {Object.keys(codeSnippet).length > 0 && (
-            <SectionCard label="Usage">
-              <CodeBlock tabs={codeSnippet} />
-            </SectionCard>
+            <div id="usage-section">
+              <SectionCard label="Usage">
+                <CodeBlock tabs={codeSnippet} />
+              </SectionCard>
+            </div>
           )}
 
           {/* Model card */}

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchAllBenchmarks, SUITE_COLORS } from '../api/benchmarks'
+import PageHero from '../components/PageHero'
+import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
 const FAMILY_COLORS = {
@@ -76,19 +78,13 @@ export default function BenchmarksPage() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      {/* Header */}
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '52px 28px 44px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, letterSpacing: '0.08em', color: ACCENT, marginBottom: 16 }}>
-            EVALUATION & LEADERBOARDS
-          </div>
-          <h1 style={{ fontSize: 46, letterSpacing: '-0.03em', fontWeight: 600, lineHeight: 1.06, margin: 0 }}>
-            Benchmarks
-          </h1>
-          <p style={{ fontSize: 16, color: '#56524a', marginTop: 14, maxWidth: 540, lineHeight: 1.6 }}>
-            Standardised benchmark suites for physics-informed energy ML. Every model that appears on Aether reports scores here.
-          </p>
-
+      <PageHero
+        eyebrow="EVALUATION & LEADERBOARDS"
+        title="Benchmarks"
+        description="Standardised benchmark suites for physics-informed energy ML. Every model that appears on Aether reports scores here."
+        illustration={PAGE_ILLUSTRATIONS.benchmarks}
+        illustrationAlt="Benchmarks illustration"
+      >
           <div style={{ display: 'flex', gap: 8, marginTop: 28, flexWrap: 'wrap' }}>
             {SUITES.map(s => (
               <button
@@ -106,8 +102,7 @@ export default function BenchmarksPage() {
               </button>
             ))}
           </div>
-        </div>
-      </div>
+      </PageHero>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 64px' }}>
         {/* Overall leaderboard — shown only on "All" */}

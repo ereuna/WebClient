@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const ACCENT = '#cf5a2a'
 export default function CTA() {
   return (
@@ -9,14 +11,20 @@ export default function CTA() {
         Make every energy model reusable by the next person who needs it.
       </h2>
       <div style={{ display: 'flex', gap: 13, justifyContent: 'center', marginTop: 28, flexWrap: 'wrap' }}>
-        <button style={{
-          background: ACCENT, color: '#fff', fontWeight: 500, fontSize: 15,
-          padding: '14px 24px', borderRadius: 11, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
-        }}>Browse the model zoo →</button>
-        <button style={{
-          background: '#fff', border: '1.4px solid #d8d1c2', color: '#1b1a17', fontWeight: 500,
-          fontSize: 15, padding: '14px 24px', borderRadius: 11, cursor: 'pointer', fontFamily: 'inherit',
-        }}>Read the docs</button>
+        <Link to="/models" style={{ textDecoration: 'none' }}>
+          <span style={{
+            background: ACCENT, color: '#fff', fontWeight: 500, fontSize: 15,
+            padding: '14px 24px', borderRadius: 11, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+            display: 'inline-block',
+          }}>Browse the model zoo →</span>
+        </Link>
+        <Link to="/docs" style={{ textDecoration: 'none' }}>
+          <span style={{
+            background: '#fff', border: '1.4px solid #d8d1c2', color: '#1b1a17', fontWeight: 500,
+            fontSize: 15, padding: '14px 24px', borderRadius: 11, cursor: 'pointer', fontFamily: 'inherit',
+            display: 'inline-block',
+          }}>Read the docs</span>
+        </Link>
       </div>
       <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', marginTop: 18 }}>
         pip install aether-hub

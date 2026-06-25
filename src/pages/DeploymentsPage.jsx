@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchAllDeployments } from '../api/deployments'
+import PageHero from '../components/PageHero'
+import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
@@ -215,52 +217,27 @@ export default function DeploymentsPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
-      <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
-        padding: '52px 28px 44px',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
-            <div>
-              <div style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 11,
-                letterSpacing: '0.08em', color: ACCENT, marginBottom: 16,
-              }}>
-                DEPLOYMENTS
-              </div>
-              <h1 style={{ fontSize: 46, letterSpacing: '-0.03em', fontWeight: 600, lineHeight: 1.06, margin: 0, color: DARK }}>
-                Deployments
-              </h1>
-              <p style={{ fontSize: 16, color: MEDIUM, marginTop: 14, maxWidth: 520, lineHeight: 1.6 }}>
-                Monitor and scale your production model endpoints.
-              </p>
-            </div>
-
-            <div style={{ paddingTop: 8 }}>
-              <button
-                style={{
-                  fontFamily: 'inherit', fontSize: 14, fontWeight: 500,
-                  padding: '11px 20px', borderRadius: 10,
-                  border: 'none', background: DARK, color: '#f1ede4',
-                  cursor: 'pointer', whiteSpace: 'nowrap',
-                  transition: 'opacity .15s',
-                }}
-                onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-              >
-                + New Deployment
-              </button>
-            </div>
+      <PageHero
+        eyebrow="DEPLOYMENTS"
+        title="Deployments"
+        description="Monitor and scale your production model endpoints."
+        illustration={PAGE_ILLUSTRATIONS.deployments}
+        illustrationAlt="Deployments illustration"
+      >
+        <div style={{ marginTop: 24 }}>
+          <button style={{
+            fontFamily: 'inherit', fontSize: 14, fontWeight: 500, padding: '11px 20px',
+            borderRadius: 10, border: 'none', background: DARK, color: '#f1ede4', cursor: 'pointer',
+          }}>
+            + New Deployment
+          </button>
+        </div>
+        {!loading && allDeployments.length > 0 && (
+          <div style={{ marginTop: 20 }}>
+            <SummaryBar deployments={allDeployments} />
           </div>
-
-          {!loading && allDeployments.length > 0 && (
-            <div style={{ marginTop: 28 }}>
-              <SummaryBar deployments={allDeployments} />
-            </div>
-          )}
-
-          <div style={{ display: 'flex', gap: 8, marginTop: 24, flexWrap: 'wrap' }}>
+        )}
+        <div style={{ display: 'flex', gap: 8, marginTop: 20, flexWrap: 'wrap' }}>
             {STATUS_LABELS.map(label => {
               const isActive = activeFilter === label
               return (
@@ -280,9 +257,8 @@ export default function DeploymentsPage() {
                 </button>
               )
             })}
-          </div>
         </div>
-      </div>
+      </PageHero>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 80px' }}>
         <div style={{
