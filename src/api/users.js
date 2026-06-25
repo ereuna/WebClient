@@ -1,57 +1,49 @@
-const mockUsers = [
-  {
-    username: 'TomiTsuma',
-    fullName: 'Tomi Tsuma',
-    bio: 'ML engineer building open-source tools for the Aether platform. Focused on NLP and multilingual models.',
-    location: 'Nairobi, Kenya',
-    joinedAt: '2025-06-15T00:00:00Z',
-    followers: 142,
-    following: 58,
-    models: [
-      { id: 'model-010', name: 'whisper-swahili', description: 'Whisper fine-tuned on Swahili audio data.' },
-      { id: 'model-011', name: 'bert-multilingual-ner', description: 'Named entity recognition for African languages.' },
-    ],
-    datasets: [
-      { id: 'ds-010', name: 'swahili-speech-corpus', description: '50h of labeled Swahili speech recordings.' },
-    ],
-    repositories: [
-      { id: 'repo-010', name: 'aether-trainer', description: 'Lightweight training loop library for Aether.' },
-    ],
-  },
-  {
-    username: 'aether-ai',
-    fullName: 'Aether AI',
-    bio: 'Official Aether AI organization account. Maintains platform models and example projects.',
-    location: 'San Francisco, CA',
-    joinedAt: '2025-06-01T00:00:00Z',
-    followers: 3410,
-    following: 12,
-    models: [
-      { id: 'model-001', name: 'bert-sentiment-v2', description: 'Fine-tuned BERT for sentiment analysis.' },
-      { id: 'model-002', name: 'vit-imagenet', description: 'Vision Transformer trained on ImageNet.' },
-    ],
-    datasets: [
-      { id: 'ds-001', name: 'multilingual-sentiment-corpus', description: 'Multilingual sentiment labels across 12 languages.' },
-    ],
-    repositories: [],
-  },
-]
+/**
+ * Public user profiles via AuthService + user repos from RepositoryService.
+ */
+import { authApi } from './client.js'
+import { listRepositories } from './repositories.js'
 
-export function fetchUser(username) {
-  const user = mockUsers.find(u => u.username === username)
-  if (!user) {
-    return Promise.resolve({
-      username,
-      fullName: username,
-      bio: '',
-      location: '',
-      joinedAt: new Date().toISOString(),
+export async function fetchUser(username) {
+  try {
+    const profile = await authApi.get(`/users/${username}`)
+    let models = []
+    let datasets = []
+    let repositories = []
+    try {
+      const repos = await listRepositories({ limit: 200 })
+      const userRepos = (repos || []).filter(
+        r => (r.metadata?.owner_slug || '').toLowerCase() === username.toLowerCase(),
+      )
+      models = userRepos
+        .filter(r => r.repo_type === 'MODEL')
+        .map(r => ({ id: r.slug, name: r.slug, description: r.description || '' }))
+      datasets = userRepos
+        .filter(r => r.repo_type === 'DATASET')
+        .map(r => ({ id: r.slug, name: r.slug, description: r.description || '' }))
+      repositories = userRepos.map(r => ({
+        id: r.id,
+        name: r.slug,
+        description: r.description || '',
+        type: r.repo_type,
+      }))
+    } catch { /* ignore */ }
+
+    return {
+      username: profile.username,
+      fullName: profile.full_name || profile.username,
+      bio: profile.bio || '',
+      location: profile.location || '',
+      website: profile.website || '',
+      avatarUrl: profile.avatar_url,
+      joinedAt: profile.created_at,
       followers: 0,
       following: 0,
-      models: [],
-      datasets: [],
-      repositories: [],
-    })
+      models,
+      datasets,
+      repositories,
+    }
+  } catch {
+    throw new Error(`User not found: ${username}`)
   }
-  return Promise.resolve({ ...user })
 }

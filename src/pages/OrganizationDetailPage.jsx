@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { fetchOrganization } from '../api/organizations'
+import { fetchOrganization, fetchOrganizationMembers, fetchOrganizationTeams } from '../api/organizations'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
@@ -18,47 +18,13 @@ const PLAN_COLORS = {
 
 const TABS = ['Overview', 'Members', 'Teams', 'Usage', 'Billing', 'Audit Logs']
 
-const MOCK_MEMBERS = [
-  { id: 1, username: 'TomiTsuma', initials: 'TT', role: 'Owner', joined: 'Jun 1, 2025' },
-  { id: 2, username: 'aether-ai', initials: 'AA', role: 'Admin', joined: 'Jun 1, 2025' },
-  { id: 3, username: 'ml-researcher', initials: 'MR', role: 'Member', joined: 'Jul 14, 2025' },
-  { id: 4, username: 'data-eng', initials: 'DE', role: 'Member', joined: 'Aug 3, 2025' },
-  { id: 5, username: 'devops-lead', initials: 'DL', role: 'Admin', joined: 'Sep 20, 2025' },
-]
-
-const MOCK_TEAMS = [
-  { id: 1, name: 'ML Team', memberCount: 8, permissions: 'Read · Write · Deploy', color: '#cf5a2a' },
-  { id: 2, name: 'Data Team', memberCount: 5, permissions: 'Read · Write', color: '#4a7c59' },
-  { id: 3, name: 'DevOps', memberCount: 3, permissions: 'Read · Deploy · Admin', color: '#2a6bcf' },
-]
-
-const MOCK_ACTIVITY = [
-  { id: 1, text: 'aether-ai added model bert-v3', time: '2h ago', icon: '◈' },
-  { id: 2, text: 'TomiTsuma joined the team', time: '1d ago', icon: '◉' },
-  { id: 3, text: 'ml-researcher uploaded dataset wiki-corpus-v2', time: '2d ago', icon: '◈' },
-  { id: 4, text: 'devops-lead scaled deployment inference-endpoint-1', time: '3d ago', icon: '◎' },
-  { id: 5, text: 'data-eng created experiment fine-tune-run-42', time: '4d ago', icon: '◈' },
-]
-
-const MONTHLY_USAGE = [
-  { month: 'Jan', value: 55 },
-  { month: 'Feb', value: 70 },
-  { month: 'Mar', value: 62 },
-  { month: 'Apr', value: 88 },
-  { month: 'May', value: 95 },
-  { month: 'Jun', value: 78 },
-]
-
-const AUDIT_LOGS = [
-  { id: 1, ts: '2026-06-25 14:32', user: 'TomiTsuma', action: 'model.create', resource: 'bert-v3', ip: '192.168.1.4' },
-  { id: 2, ts: '2026-06-25 13:01', user: 'aether-ai', action: 'member.invite', resource: 'ml-researcher', ip: '10.0.0.2' },
-  { id: 3, ts: '2026-06-24 22:18', user: 'devops-lead', action: 'deployment.scale', resource: 'inference-endpoint-1', ip: '10.0.0.9' },
-  { id: 4, ts: '2026-06-24 17:55', user: 'data-eng', action: 'dataset.upload', resource: 'wiki-corpus-v2', ip: '172.16.0.5' },
-  { id: 5, ts: '2026-06-23 11:44', user: 'TomiTsuma', action: 'billing.update', resource: 'enterprise-plan', ip: '192.168.1.4' },
-  { id: 6, ts: '2026-06-23 09:30', user: 'aether-ai', action: 'team.create', resource: 'ML Team', ip: '10.0.0.2' },
-  { id: 7, ts: '2026-06-22 16:12', user: 'ml-researcher', action: 'model.delete', resource: 'gpt2-small-v1', ip: '172.16.0.11' },
-  { id: 8, ts: '2026-06-21 08:05', user: 'devops-lead', action: 'deployment.create', resource: 'inference-endpoint-2', ip: '10.0.0.9' },
-]
+function UnavailablePanel({ title }) {
+  return (
+    <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: '40px 28px', textAlign: 'center', color: MUTED }}>
+      {title} is not available yet.
+    </div>
+  )
+}
 
 const ROLE_COLORS = {
   Owner: { bg: '#cf5a2a18', color: ACCENT },
@@ -163,33 +129,20 @@ function OverviewTab({ org }) {
       <div style={{ display: 'flex', gap: 16, marginBottom: 32, flexWrap: 'wrap' }}>
         <StatCard label="Models" value={org.modelCount} sub={`${org.modelCount} total repositories`} />
         <StatCard label="Datasets" value={org.datasetCount} sub={`${org.datasetCount} total datasets`} />
-        <StatCard label="Storage Used" value="8.4 TB" sub="of unlimited storage" />
+        <StatCard label="Storage Used" value="—" sub="Usage API not available" />
       </div>
-      <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: '24px 28px' }}>
-        <SectionLabel>Recent Activity</SectionLabel>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-          {MOCK_ACTIVITY.map((item, i) => (
-            <div key={item.id} style={{
-              display: 'flex', alignItems: 'center', gap: 14,
-              padding: '13px 0',
-              borderBottom: i < MOCK_ACTIVITY.length - 1 ? ROW_BORDER : 'none',
-            }}>
-              <span style={{ fontSize: 16, color: ACCENT, flexShrink: 0 }}>{item.icon}</span>
-              <span style={{ fontSize: 14, color: DARK, flex: 1 }}>{item.text}</span>
-              <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, flexShrink: 0 }}>{item.time}</span>
-            </div>
-          ))}
-        </div>
+      <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: '24px 28px', color: MUTED, fontSize: 13 }}>
+        Activity feed will appear here when audit events are exposed via API.
       </div>
     </div>
   )
 }
 
-function MembersTab() {
+function MembersTab({ members = [] }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        <SectionLabel>Members ({MOCK_MEMBERS.length})</SectionLabel>
+        <SectionLabel>Members ({members.length})</SectionLabel>
         <button style={{
           fontFamily: 'inherit', fontSize: 13, padding: '9px 18px', borderRadius: 9,
           border: 'none', background: DARK, color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
@@ -211,16 +164,20 @@ function MembersTab() {
           <div>Joined</div>
           <div />
         </div>
-        {MOCK_MEMBERS.map((m, i) => {
-          const rc = ROLE_COLORS[m.role] || ROLE_COLORS.Member
+        {members.length === 0 ? (
+          <div style={{ padding: 24, color: MUTED, fontSize: 13 }}>No members found.</div>
+        ) : members.map((m, i) => {
+          const role = m.role?.charAt(0).toUpperCase() + m.role?.slice(1) || 'Member'
+          const rc = ROLE_COLORS[role] || ROLE_COLORS.Member
+          const initials = (m.username || 'U').slice(0, 2).toUpperCase()
           return (
             <div key={m.id} style={{
               display: 'grid', gridTemplateColumns: '48px 1fr 120px 140px 100px',
               padding: '14px 20px',
-              borderBottom: i < MOCK_MEMBERS.length - 1 ? ROW_BORDER : 'none',
+              borderBottom: i < members.length - 1 ? ROW_BORDER : 'none',
               gap: 16, alignItems: 'center',
             }}>
-              <InitialAvatar initials={m.initials} size={36} fontSize={13} color={ACCENT} />
+              <InitialAvatar initials={initials} size={36} fontSize={13} color={ACCENT} />
               <div style={{ fontSize: 14, fontWeight: 500, color: DARK }}>{m.username}</div>
               <div>
                 <span style={{
@@ -228,20 +185,13 @@ function MembersTab() {
                   background: rc.bg, color: rc.color,
                   fontFamily: "'Space Mono',monospace", fontSize: 10.5, fontWeight: 700,
                 }}>
-                  {m.role}
+                  {role}
                 </span>
               </div>
-              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11.5, color: MUTED }}>{m.joined}</div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {m.role !== 'Owner' && (
-                  <button style={{
-                    fontFamily: 'inherit', fontSize: 12, padding: '6px 12px', borderRadius: 7,
-                    border: '1px solid #e7e0d2', background: '#fff', color: '#c0392b', cursor: 'pointer',
-                  }}>
-                    Remove
-                  </button>
-                )}
+              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11.5, color: MUTED }}>
+                {m.joined ? new Date(m.joined).toLocaleDateString() : '—'}
               </div>
+              <div />
             </div>
           )
         })}
@@ -250,11 +200,11 @@ function MembersTab() {
   )
 }
 
-function TeamsTab() {
+function TeamsTab({ teams = [] }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        <SectionLabel>Teams ({MOCK_TEAMS.length})</SectionLabel>
+        <SectionLabel>Teams ({teams.length})</SectionLabel>
         <button style={{
           fontFamily: 'inherit', fontSize: 13, padding: '9px 18px', borderRadius: 9,
           border: 'none', background: DARK, color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
@@ -263,39 +213,26 @@ function TeamsTab() {
         </button>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {MOCK_TEAMS.map(team => (
+        {teams.length === 0 ? (
+          <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: 24, color: MUTED }}>No teams yet.</div>
+        ) : teams.map(team => (
           <div key={team.id} style={{
             background: '#fff', border: CARD_BORDER, borderRadius: 14,
             padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 20,
           }}>
             <div style={{
               width: 44, height: 44, borderRadius: 10,
-              background: team.color + '18', border: `1.5px solid ${team.color}30`,
+              background: ACCENT + '18', border: `1.5px solid ${ACCENT}30`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: "'Space Mono',monospace", fontSize: 16, fontWeight: 700, color: team.color,
+              fontFamily: "'Space Mono',monospace", fontSize: 16, fontWeight: 700, color: ACCENT,
               flexShrink: 0,
             }}>
-              {team.name[0]}
+              {team.name.slice(0, 1)}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 15, fontWeight: 600, color: DARK, marginBottom: 4 }}>{team.name}</div>
-              <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>
-                  {team.memberCount} members
-                </span>
-                <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#ccc', display: 'inline-block' }} />
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>
-                  {team.permissions}
-                </span>
-              </div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: DARK }}>{team.name}</div>
+              <div style={{ fontSize: 12.5, color: MUTED, marginTop: 4 }}>{team.description || team.permissions}</div>
             </div>
-            <button style={{
-              fontFamily: 'inherit', fontSize: 13, padding: '8px 16px', borderRadius: 8,
-              border: '1px solid #e7e0d2', background: '#fff', color: DARK, cursor: 'pointer',
-              fontWeight: 500,
-            }}>
-              Edit
-            </button>
           </div>
         ))}
       </div>
@@ -304,172 +241,19 @@ function TeamsTab() {
 }
 
 function UsageTab() {
-  const maxVal = Math.max(...MONTHLY_USAGE.map(d => d.value))
-  return (
-    <div>
-      <div style={{ display: 'flex', gap: 16, marginBottom: 32, flexWrap: 'wrap' }}>
-        <StatCard label="Compute Hours" value="1,240h" sub="this month" />
-        <StatCard label="Storage" value="8.4 TB" sub="total used" />
-        <StatCard label="Inference Calls" value="2.1M" sub="this month" />
-        <StatCard label="Active Deployments" value="5" sub="running now" />
-      </div>
-      <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: '24px 28px' }}>
-        <SectionLabel>Monthly Compute Usage</SectionLabel>
-        <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', height: 160, paddingBottom: 28, position: 'relative' }}>
-          {MONTHLY_USAGE.map(d => {
-            const barH = Math.round((d.value / maxVal) * 120)
-            return (
-              <div key={d.month} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                <div style={{ fontSize: 11, fontFamily: "'Space Mono',monospace", color: MUTED }}>{d.value}h</div>
-                <div
-                  style={{
-                    width: '100%', height: barH,
-                    background: `linear-gradient(180deg, ${ACCENT} 0%, ${ACCENT}88 100%)`,
-                    borderRadius: '6px 6px 3px 3px',
-                    transition: 'opacity .15s',
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
-                  onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                />
-                <div style={{ fontSize: 11, fontFamily: "'Space Mono',monospace", color: MUTED }}>{d.month}</div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function BillingTab({ plan }) {
-  const planDetails = {
-    enterprise: {
-      label: 'Enterprise',
-      price: '$999/mo',
-      features: ['Unlimited models', 'Unlimited datasets', 'Priority support', 'SLA guarantee', 'Custom integrations', 'Advanced audit logs'],
-    },
-    pro: {
-      label: 'Pro',
-      price: '$49/mo',
-      features: ['100 models', '50 datasets', 'Email support', 'Basic analytics'],
-    },
-    free: {
-      label: 'Free',
-      price: '$0/mo',
-      features: ['10 models', '5 datasets', 'Community support'],
-    },
-  }
-  const details = planDetails[plan] || planDetails.free
-  return (
-    <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-      <div style={{ flex: 1, minWidth: 280 }}>
-        <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: '24px 28px', marginBottom: 16 }}>
-          <SectionLabel>Current Plan</SectionLabel>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
-            <div>
-              <div style={{ fontSize: 24, fontWeight: 700, color: DARK, marginBottom: 4 }}>{details.label}</div>
-              <div style={{ fontSize: 28, fontWeight: 700, color: ACCENT, letterSpacing: '-0.02em' }}>{details.price}</div>
-            </div>
-            <PlanBadge plan={plan} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
-            {details.features.map(f => (
-              <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: MEDIUM }}>
-                <span style={{ color: '#4a7c59', fontSize: 13 }}>✓</span>
-                {f}
-              </div>
-            ))}
-          </div>
-          <button style={{
-            fontFamily: 'inherit', fontSize: 14, padding: '12px 24px', borderRadius: 10,
-            border: 'none', background: DARK, color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
-            width: '100%',
-          }}>
-            Upgrade Plan
-          </button>
-        </div>
-      </div>
-      <div style={{ flex: 1, minWidth: 280, display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: '22px 24px' }}>
-          <SectionLabel>Payment Method</SectionLabel>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{
-              width: 52, height: 34, borderRadius: 6, background: '#1b1a17',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: "'Space Mono',monospace", fontSize: 9, color: '#f1ede4', fontWeight: 700,
-            }}>
-              VISA
-            </div>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: DARK }}>Visa ending in 4242</div>
-              <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>Expires 09 / 2028</div>
-            </div>
-          </div>
-        </div>
-        <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: '22px 24px' }}>
-          <SectionLabel>Billing Info</SectionLabel>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {[
-              ['Next billing date', 'Jul 1, 2026'],
-              ['Billing cycle', 'Monthly'],
-              ['Invoice email', 'billing@aether.energy'],
-            ].map(([k, v]) => (
-              <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5 }}>
-                <span style={{ color: MUTED }}>{k}</span>
-                <span style={{ fontWeight: 500, color: DARK }}>{v}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  return <UnavailablePanel title="Usage analytics" />
 }
 
 function AuditLogsTab() {
+  return <UnavailablePanel title="Audit logs" />
+}
+
+function BillingTab({ plan }) {
   return (
-    <div>
-      <SectionLabel>Audit Logs</SectionLabel>
-      <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, overflow: 'hidden' }}>
-        <div style={{
-          display: 'grid', gridTemplateColumns: '160px 130px 160px 1fr 110px',
-          padding: '10px 20px',
-          background: '#faf7f0', borderBottom: CARD_BORDER,
-          fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED, letterSpacing: '0.06em', textTransform: 'uppercase',
-          gap: 16,
-        }}>
-          <div>Timestamp</div>
-          <div>User</div>
-          <div>Action</div>
-          <div>Resource</div>
-          <div>IP</div>
-        </div>
-        {AUDIT_LOGS.map((log, i) => {
-          const ac = ACTION_COLORS[log.action] || DARK
-          return (
-            <div key={log.id} style={{
-              display: 'grid', gridTemplateColumns: '160px 130px 160px 1fr 110px',
-              padding: '13px 20px',
-              borderBottom: i < AUDIT_LOGS.length - 1 ? ROW_BORDER : 'none',
-              gap: 16, alignItems: 'center',
-            }}>
-              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>{log.ts}</div>
-              <div style={{ fontSize: 13.5, fontWeight: 500, color: DARK }}>{log.user}</div>
-              <div>
-                <span style={{
-                  display: 'inline-block', padding: '3px 9px', borderRadius: 6,
-                  background: ac + '15', color: ac,
-                  fontFamily: "'Space Mono',monospace", fontSize: 10.5, fontWeight: 600,
-                }}>
-                  {log.action}
-                </span>
-              </div>
-              <div style={{ fontSize: 13.5, color: MEDIUM }}>{log.resource}</div>
-              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>{log.ip}</div>
-            </div>
-          )
-        })}
-      </div>
+    <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: '24px 28px' }}>
+      <SectionLabel>Current Plan</SectionLabel>
+      <div style={{ fontSize: 18, fontWeight: 600, color: DARK, marginBottom: 8 }}>{plan || 'free'}</div>
+      <p style={{ fontSize: 13, color: MUTED, margin: 0 }}>Billing management is not available via API yet.</p>
     </div>
   )
 }
@@ -477,6 +261,8 @@ function AuditLogsTab() {
 export default function OrganizationDetailPage() {
   const { orgSlug } = useParams()
   const [org, setOrg] = useState(null)
+  const [members, setMembers] = useState([])
+  const [teams, setTeams] = useState([])
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [activeTab, setActiveTab] = useState('Overview')
@@ -485,8 +271,14 @@ export default function OrganizationDetailPage() {
     setLoading(true)
     setNotFound(false)
     fetchOrganization(orgSlug)
-      .then(data => {
+      .then(async data => {
         setOrg(data)
+        const [m, t] = await Promise.all([
+          fetchOrganizationMembers(data.id).catch(() => []),
+          fetchOrganizationTeams(data.id).catch(() => []),
+        ])
+        setMembers(m)
+        setTeams(t)
         setLoading(false)
       })
       .catch(() => {
@@ -589,8 +381,8 @@ export default function OrganizationDetailPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 80px' }}>
         {activeTab === 'Overview' && <OverviewTab org={org} />}
-        {activeTab === 'Members' && <MembersTab />}
-        {activeTab === 'Teams' && <TeamsTab />}
+        {activeTab === 'Members' && <MembersTab members={members} />}
+        {activeTab === 'Teams' && <TeamsTab teams={teams} />}
         {activeTab === 'Usage' && <UsageTab />}
         {activeTab === 'Billing' && <BillingTab plan={org.plan} />}
         {activeTab === 'Audit Logs' && <AuditLogsTab />}

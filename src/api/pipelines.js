@@ -1,72 +1,58 @@
-const mockPipelines = [
-  {
-    id: 'pipe-001',
-    name: 'image-classification-training',
-    owner: 'aether-ai',
-    description: 'End-to-end pipeline for training image classification models on custom datasets.',
-    status: 'active',
-    schedule: '0 2 * * *',
-    lastRun: '2026-06-24T02:00:00Z',
-    runs: 142,
-    tags: ['vision', 'classification', 'automated'],
-    createdAt: '2025-11-10T09:00:00Z',
-  },
-  {
-    id: 'pipe-002',
-    name: 'nlp-fine-tuning-pipeline',
-    owner: 'TomiTsuma',
-    description: 'Automated fine-tuning pipeline for language models with hyperparameter sweep.',
-    status: 'active',
-    schedule: '0 6 * * 1',
-    lastRun: '2026-06-23T06:00:00Z',
-    runs: 38,
-    tags: ['nlp', 'fine-tuning', 'llm'],
-    createdAt: '2026-01-05T12:00:00Z',
-  },
-  {
-    id: 'pipe-003',
-    name: 'dataset-preprocessing',
-    owner: 'data-team',
-    description: 'Preprocessing and validation pipeline for raw ingested datasets before training.',
-    status: 'paused',
-    schedule: null,
-    lastRun: '2026-06-10T14:30:00Z',
-    runs: 77,
-    tags: ['data', 'preprocessing', 'etl'],
-    createdAt: '2025-09-20T08:00:00Z',
-  },
-  {
-    id: 'pipe-004',
-    name: 'model-evaluation-suite',
-    owner: 'aether-ai',
-    description: 'Runs evaluation benchmarks across all registered model versions nightly.',
-    status: 'active',
-    schedule: '0 3 * * *',
-    lastRun: '2026-06-24T03:00:00Z',
-    runs: 210,
-    tags: ['evaluation', 'benchmarks', 'automated'],
-    createdAt: '2025-08-01T10:00:00Z',
-  },
-  {
-    id: 'pipe-005',
-    name: 'speech-transcription-batch',
-    owner: 'TomiTsuma',
-    description: 'Batch transcription pipeline using Whisper for audio dataset generation.',
-    status: 'draft',
-    schedule: null,
-    lastRun: null,
-    runs: 0,
-    tags: ['audio', 'speech', 'whisper'],
-    createdAt: '2026-06-20T16:00:00Z',
-  },
-]
+/**
+ * Pipelines — PIPELINE repos from RepositoryService + runs from PlatformService.
+ */
+import { platformApi } from './client.js'
+import { listRepositories } from './repositories.js'
 
-export function fetchAllPipelines() {
-  return Promise.resolve([...mockPipelines])
+function timeSince(iso) {
+  if (!iso) return '—'
+  const diff = Date.now() - new Date(iso).getTime()
+  const m = Math.floor(diff / 60000)
+  if (m < 60) return `${m}m ago`
+  const h = Math.floor(m / 60)
+  if (h < 24) return `${h}h ago`
+  return `${Math.floor(h / 24)}d ago`
 }
 
-export function fetchPipeline(id) {
-  const pipeline = mockPipelines.find(p => p.id === id)
-  if (!pipeline) return Promise.reject(new Error(`Pipeline not found: ${id}`))
-  return Promise.resolve({ ...pipeline })
+async function mapPipelineRepo(repo, runs = []) {
+  const m = repo.metadata || {}
+  const lastRun = runs[0]
+  return {
+    id: repo.slug,
+    _repoId: repo.id,
+    name: repo.slug,
+    owner: m.owner_slug || 'unknown',
+    description: repo.description || '',
+    status: repo.is_archived ? 'paused' : 'active',
+    schedule: m.schedule || null,
+    lastRun: lastRun?.created_at || repo.updated_at,
+    runs: runs.length,
+    tags: m.tags || [],
+    createdAt: repo.created_at,
+    lastRunLabel: timeSince(lastRun?.created_at || repo.updated_at),
+  }
+}
+
+export async function fetchAllPipelines() {
+  const repos = await listRepositories({ repoType: 'PIPELINE', limit: 200 }).catch(() => [])
+  return Promise.all(
+    (repos || []).map(async (repo) => {
+      let runs = []
+      try {
+        runs = await platformApi.get(`/pipelines/${repo.id}/runs?limit=10`)
+      } catch { /* ignore */ }
+      return mapPipelineRepo(repo, runs || [])
+    }),
+  )
+}
+
+export async function fetchPipeline(id) {
+  const all = await fetchAllPipelines()
+  const pipeline = all.find(p => p.id === id || p._repoId === id)
+  if (!pipeline) throw new Error(`Pipeline not found: ${id}`)
+  let runHistory = []
+  try {
+    runHistory = await platformApi.get(`/pipelines/${pipeline._repoId}/runs?limit=50`)
+  } catch { /* ignore */ }
+  return { ...pipeline, runHistory: runHistory || [] }
 }

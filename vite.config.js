@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
   const REPO_API  = env.VITE_REPOSITORY_API_URL || 'http://localhost:8001'
   const DS_API    = env.VITE_DATASETS_API_URL   || 'http://localhost:8002'
   const AUTH_API  = env.VITE_AUTH_API_URL        || 'http://localhost:8000'
+  const PLATFORM_API = env.VITE_PLATFORM_API_URL || 'http://localhost:8003'
 
   return {
     plugins: [react()],
@@ -31,6 +32,12 @@ export default defineConfig(({ mode }) => {
           target: DS_API,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api\/datasets/, '/api/v1'),
+        },
+        // PlatformService  ->  :8003
+        '/api/platform': {
+          target: PLATFORM_API,
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api\/platform/, '/api/v1'),
         },
       },
     },

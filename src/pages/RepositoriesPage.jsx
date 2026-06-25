@@ -1,21 +1,23 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
+import { listRepositories, mapRepoToCard } from '../api/repositories'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
 const MEDIUM = '#56524a'
 const MUTED = '#8a857a'
 
-const MOCK_REPOS = [
-  { id: 'repo-001', name: 'aether-trainer', owner: 'TomiTsuma', type: 'MODEL', description: 'Lightweight training loop library for Aether models.', stars: 312, forks: 48, lastUpdated: '2h ago', tags: ['training', 'pytorch'], visibility: 'public' },
-  { id: 'repo-002', name: 'swahili-nlp-toolkit', owner: 'TomiTsuma', type: 'DATASET', description: 'NLP utilities and corpora for Swahili language processing.', stars: 89, forks: 14, lastUpdated: '1d ago', tags: ['nlp', 'swahili', 'africa'], visibility: 'public' },
-  { id: 'repo-003', name: 'geothermal-pinn', owner: 'aether-ai', type: 'MODEL', description: 'Physics-informed neural network for geothermal reservoir simulation.', stars: 540, forks: 76, lastUpdated: '3d ago', tags: ['pinn', 'geothermal', 'physics'], visibility: 'public' },
-  { id: 'repo-004', name: 'energy-forecasting-dataset', owner: 'data-team', type: 'DATASET', description: 'Time-series energy demand dataset for 50 countries, 2010–2025.', stars: 203, forks: 31, lastUpdated: '1w ago', tags: ['energy', 'time-series', 'forecasting'], visibility: 'public' },
-  { id: 'repo-005', name: 'bert-multilingual-ner', owner: 'TomiTsuma', type: 'MODEL', description: 'NER model supporting 18 African languages fine-tuned from mBERT.', stars: 167, forks: 22, lastUpdated: '2w ago', tags: ['ner', 'multilingual', 'bert'], visibility: 'public' },
-  { id: 'repo-006', name: 'vision-transformer-experiments', owner: 'research-lab', type: 'MODEL', description: 'Collection of ViT experiments with ablations on ImageNet variants.', stars: 95, forks: 11, lastUpdated: '3w ago', tags: ['vit', 'vision', 'experiments'], visibility: 'private' },
-]
+function timeSince(iso) {
+  if (!iso) return '—'
+  const diff = Date.now() - new Date(iso).getTime()
+  const m = Math.floor(diff / 60000)
+  if (m < 60) return `${m}m ago`
+  const h = Math.floor(m / 60)
+  if (h < 24) return `${h}h ago`
+  return `${Math.floor(h / 24)}d ago`
+}
 
 function TypeBadge({ type }) {
   const isModel = type === 'MODEL'
@@ -81,7 +83,7 @@ function RepoCard({ repo }) {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 5 }}>
           <Link
-            to="/repositories"
+            to={`/${repo.owner}/${repo.name}`}
             style={{ textDecoration: 'none', color: DARK }}
           >
             <span style={{
@@ -174,16 +176,32 @@ const SORT_OPTIONS = [
   { key: 'forks', label: 'Most forks' },
 ]
 
-const UPDATED_ORDER = ['2h ago', '1d ago', '3d ago', '1w ago', '2w ago', '3w ago']
+const UPDATED_ORDER = []
 
 export default function RepositoriesPage() {
+  const [repos, setRepos] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState('ALL')
   const [visibilityFilter, setVisibilityFilter] = useState('ALL')
   const [sort, setSort] = useState('stars')
 
+  useEffect(() => {
+    listRepositories({ limit: 200 })
+      .then(data => setRepos((data || []).map(r => {
+        const card = mapRepoToCard(r)
+        return {
+          ...card,
+          lastUpdated: timeSince(r.updated_at),
+        }
+      })))
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false))
+  }, [])
+
   const filtered = useMemo(() => {
-    let list = MOCK_REPOS.filter(r => {
+    let list = repos.filter(r => {
       const q = search.trim().toLowerCase()
       if (q && !r.name.toLowerCase().includes(q) && !r.owner.toLowerCase().includes(q) && !r.description.toLowerCase().includes(q)) return false
       if (typeFilter !== 'ALL' && r.type !== typeFilter) return false
@@ -193,17 +211,17 @@ export default function RepositoriesPage() {
 
     if (sort === 'stars') list = [...list].sort((a, b) => b.stars - a.stars)
     else if (sort === 'forks') list = [...list].sort((a, b) => b.forks - a.forks)
-    else if (sort === 'updated') list = [...list].sort((a, b) => UPDATED_ORDER.indexOf(a.lastUpdated) - UPDATED_ORDER.indexOf(b.lastUpdated))
+    else if (sort === 'updated') list = [...list].sort((a, b) => new Date(b.lastUpdated) - new Date(a.lastUpdated))
 
     return list
-  }, [search, typeFilter, visibilityFilter, sort])
+  }, [repos, search, typeFilter, visibilityFilter, sort])
 
   return (
     <div style={{ minHeight: '100vh', background: '#f1ede4' }}>
       <PageHero
         eyebrow="AETHER ML PLATFORM"
         title="Repositories"
-        description={`${MOCK_REPOS.length} repositories — models, datasets, and utilities from the Aether community.`}
+        description={`${repos.length} repositories — models, datasets, and utilities from the Aether community.`}
         illustration={PAGE_ILLUSTRATIONS.repositories}
         illustrationAlt="Repositories illustration"
       />
@@ -328,7 +346,15 @@ export default function RepositoriesPage() {
           ))}
         </div>
 
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div style={{ padding: '64px 0', textAlign: 'center', color: MUTED, fontFamily: "'Space Mono',monospace", fontSize: 13 }}>
+            Loading repositories…
+          </div>
+        ) : error ? (
+          <div style={{ padding: '64px 0', textAlign: 'center', color: '#c0392b', fontFamily: "'Space Mono',monospace", fontSize: 13 }}>
+            {error}
+          </div>
+        ) : filtered.length === 0 ? (
           <div style={{
             padding: '64px 0',
             textAlign: 'center',
@@ -352,7 +378,7 @@ export default function RepositoriesPage() {
             color: '#b0a898',
             letterSpacing: '0.04em',
           }}>
-            SHOWING {filtered.length} OF {MOCK_REPOS.length} REPOSITORIES
+            SHOWING {filtered.length} OF {repos.length} REPOSITORIES
           </div>
         )}
       </div>

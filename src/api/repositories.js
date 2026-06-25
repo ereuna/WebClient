@@ -69,6 +69,48 @@ export async function createCommit(repoId, { message, branch = 'main', files = [
   return repoApi.form(`/repositories/${repoId}/commits`, form)
 }
 
+export async function listCommits(repoId, { branch, limit = 50 } = {}) {
+  const params = new URLSearchParams({ limit })
+  if (branch) params.set('branch', branch)
+  return repoApi.get(`/repositories/${repoId}/commits?${params}`)
+}
+
+export async function listFiles(repoId, commitSha) {
+  return repoApi.get(`/repositories/${repoId}/files/${commitSha}`)
+}
+
+export async function getPresignedUrl(repoId, commitSha, path) {
+  const params = new URLSearchParams({ path })
+  return repoApi.get(`/repositories/${repoId}/files/${commitSha}/presign?${params}`)
+}
+
+export async function updateRepository(repoId, body) {
+  return repoApi.patch(`/repositories/${repoId}`, body)
+}
+
+export async function listRepoMembers(repoId) {
+  return repoApi.get(`/repositories/${repoId}/members`)
+}
+
+export function mapRepoToCard(repo) {
+  const m = repo.metadata || {}
+  return {
+    id: repo.id,
+    slug: repo.slug,
+    name: repo.slug,
+    owner: m.owner_slug || repo.owner_user_id || 'unknown',
+    type: repo.repo_type,
+    description: repo.description || '',
+    stars: repo.star_count ?? 0,
+    forks: m.fork_count ?? 0,
+    lastUpdated: repo.updated_at,
+    tags: m.tags || [],
+    visibility: repo.visibility?.toLowerCase?.() || repo.visibility || 'public',
+    metadata: m,
+    _raw: repo,
+  }
+}
+
 // ── Mutations ─────────────────────────────────────────────────────────────────
 
 export async function starRepository(repoId) {

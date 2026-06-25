@@ -5,14 +5,15 @@
  *   /api/auth/*        →  AuthService       (:8000)
  *   /api/repository/*  →  RepositoryService (:8001)
  *   /api/datasets/*    →  DatasetsService   (:8002)
+ *   /api/platform/*    →  PlatformService   (:8003)
  *
- * In production, point VITE_AUTH_API_URL / VITE_REPOSITORY_API_URL /
- * VITE_DATASETS_API_URL at the real service hostnames and remove the proxy.
+ * In production, point VITE_*_API_URL at the real service hostnames and remove the proxy.
  */
 
 const AUTH_BASE    = '/api/auth'
 const REPO_BASE    = '/api/repository'
 const DATASET_BASE = '/api/datasets'
+const PLATFORM_BASE = '/api/platform'
 
 // ── Token management ──────────────────────────────────────────────────────────
 
@@ -152,6 +153,20 @@ export const repoApi = {
 // ── Datasets Service client ───────────────────────────────────────────────────
 
 export const datasetApi = {
-  get:  (path, opts) => request(DATASET_BASE, path, { method: 'GET', ...opts }),
-  post: (path, body) => request(DATASET_BASE, path, { method: 'POST', body: JSON.stringify(body) }),
+  get:    (path, opts) => request(DATASET_BASE, path, { method: 'GET', ...opts }),
+  post:   (path, body) => request(DATASET_BASE, path, { method: 'POST', body: JSON.stringify(body) }),
+  delete: (path)       => request(DATASET_BASE, path, { method: 'DELETE' }),
+  form:   (path, formData) =>
+    request(DATASET_BASE, path, {
+      method: 'POST',
+      body: formData,
+      headers: {},
+    }),
+}
+
+// ── Platform Service client ───────────────────────────────────────────────────
+
+export const platformApi = {
+  get:  (path, opts) => request(PLATFORM_BASE, path, { method: 'GET', ...opts }),
+  post: (path, body) => request(PLATFORM_BASE, path, { method: 'POST', body: JSON.stringify(body) }),
 }

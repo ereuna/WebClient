@@ -1,59 +1,77 @@
-const mockResults = {
-  models: [
-    { id: 'model-001', name: 'bert-sentiment-v2', owner: 'aether-ai', type: 'model', description: 'Fine-tuned BERT for sentiment analysis.' },
-    { id: 'model-002', name: 'vit-imagenet', owner: 'data-team', type: 'model', description: 'Vision Transformer trained on ImageNet.' },
-  ],
-  datasets: [
-    { id: 'ds-001', name: 'multilingual-sentiment-corpus', owner: 'aether-ai', type: 'dataset', description: 'Multilingual sentiment labels across 12 languages.' },
-  ],
-  repositories: [
-    { id: 'repo-001', name: 'aether-trainer', owner: 'TomiTsuma', type: 'repository', description: 'Lightweight training loop library.' },
-  ],
-  pipelines: [
-    { id: 'pipe-001', name: 'image-classification-training', owner: 'aether-ai', type: 'pipeline', description: 'End-to-end training pipeline.' },
-  ],
-  experiments: [
-    { id: 'exp-001', name: 'resnet50-lr-sweep', owner: 'TomiTsuma', type: 'experiment', description: 'Learning rate sweep for ResNet-50.' },
-  ],
-  spaces: [
-    { id: 'app-001', name: 'sentiment-demo', owner: 'aether-ai', type: 'space', description: 'Interactive sentiment analysis demo.' },
-  ],
-  organizations: [
-    { id: 'org-001', slug: 'aether-ai', name: 'Aether AI', type: 'organization', description: 'Official Aether organization.' },
-  ],
-  users: [
-    { username: 'TomiTsuma', fullName: 'Tomi Tsuma', type: 'user', bio: 'ML engineer and open-source contributor.' },
-  ],
+/**
+ * Unified search — repositories + organizations + users.
+ */
+import { authApi } from './client.js'
+import { searchRepositories } from './repositories.js'
+
+const EMPTY = {
+  models: [],
+  datasets: [],
+  repositories: [],
+  pipelines: [],
+  experiments: [],
+  spaces: [],
+  organizations: [],
+  users: [],
 }
 
-export function searchAll(query) {
-  if (!query || !query.trim()) {
-    return Promise.resolve({
-      models: [],
-      datasets: [],
-      repositories: [],
-      pipelines: [],
-      experiments: [],
-      spaces: [],
-      organizations: [],
-      users: [],
-    })
+function mapRepoHit(r) {
+  const typeMap = {
+    MODEL: 'model',
+    DATASET: 'dataset',
+    PIPELINE: 'pipeline',
+    SPACE: 'space',
+    AGENT: 'model',
+    WORKFLOW: 'experiment',
   }
+  const type = typeMap[r.repo_type || r.repository_type] || 'repository'
+  return {
+    id: r.slug || r.id,
+    name: r.slug,
+    owner: r.owner_slug || r.metadata?.owner_slug || '',
+    type,
+    description: r.description || '',
+  }
+}
 
-  const q = query.toLowerCase()
-  const filter = arr => arr.filter(item =>
-    (item.name || item.username || '').toLowerCase().includes(q) ||
-    (item.description || item.bio || '').toLowerCase().includes(q)
-  )
+export async function searchAll(query) {
+  if (!query || !query.trim()) return { ...EMPTY }
 
-  return Promise.resolve({
-    models: filter(mockResults.models),
-    datasets: filter(mockResults.datasets),
-    repositories: filter(mockResults.repositories),
-    pipelines: filter(mockResults.pipelines),
-    experiments: filter(mockResults.experiments),
-    spaces: filter(mockResults.spaces),
-    organizations: filter(mockResults.organizations),
-    users: filter(mockResults.users),
-  })
+  const q = query.trim().toLowerCase()
+  const results = { ...EMPTY }
+
+  try {
+    const repoHits = await searchRepositories({ q: query.trim(), limit: 30 })
+    for (const r of repoHits || []) {
+      const item = mapRepoHit(r)
+      switch (item.type) {
+        case 'model': results.models.push(item); break
+        case 'dataset': results.datasets.push(item); break
+        case 'pipeline': results.pipelines.push(item); break
+        case 'space': results.spaces.push(item); break
+        case 'experiment': results.experiments.push(item); break
+        default: results.repositories.push(item)
+      }
+    }
+  } catch { /* ignore */ }
+
+  try {
+    const orgs = await authApi.get('/organizations')
+    for (const o of orgs || []) {
+      if (
+        o.slug?.toLowerCase().includes(q) ||
+        o.display_name?.toLowerCase().includes(q)
+      ) {
+        results.organizations.push({
+          id: o.id,
+          slug: o.slug,
+          name: o.display_name,
+          type: 'organization',
+          description: o.description || '',
+        })
+      }
+    }
+  } catch { /* not logged in */ }
+
+  return results
 }

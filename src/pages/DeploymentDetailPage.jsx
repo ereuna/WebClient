@@ -281,67 +281,62 @@ function OverviewTab({ deployment }) {
 }
 
 function MetricsTab({ deployment }) {
-  const rpsData = [
-    { label: '03:09', value: 142 },
-    { label: '03:10', value: 178 },
-    { label: '03:11', value: 203 },
-    { label: '03:12', value: 188 },
-    { label: '03:13', value: 165 },
-    { label: '03:14', value: deployment.requestsPerSec || 180 },
-  ]
+  const hasMetrics = deployment.latencyMs != null || deployment.requestsPerSec > 0 || deployment.gpuUsage > 0
 
-  const latency = {
-    p50: deployment.latencyMs || 42,
-    p95: Math.round((deployment.latencyMs || 42) * 2.3),
-    p99: Math.round((deployment.latencyMs || 42) * 4.1),
+  if (!hasMetrics) {
+    return (
+      <div style={{
+        background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+        padding: '40px 28px', textAlign: 'center',
+      }}>
+        <div style={{ fontSize: 15, fontWeight: 600, color: DARK, marginBottom: 8 }}>No metrics history yet</div>
+        <p style={{ fontSize: 13.5, color: MUTED, margin: 0 }}>
+          Live deployment metrics will appear here when monitoring is enabled.
+        </p>
+      </div>
+    )
   }
 
   return (
-    <div>
-      <BarChart title="Requests per second" bars={rpsData} />
-      <LatencyChart p50={latency.p50} p95={latency.p95} p99={latency.p99} />
+    <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+      <MetricCard label="Requests / sec" value={deployment.requestsPerSec || 0} unit="r/s" trend="up" />
+      <MetricCard label="Latency" value={deployment.latencyMs ?? '—'} unit={deployment.latencyMs ? 'ms' : ''} trend="down" />
+      <MetricCard label="GPU Usage" value={deployment.gpuUsage ? Math.round(deployment.gpuUsage * 100) : 0} unit="%" trend="up" />
     </div>
   )
 }
 
-function LogsTab() {
-  const logs = [
-    '[2026-06-25 03:14:01] INFO  Server started on port 8080',
-    '[2026-06-25 03:14:08] INFO  Model loaded from cache: bert-sentiment-v2',
-    '[2026-06-25 03:14:15] INFO  Health check passed — all replicas healthy',
-    '[2026-06-25 03:14:22] INFO  Request received: POST /predict',
-    '[2026-06-25 03:14:22] INFO  Tokenizing input (len=47)',
-    '[2026-06-25 03:14:22] INFO  Inference complete in 41ms',
-    '[2026-06-25 03:14:22] INFO  Response sent: 200 OK',
-    '[2026-06-25 03:14:29] WARN  Replica dep-001-r2 memory at 82% — approaching limit',
-    '[2026-06-25 03:14:35] INFO  Request received: POST /predict',
-    '[2026-06-25 03:14:35] INFO  Inference complete in 39ms',
-    '[2026-06-25 03:14:40] INFO  Autoscaler check: current=3 replicas, load=61%',
-    '[2026-06-25 03:14:50] INFO  Request received: POST /predict',
-    '[2026-06-25 03:14:50] INFO  Inference complete in 44ms',
-    '[2026-06-25 03:14:58] INFO  Metrics flushed to collector',
-  ]
+function LogsTab({ logs = [] }) {
+  const lines = (logs || []).map(l => {
+    const ts = l.logged_at
+      ? new Date(l.logged_at).toISOString().replace('T', ' ').slice(0, 19)
+      : '—'
+    const level = (l.level || 'info').toUpperCase()
+    return `[${ts}] ${level}  ${l.message || ''}`
+  })
 
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>
-          Live log stream — last 14 events
+          {lines.length > 0 ? `Log stream — ${lines.length} events` : 'No log entries yet'}
         </div>
-        <button style={{
-          fontFamily: 'inherit', fontSize: 13, padding: '8px 16px', borderRadius: 9,
-          border: '1.4px solid #ddd6c8', background: '#fff', color: DARK, cursor: 'pointer', fontWeight: 500,
-        }}>
-          Download logs
-        </button>
       </div>
+      {lines.length === 0 ? (
+        <div style={{
+          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 10,
+          padding: '40px 20px', textAlign: 'center', color: MUTED, fontSize: 14,
+        }}>
+          Deployment logs will appear here when the service emits events.
+        </div>
+      ) : (
       <div style={{
         background: DARK, color: '#a8d8a8', fontFamily: 'monospace', fontSize: 12,
         padding: 16, borderRadius: 10, lineHeight: 1.8, overflowX: 'auto',
       }}>
-        {logs.map((line, i) => {
-          const isWarn = line.includes('WARN')
-          const isErr = line.includes('ERROR')
+        {lines.map((line, i) => {
+          const isWarn = line.includes(' WARN ')
+          const isErr = line.includes(' ERROR ')
           return (
             <div key={i} style={{
               color: isWarn ? '#f6c90e' : isErr ? '#fc8181' : '#a8d8a8',
@@ -351,6 +346,7 @@ function LogsTab() {
           )
         })}
       </div>
+      )}
     </div>
   )
 }
@@ -575,7 +571,7 @@ export default function DeploymentDetailPage() {
 
         {activeTab === 'Overview' && <OverviewTab deployment={deployment} />}
         {activeTab === 'Metrics' && <MetricsTab deployment={deployment} />}
-        {activeTab === 'Logs' && <LogsTab />}
+        {activeTab === 'Logs' && <LogsTab logs={deployment.logs} />}
         {activeTab === 'Settings' && <SettingsTab />}
       </div>
     </div>

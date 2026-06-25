@@ -1,4 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.jsx'
+import {
+  updateProfile,
+  listSessions,
+  revokeSession,
+  listApiKeys,
+  createApiKey,
+  revokeApiKey,
+  getNotificationPreferences,
+  updateNotificationPreferences,
+} from '../api/settings.js'
+import { fetchAllOrganizations } from '../api/organizations.js'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
@@ -21,6 +34,23 @@ const INPUT_STYLE = {
 }
 
 const NAV_SECTIONS = ['Profile', 'Security', 'API Keys', 'Notifications', 'Billing', 'Organizations']
+
+function formatRelativeTime(iso) {
+  if (!iso) return '—'
+  const diff = Date.now() - new Date(iso).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 2) return 'Just now'
+  if (mins < 60) return `${mins} minutes ago`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `${hours} hours ago`
+  const days = Math.floor(hours / 24)
+  return `${days} days ago`
+}
+
+function getInitials(name) {
+  if (!name) return '?'
+  return name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('')
+}
 
 function SectionLabel({ children }) {
   return (
@@ -76,24 +106,67 @@ function Toggle({ on, onChange }) {
 }
 
 function ProfileSection() {
+  const { user } = useAuth()
   const [form, setForm] = useState({
-    fullName: 'Tomi Tsuma',
-    username: 'tomi-tsuma',
-    email: 'tommytsuma7@gmail.com',
-    bio: 'ML engineer working on multilingual NLP and computer vision systems.',
-    location: 'Nairobi, Kenya',
-    website: 'https://tomi.dev',
+    fullName: '',
+    username: '',
+    email: '',
+    bio: '',
+    location: '',
+    website: '',
   })
   const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (!user) return
+    setForm({
+      fullName: user.full_name || '',
+      username: user.username || '',
+      email: user.email || '',
+      bio: user.bio || '',
+      location: user.location || '',
+      website: user.website || '',
+    })
+  }, [user])
 
   function handleChange(key, val) {
     setForm(f => ({ ...f, [key]: val }))
     setSaved(false)
+    setError(null)
   }
 
-  function handleSave() {
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2500)
+  async function handleSave() {
+    setSaving(true)
+    setError(null)
+    try {
+      await updateProfile({
+        full_name: form.fullName || null,
+        bio: form.bio || null,
+        website: form.website || null,
+        location: form.location || null,
+      })
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2500)
+    } catch (err) {
+      setError(err.message || 'Failed to save profile')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const initials = getInitials(form.fullName || form.username)
+
+  if (!user) {
+    return (
+      <div>
+        <SectionLabel>Profile</SectionLabel>
+        <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: 28, color: MUTED, fontSize: 14 }}>
+          Sign in to manage your profile.
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -123,7 +196,7 @@ function ProfileSection() {
             flexShrink: 0,
             letterSpacing: '-0.02em',
           }}>
-            TT
+            {initials}
           </div>
           <div>
             <button
@@ -175,10 +248,10 @@ function ProfileSection() {
           <div>
             <FieldLabel>Email</FieldLabel>
             <input
-              style={INPUT_STYLE}
+              style={{ ...INPUT_STYLE, background: '#faf7f0', color: MEDIUM, cursor: 'not-allowed' }}
               type="email"
               value={form.email}
-              onChange={e => handleChange('email', e.target.value)}
+              disabled
             />
           </div>
           <div>
@@ -218,6 +291,7 @@ function ProfileSection() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <button
             onClick={handleSave}
+            disabled={saving}
             style={{
               padding: '10px 22px',
               borderRadius: 9,
@@ -226,14 +300,20 @@ function ProfileSection() {
               color: '#fff',
               fontSize: 14,
               fontWeight: 600,
-              cursor: 'pointer',
+              cursor: saving ? 'wait' : 'pointer',
+              opacity: saving ? 0.7 : 1,
             }}
           >
-            Save changes
+            {saving ? 'Saving…' : 'Save changes'}
           </button>
           {saved && (
             <span style={{ fontSize: 13, color: '#2db88a', fontWeight: 500 }}>
               Changes saved
+            </span>
+          )}
+          {error && (
+            <span style={{ fontSize: 13, color: '#c0392b', fontWeight: 500 }}>
+              {error}
             </span>
           )}
         </div>
@@ -243,17 +323,34 @@ function ProfileSection() {
 }
 
 function SecuritySection() {
+  const { user } = useAuth()
   const [pwForm, setPwForm] = useState({ current: '', next: '', confirm: '' })
-  const [twoFa, setTwoFa] = useState(true)
-  const [sessions, setSessions] = useState([
-    { id: 1, device: 'Chrome · macOS', location: 'Nairobi, KE', last: '2 minutes ago', current: true },
-    { id: 2, device: 'Firefox · Ubuntu', location: 'Nairobi, KE', last: '3 hours ago', current: false },
-    { id: 3, device: 'Safari · iPhone 15', location: 'Mombasa, KE', last: '2 days ago', current: false },
-  ])
+  const [sessions, setSessions] = useState([])
+  const [sessionsLoading, setSessionsLoading] = useState(true)
 
-  function revokeSession(id) {
-    setSessions(s => s.filter(x => x.id !== id))
+  useEffect(() => {
+    listSessions()
+      .then(rows => {
+        setSessions((rows || []).map(s => ({
+          id: s.id,
+          device: s.user_agent || 'Unknown device',
+          location: s.ip_address || '—',
+          last: formatRelativeTime(s.issued_at),
+          current: false,
+        })))
+      })
+      .catch(() => setSessions([]))
+      .finally(() => setSessionsLoading(false))
+  }, [])
+
+  async function handleRevokeSession(id) {
+    try {
+      await revokeSession(id)
+      setSessions(s => s.filter(x => x.id !== id))
+    } catch { /* ignore */ }
   }
+
+  const twoFa = Boolean(user?.mfa_enabled)
 
   return (
     <div>
@@ -315,7 +412,7 @@ function SecuritySection() {
               {twoFa ? 'Two-factor authentication is currently enabled.' : 'Two-factor authentication is disabled.'}
             </div>
           </div>
-          <Toggle on={twoFa} onChange={setTwoFa} />
+          <Toggle on={twoFa} onChange={() => {}} />
         </div>
         {twoFa && (
           <div style={{
@@ -353,6 +450,16 @@ function SecuritySection() {
               </tr>
             </thead>
             <tbody>
+              {sessionsLoading && (
+                <tr>
+                  <td colSpan={4} style={{ padding: '20px 0', color: MUTED, fontSize: 13 }}>Loading sessions…</td>
+                </tr>
+              )}
+              {!sessionsLoading && sessions.length === 0 && (
+                <tr>
+                  <td colSpan={4} style={{ padding: '20px 0', color: MUTED, fontSize: 13 }}>No active sessions.</td>
+                </tr>
+              )}
               {sessions.map((s, i) => (
                 <tr key={s.id} style={{ borderBottom: i < sessions.length - 1 ? '1px solid #f0ebe0' : 'none' }}>
                   <td style={{ padding: '13px 12px 13px 0', color: DARK, fontWeight: 500 }}>
@@ -377,7 +484,7 @@ function SecuritySection() {
                   <td style={{ padding: '13px 0' }}>
                     {!s.current && (
                       <button
-                        onClick={() => revokeSession(s.id)}
+                        onClick={() => handleRevokeSession(s.id)}
                         style={{
                           padding: '5px 13px',
                           borderRadius: 7,
@@ -404,30 +511,48 @@ function SecuritySection() {
 }
 
 function ApiKeysSection() {
-  const [keys, setKeys] = useState([
-    { id: 1, name: 'Production Key', prefix: 'sk-...x9f2', created: 'Jan 12, 2025', lastUsed: '2 hours ago' },
-    { id: 2, name: 'Dev Key', prefix: 'sk-...m4k7', created: 'Mar 3, 2025', lastUsed: 'Yesterday' },
-  ])
+  const [keys, setKeys] = useState([])
+  const [keysLoading, setKeysLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [newKeyName, setNewKeyName] = useState('')
   const [generatedKey, setGeneratedKey] = useState(null)
   const [copied, setCopied] = useState(false)
+  const [creating, setCreating] = useState(false)
 
-  function revokeKey(id) {
-    setKeys(k => k.filter(x => x.id !== id))
+  function loadKeys() {
+    setKeysLoading(true)
+    listApiKeys()
+      .then(rows => {
+        setKeys((rows || []).map(k => ({
+          id: k.id,
+          name: k.name,
+          prefix: k.prefix,
+          created: new Date(k.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          lastUsed: k.last_used_at ? formatRelativeTime(k.last_used_at) : 'Never',
+        })))
+      })
+      .catch(() => setKeys([]))
+      .finally(() => setKeysLoading(false))
   }
 
-  function generateKey() {
-    if (!newKeyName.trim()) return
-    const fake = 'sk-aether-' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10)
-    setGeneratedKey(fake)
-    setKeys(k => [...k, {
-      id: Date.now(),
-      name: newKeyName,
-      prefix: 'sk-...' + fake.slice(-4),
-      created: 'Just now',
-      lastUsed: 'Never',
-    }])
+  useEffect(() => { loadKeys() }, [])
+
+  async function handleRevokeKey(id) {
+    try {
+      await revokeApiKey(id)
+      setKeys(k => k.filter(x => x.id !== id))
+    } catch { /* ignore */ }
+  }
+
+  async function generateKey() {
+    if (!newKeyName.trim() || creating) return
+    setCreating(true)
+    try {
+      const res = await createApiKey({ name: newKeyName.trim() })
+      setGeneratedKey(res.key)
+      loadKeys()
+    } catch { /* ignore */ }
+    finally { setCreating(false) }
   }
 
   function copyKey() {
@@ -566,6 +691,16 @@ function ApiKeysSection() {
               </tr>
             </thead>
             <tbody>
+              {keysLoading && (
+                <tr>
+                  <td colSpan={5} style={{ padding: '20px 0', color: MUTED, fontSize: 13 }}>Loading API keys…</td>
+                </tr>
+              )}
+              {!keysLoading && keys.length === 0 && (
+                <tr>
+                  <td colSpan={5} style={{ padding: '20px 0', color: MUTED, fontSize: 13 }}>No API keys yet.</td>
+                </tr>
+              )}
               {keys.map((k, i) => (
                 <tr key={k.id} style={{ borderBottom: i < keys.length - 1 ? '1px solid #f0ebe0' : 'none' }}>
                   <td style={{ padding: '13px 12px 13px 0', color: DARK, fontWeight: 500 }}>{k.name}</td>
@@ -578,7 +713,7 @@ function ApiKeysSection() {
                   <td style={{ padding: '13px 12px 13px 0', color: MUTED, fontSize: 13 }}>{k.lastUsed}</td>
                   <td style={{ padding: '13px 0' }}>
                     <button
-                      onClick={() => revokeKey(k.id)}
+                      onClick={() => handleRevokeKey(k.id)}
                       style={{
                         padding: '5px 13px',
                         borderRadius: 7,
@@ -609,26 +744,62 @@ function ApiKeysSection() {
 }
 
 function NotificationsSection() {
-  const [notifs, setNotifs] = useState([
-    { key: 'training', label: 'Training completed', on: true },
-    { key: 'depFailed', label: 'Deployment failed', on: true },
-    { key: 'pipeFailed', label: 'Pipeline failed', on: true },
-    { key: 'dataset', label: 'Dataset updated', on: false },
-    { key: 'mention', label: 'Repository mentioned', on: true },
-  ])
-  const [channels, setChannels] = useState({
-    inApp: true,
-    email: true,
-    slack: false,
-    webhook: false,
+  const { user } = useAuth()
+  const [loading, setLoading] = useState(true)
+  const [prefs, setPrefs] = useState({
+    email_enabled: true,
+    push_enabled: true,
+    digest_enabled: false,
+    type_preferences: {},
   })
 
-  function toggleNotif(key) {
-    setNotifs(n => n.map(x => x.key === key ? { ...x, on: !x.on } : x))
+  useEffect(() => {
+    getNotificationPreferences()
+      .then(p => setPrefs({
+        email_enabled: p.email_enabled ?? true,
+        push_enabled: p.push_enabled ?? true,
+        digest_enabled: p.digest_enabled ?? false,
+        type_preferences: p.type_preferences || {},
+      }))
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  async function patchPrefs(updates) {
+    const next = { ...prefs, ...updates }
+    setPrefs(next)
+    try {
+      await updateNotificationPreferences(updates)
+    } catch {
+      setPrefs(prefs)
+    }
   }
 
-  function toggleChannel(key) {
-    setChannels(c => ({ ...c, [key]: !c[key] }))
+  function toggleType(key) {
+    const type_preferences = {
+      ...prefs.type_preferences,
+      [key]: !(prefs.type_preferences[key] ?? true),
+    }
+    patchPrefs({ type_preferences })
+  }
+
+  const notifs = [
+    { key: 'training', label: 'Training completed' },
+    { key: 'deployment_failed', label: 'Deployment failed' },
+    { key: 'pipeline_failed', label: 'Pipeline failed' },
+    { key: 'dataset', label: 'Dataset updated' },
+    { key: 'mention', label: 'Repository mentioned' },
+  ]
+
+  if (loading) {
+    return (
+      <div>
+        <SectionLabel>Notifications</SectionLabel>
+        <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: 28, color: MUTED, fontSize: 14 }}>
+          Loading preferences…
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -652,7 +823,10 @@ function NotificationsSection() {
               <div>
                 <div style={{ fontSize: 14, fontWeight: 500, color: DARK }}>{n.label}</div>
               </div>
-              <Toggle on={n.on} onChange={() => toggleNotif(n.key)} />
+              <Toggle
+                on={prefs.type_preferences[n.key] !== false}
+                onChange={() => toggleType(n.key)}
+              />
             </div>
           ))}
         </div>
@@ -662,29 +836,30 @@ function NotificationsSection() {
         <div style={{ fontWeight: 600, fontSize: 15, color: DARK, marginBottom: 22 }}>Delivery Channels</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
           {[
-            { key: 'inApp', label: 'In-App', desc: 'Notifications inside the platform' },
-            { key: 'email', label: 'Email', desc: 'Send to tommytsuma7@gmail.com' },
-            { key: 'slack', label: 'Slack', desc: 'Connect a Slack workspace' },
-            { key: 'webhook', label: 'Webhook', desc: 'POST to a custom URL' },
+            { key: 'push', label: 'In-App', desc: 'Notifications inside the platform', enabled: prefs.push_enabled, onToggle: () => patchPrefs({ push_enabled: !prefs.push_enabled }) },
+            { key: 'email', label: 'Email', desc: user?.email ? `Send to ${user.email}` : 'Email notifications', enabled: prefs.email_enabled, onToggle: () => patchPrefs({ email_enabled: !prefs.email_enabled }) },
+            { key: 'slack', label: 'Slack', desc: 'Not available yet', enabled: false, disabled: true },
+            { key: 'webhook', label: 'Webhook', desc: 'Not available yet', enabled: false, disabled: true },
           ].map(ch => (
             <div
               key={ch.key}
               style={{
                 background: '#faf7f0',
-                border: channels[ch.key] ? `1.4px solid ${ACCENT}` : CARD_BORDER,
+                border: ch.enabled ? `1.4px solid ${ACCENT}` : CARD_BORDER,
                 borderRadius: 11,
                 padding: '16px 18px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 gap: 12,
+                opacity: ch.disabled ? 0.55 : 1,
               }}
             >
               <div>
                 <div style={{ fontSize: 14, fontWeight: 600, color: DARK, marginBottom: 3 }}>{ch.label}</div>
                 <div style={{ fontSize: 12, color: MUTED }}>{ch.desc}</div>
               </div>
-              <Toggle on={channels[ch.key]} onChange={() => toggleChannel(ch.key)} />
+              <Toggle on={ch.enabled} onChange={ch.onToggle || (() => {})} />
             </div>
           ))}
         </div>
@@ -694,185 +869,39 @@ function NotificationsSection() {
 }
 
 function BillingSection() {
-  const usageBars = [
-    { label: 'Compute', used: 78, unit: '78 / 100 GPU-hrs', color: ACCENT },
-    { label: 'Storage', used: 47, unit: '234 / 500 GB', color: '#7c6af7' },
-    { label: 'Inference', used: 62, unit: '48.2K / 80K calls', color: '#3498db' },
-  ]
-
   return (
     <div>
       <SectionLabel>Billing</SectionLabel>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
-        <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: 28 }}>
-          <div style={{
-            fontFamily: MONO,
-            fontSize: 10,
-            letterSpacing: '0.08em',
-            color: MUTED,
-            textTransform: 'uppercase',
-            marginBottom: 10,
-          }}>
-            Current Plan
-          </div>
-          <div style={{ fontSize: 32, fontWeight: 700, color: DARK, letterSpacing: '-0.03em', lineHeight: 1 }}>
-            Pro
-          </div>
-          <div style={{ fontSize: 14, color: MEDIUM, marginTop: 6, marginBottom: 20 }}>
-            $49 <span style={{ color: MUTED, fontSize: 12 }}>/ month</span>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
-            {['100 GPU hours / mo', '500 GB storage', '80K inference calls', 'Priority support'].map(f => (
-              <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: MEDIUM }}>
-                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#2db88a', flexShrink: 0 }} />
-                {f}
-              </div>
-            ))}
-          </div>
-          <button style={{
-            padding: '9px 18px',
-            borderRadius: 9,
-            border: CARD_BORDER,
-            background: '#fff',
-            fontSize: 13.5,
-            fontWeight: 600,
-            color: MEDIUM,
-            cursor: 'pointer',
-          }}>
-            Manage plan
-          </button>
-        </div>
-
-        <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: 28 }}>
-          <div style={{
-            fontFamily: MONO,
-            fontSize: 10,
-            letterSpacing: '0.08em',
-            color: MUTED,
-            textTransform: 'uppercase',
-            marginBottom: 16,
-          }}>
-            Payment Method
-          </div>
-          <div style={{
-            background: 'linear-gradient(135deg,#1b1a17 0%,#3a3530 100%)',
-            borderRadius: 12,
-            padding: '18px 20px',
-            marginBottom: 16,
-            color: '#fff',
-          }}>
-            <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.12em', marginBottom: 16, opacity: 0.6 }}>
-              VISA
-            </div>
-            <div style={{ fontFamily: MONO, fontSize: 15, letterSpacing: '0.12em', marginBottom: 14 }}>
-              •••• •••• •••• 4242
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ fontSize: 12, opacity: 0.7 }}>Tomi Tsuma</div>
-              <div style={{ fontFamily: MONO, fontSize: 11, opacity: 0.7 }}>12/27</div>
-            </div>
-          </div>
-          <button style={{
-            padding: '8px 16px',
-            borderRadius: 8,
-            border: CARD_BORDER,
-            background: '#fff',
-            fontSize: 13,
-            fontWeight: 600,
-            color: MEDIUM,
-            cursor: 'pointer',
-          }}>
-            Update card
-          </button>
-        </div>
-      </div>
-
-      <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: 28, marginBottom: 20 }}>
-        <div style={{ fontWeight: 600, fontSize: 15, color: DARK, marginBottom: 22 }}>Usage This Month</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-          {usageBars.map(b => (
-            <div key={b.label}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <span style={{ fontSize: 13.5, fontWeight: 500, color: DARK }}>{b.label}</span>
-                <span style={{ fontFamily: MONO, fontSize: 11, color: MUTED }}>{b.unit}</span>
-              </div>
-              <div style={{
-                height: 8,
-                background: '#f0ebe0',
-                borderRadius: 4,
-                overflow: 'hidden',
-              }}>
-                <div style={{
-                  height: '100%',
-                  width: `${b.used}%`,
-                  background: b.color,
-                  borderRadius: 4,
-                  transition: 'width .5s',
-                }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div style={{
-        background: 'linear-gradient(135deg,#1b1a17 0%,#2e2a24 100%)',
-        border: 'none',
+        background: '#fff',
+        border: CARD_BORDER,
         borderRadius: 14,
-        padding: 28,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 24,
+        padding: '48px 28px',
+        textAlign: 'center',
       }}>
-        <div>
-          <div style={{
-            fontFamily: MONO,
-            fontSize: 10,
-            letterSpacing: '0.1em',
-            color: '#a09880',
-            textTransform: 'uppercase',
-            marginBottom: 8,
-          }}>
-            Enterprise
-          </div>
-          <div style={{ fontSize: 20, fontWeight: 700, color: '#fff', marginBottom: 8, letterSpacing: '-0.02em' }}>
-            Upgrade to Enterprise
-          </div>
-          <div style={{ fontSize: 13.5, color: '#a09880', lineHeight: 1.55 }}>
-            Unlimited compute, SSO, private model registry, SLA guarantees, and dedicated support.
-          </div>
+        <div style={{ fontSize: 16, fontWeight: 600, color: DARK, marginBottom: 10 }}>
+          Billing not available yet
         </div>
-        <button style={{
-          padding: '12px 24px',
-          borderRadius: 10,
-          border: 'none',
-          background: ACCENT,
-          color: '#fff',
-          fontSize: 14,
-          fontWeight: 700,
-          cursor: 'pointer',
-          whiteSpace: 'nowrap',
-          flexShrink: 0,
-        }}>
-          Contact Sales
-        </button>
+        <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6, maxWidth: 420, marginInline: 'auto' }}>
+          Plan management, payment methods, and usage billing will appear here when the billing service is connected.
+        </p>
       </div>
     </div>
   )
 }
 
-function OrganizationsSection() {
-  const [orgs, setOrgs] = useState([
-    { id: 1, name: 'AfroML Labs', role: 'Owner', plan: 'Enterprise', avatar: 'AL', color: '#7c6af7' },
-    { id: 2, name: 'Nairobi AI Research', role: 'Member', plan: 'Pro', avatar: 'NA', color: '#2db88a' },
-    { id: 3, name: 'OpenSafari Foundation', role: 'Contributor', plan: 'Free', avatar: 'OS', color: '#3498db' },
-  ])
+const ORG_COLORS = ['#7c6af7', '#2db88a', '#3498db', '#cf5a2a', '#e67e22']
 
-  function leaveOrg(id) {
-    setOrgs(o => o.filter(x => x.id !== id))
-  }
+function OrganizationsSection() {
+  const [orgs, setOrgs] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchAllOrganizations()
+      .then(setOrgs)
+      .catch(() => setOrgs([]))
+      .finally(() => setLoading(false))
+  }, [])
 
   return (
     <div>
@@ -881,36 +910,49 @@ function OrganizationsSection() {
       <div style={{ background: '#fff', border: CARD_BORDER, borderRadius: 14, padding: 28 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
           <div style={{ fontWeight: 600, fontSize: 15, color: DARK }}>Your Organizations</div>
-          <button style={{
-            padding: '8px 18px',
-            borderRadius: 9,
-            border: 'none',
-            background: ACCENT,
-            color: '#fff',
-            fontSize: 13.5,
-            fontWeight: 600,
-            cursor: 'pointer',
-          }}>
-            + New organization
-          </button>
+          <Link
+            to="/organizations"
+            style={{
+              padding: '8px 18px',
+              borderRadius: 9,
+              border: 'none',
+              background: ACCENT,
+              color: '#fff',
+              fontSize: 13.5,
+              fontWeight: 600,
+              textDecoration: 'none',
+            }}
+          >
+            View all
+          </Link>
         </div>
+        {loading && (
+          <div style={{ padding: '24px 0', color: MUTED, fontSize: 14 }}>Loading organizations…</div>
+        )}
+        {!loading && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-          {orgs.map((org, i) => (
-            <div
+          {orgs.map((org, i) => {
+            const planLabel = (org.plan || 'free').charAt(0).toUpperCase() + (org.plan || 'free').slice(1)
+            const color = ORG_COLORS[i % ORG_COLORS.length]
+            return (
+            <Link
               key={org.id}
+              to={`/organizations/${org.slug}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 18,
                 padding: '16px 0',
                 borderBottom: i < orgs.length - 1 ? '1px solid #f0ebe0' : 'none',
+                textDecoration: 'none',
+                color: 'inherit',
               }}
             >
               <div style={{
                 width: 46,
                 height: 46,
                 borderRadius: 12,
-                background: org.color,
+                background: color,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -920,7 +962,7 @@ function OrganizationsSection() {
                 flexShrink: 0,
                 letterSpacing: '0.02em',
               }}>
-                {org.avatar}
+                {getInitials(org.name)}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 14.5, fontWeight: 600, color: DARK, marginBottom: 3 }}>{org.name}</div>
@@ -928,52 +970,29 @@ function OrganizationsSection() {
                   <span style={{
                     fontSize: 11,
                     fontFamily: MONO,
-                    background: '#f5f0e8',
-                    color: MEDIUM,
+                    background: planLabel === 'Enterprise' ? '#f0edff' : planLabel === 'Pro' ? '#fff5f0' : '#f5f5f5',
+                    color: planLabel === 'Enterprise' ? '#7c6af7' : planLabel === 'Pro' ? ACCENT : MUTED,
                     padding: '2px 8px',
                     borderRadius: 5,
                     letterSpacing: '0.04em',
                   }}>
-                    {org.role.toUpperCase()}
+                    {planLabel.toUpperCase()}
                   </span>
-                  <span style={{
-                    fontSize: 11,
-                    fontFamily: MONO,
-                    background: org.plan === 'Enterprise' ? '#f0edff' : org.plan === 'Pro' ? '#fff5f0' : '#f5f5f5',
-                    color: org.plan === 'Enterprise' ? '#7c6af7' : org.plan === 'Pro' ? ACCENT : MUTED,
-                    padding: '2px 8px',
-                    borderRadius: 5,
-                    letterSpacing: '0.04em',
-                  }}>
-                    {org.plan.toUpperCase()}
+                  <span style={{ fontSize: 12, color: MUTED }}>
+                    {org.memberCount} members
                   </span>
                 </div>
               </div>
-              {org.role !== 'Owner' && (
-                <button
-                  onClick={() => leaveOrg(org.id)}
-                  style={{
-                    padding: '6px 14px',
-                    borderRadius: 7,
-                    border: '1.4px solid #e0d8ce',
-                    background: '#fff',
-                    color: MUTED,
-                    fontSize: 12.5,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
-                  Leave
-                </button>
-              )}
-            </div>
-          ))}
+            </Link>
+            )
+          })}
           {orgs.length === 0 && (
             <div style={{ textAlign: 'center', padding: '32px 0', color: MUTED, fontSize: 14 }}>
-              You're not a member of any organizations.
+              You're not a member of any organizations yet.
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   )

@@ -1,53 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PAGE_ILLUSTRATIONS } from "../lib/illustrations";
-
-const MODELS = [
-  { id: "bert-sentiment-v2", label: "bert-sentiment-v2", type: "text", category: "Text Classification" },
-  { id: "vit-imagenet", label: "vit-imagenet", type: "vision", category: "Image Classification" },
-  { id: "whisper-swahili", label: "whisper-swahili", type: "audio", category: "Speech Recognition" },
-  { id: "gpt2-finetuned", label: "gpt2-finetuned", type: "text", category: "Text Generation" },
-];
-
-const MOCK_RESULTS = {
-  "bert-sentiment-v2": {
-    response: { label: "POSITIVE", score: 0.9823 },
-    explanation: "The model classified this input as POSITIVE with 98.23% confidence based on sentiment markers in the text.",
-    tokens: [
-      { word: "The", sentiment: "neutral" },
-      { word: "product", sentiment: "neutral" },
-      { word: "is", sentiment: "neutral" },
-      { word: "absolutely", sentiment: "positive" },
-      { word: "fantastic", sentiment: "positive" },
-      { word: "and", sentiment: "neutral" },
-      { word: "works", sentiment: "neutral" },
-      { word: "great", sentiment: "positive" },
-    ],
-  },
-  "vit-imagenet": {
-    response: { predictions: [{ class: "tabby_cat", confidence: 0.891 }, { class: "tiger_cat", confidence: 0.073 }] },
-    explanation: "The vision transformer identified the dominant object with 89.1% confidence by attending to texture and shape features.",
-    tokens: [],
-  },
-  "whisper-swahili": {
-    response: { text: "Habari yako leo?" },
-    explanation: "The audio was transcribed using the Whisper model fine-tuned on Swahili speech data.",
-    tokens: [],
-  },
-  "gpt2-finetuned": {
-    response: { generated_text: "The future of AI is bright, with transformative applications across healthcare, education, and scientific research driving unprecedented progress." },
-    explanation: "The model generated a continuation based on the provided prompt using autoregressive decoding with temperature 0.7.",
-    tokens: [
-      { word: "future", sentiment: "positive" },
-      { word: "of", sentiment: "neutral" },
-      { word: "AI", sentiment: "positive" },
-      { word: "is", sentiment: "neutral" },
-      { word: "transformative", sentiment: "positive" },
-      { word: "challenging", sentiment: "negative" },
-      { word: "yet", sentiment: "neutral" },
-      { word: "promising", sentiment: "positive" },
-    ],
-  },
-};
+import { fetchAllModels } from "../api/models";
+import { runInference } from "../api/inference";
 
 const sentimentChipStyle = (sentiment) => {
   if (sentiment === "positive") return { background: "#dcfce7", color: "#166534" };
@@ -56,7 +10,8 @@ const sentimentChipStyle = (sentiment) => {
 };
 
 export default function InferenceStudioPage() {
-  const [selectedModelId, setSelectedModelId] = useState("bert-sentiment-v2");
+  const [models, setModels] = useState([]);
+  const [selectedModelId, setSelectedModelId] = useState("");
   const [textInput, setTextInput] = useState("");
   const [temperature, setTemperature] = useState(0.7);
   const [maxTokens, setMaxTokens] = useState(256);
@@ -64,21 +19,39 @@ export default function InferenceStudioPage() {
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
   const [latency, setLatency] = useState(null);
   const [dragOver, setDragOver] = useState(false);
 
-  const selectedModel = MODELS.find((m) => m.id === selectedModelId);
+  useEffect(() => {
+    fetchAllModels().then((data) => {
+      setModels(data || []);
+      if (data?.[0]) setSelectedModelId(data[0].id);
+    });
+  }, []);
 
-  const handleRun = () => {
+  const selectedModel = models.find((m) => m.id === selectedModelId);
+
+  const handleRun = async () => {
     setLoading(true);
     setResult(null);
+    setError(null);
     const start = Date.now();
-    setTimeout(() => {
-      const elapsed = Date.now() - start;
-      setResult(MOCK_RESULTS[selectedModelId]);
-      setLatency(elapsed);
+    try {
+      const data = await runInference(selectedModelId, {
+        input: textInput,
+        temperature,
+        maxTokens,
+        topP,
+      });
+      setResult({ response: data.result, explanation: "Inference completed." });
+      setLatency(data.latency_ms ?? Date.now() - start);
+    } catch (err) {
+      setError(err.message || "Inference service unavailable.");
+      setLatency(Date.now() - start);
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   const tokenCount = textInput.trim().split(/\s+/).filter(Boolean).length;
@@ -149,9 +122,9 @@ export default function InferenceStudioPage() {
                   outline: "none",
                 }}
               >
-                {MODELS.map((m) => (
+                {models.map((m) => (
                   <option key={m.id} value={m.id}>
-                    {m.label} — {m.category}
+                    {m.title || m.id} — {m.family || 'Model'}
                   </option>
                 ))}
               </select>
@@ -167,7 +140,7 @@ export default function InferenceStudioPage() {
                     border: "1px solid #f5d5c0",
                   }}
                 >
-                  {selectedModel.category}
+                  {selectedModel?.family || 'Model'}
                 </span>
                 <span
                   style={{
@@ -184,7 +157,7 @@ export default function InferenceStudioPage() {
               </div>
             </div>
 
-            {selectedModel.type === "text" && (
+            {(!selectedModel?.tags?.length || selectedModel.tags.includes('text') || selectedModel?.family?.includes('Forecast')) && (
               <div style={{ marginBottom: 20 }}>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#56524a", marginBottom: 6 }}>
                   Text Input
@@ -215,7 +188,7 @@ export default function InferenceStudioPage() {
               </div>
             )}
 
-            {selectedModel.type === "vision" && (
+            {selectedModel?.tags?.includes('vision') && (
               <div style={{ marginBottom: 20 }}>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#56524a", marginBottom: 6 }}>
                   Image Input
@@ -259,7 +232,7 @@ export default function InferenceStudioPage() {
               </div>
             )}
 
-            {selectedModel.type === "audio" && (
+            {selectedModel?.tags?.includes('audio') && (
               <div style={{ marginBottom: 20 }}>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#56524a", marginBottom: 6 }}>
                   Audio Input
@@ -499,7 +472,7 @@ export default function InferenceStudioPage() {
                 />
                 <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
                 <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#56524a" }}>Running inference...</p>
-                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#8a857a" }}>Processing with {selectedModel.label}</p>
+                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#8a857a" }}>Processing with {selectedModel?.title || selectedModelId}</p>
               </div>
             )}
 
@@ -623,7 +596,7 @@ export default function InferenceStudioPage() {
               }}
             />
             <span style={{ color: "#56524a", fontWeight: 500 }}>Model:</span>
-            <span style={{ color: "#1b1a17", fontWeight: 600 }}>{selectedModel.label}</span>
+            <span style={{ color: "#1b1a17", fontWeight: 600 }}>{selectedModel?.title || selectedModelId}</span>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -636,7 +609,7 @@ export default function InferenceStudioPage() {
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ color: "#56524a", fontWeight: 500 }}>Tokens processed:</span>
             <span style={{ color: result ? "#1b1a17" : "#8a857a", fontWeight: 600 }}>
-              {result ? (selectedModel.type === "text" ? Math.max(tokenCount, 12) : "N/A") : "—"}
+              {result ? tokenCount : error ? "Error" : "—"}
             </span>
           </div>
 

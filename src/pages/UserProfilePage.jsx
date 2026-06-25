@@ -8,33 +8,14 @@ const DARK = '#1b1a17'
 const MEDIUM = '#56524a'
 const MUTED = '#8a857a'
 
-const CONTRIBUTION_SHADES = ['#dcfce7', '#86efac', '#22c55e', '#16a34a']
-
 function getInitials(fullName) {
-  const parts = fullName.trim().split(' ')
+  const parts = (fullName || '').trim().split(' ')
+  if (!parts[0]) return '?'
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
 }
 
-function seededRand(seed) {
-  let s = seed
-  return function () {
-    s = (s * 1664525 + 1013904223) & 0xffffffff
-    return (s >>> 0) / 0xffffffff
-  }
-}
-
-function ContributionGrid({ username }) {
-  const rand = seededRand(username.split('').reduce((a, c) => a + c.charCodeAt(0), 0))
-  const cells = Array.from({ length: 84 }, (_, i) => {
-    const r = rand()
-    if (r < 0.45) return null
-    if (r < 0.65) return CONTRIBUTION_SHADES[0]
-    if (r < 0.80) return CONTRIBUTION_SHADES[1]
-    if (r < 0.93) return CONTRIBUTION_SHADES[2]
-    return CONTRIBUTION_SHADES[3]
-  })
-
+function ActivityUnavailable() {
   return (
     <div>
       <div style={{
@@ -45,34 +26,9 @@ function ContributionGrid({ username }) {
       </div>
       <div style={{
         background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
-        padding: '20px 22px',
+        padding: '32px 22px', textAlign: 'center', color: MUTED, fontSize: 14,
       }}>
-        <div style={{ fontSize: 12, color: MUTED, marginBottom: 14 }}>Contribution activity — last 12 weeks</div>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(12, 12px)',
-          gridTemplateRows: 'repeat(7, 12px)',
-          gap: 3,
-        }}>
-          {cells.map((color, i) => (
-            <div
-              key={i}
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 2,
-                background: color || '#f0ebe0',
-              }}
-            />
-          ))}
-        </div>
-        <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 12 }}>
-          <span style={{ fontSize: 11, color: MUTED }}>Less</span>
-          {[null, ...CONTRIBUTION_SHADES].map((c, i) => (
-            <div key={i} style={{ width: 12, height: 12, borderRadius: 2, background: c || '#f0ebe0' }} />
-          ))}
-          <span style={{ fontSize: 11, color: MUTED }}>More</span>
-        </div>
+        Contribution activity is not available yet.
       </div>
     </div>
   )
@@ -395,7 +351,7 @@ export default function UserProfilePage() {
             </div>
 
             <div>
-              <ContributionGrid username={user.username} />
+              <ActivityUnavailable />
             </div>
           </div>
         )}

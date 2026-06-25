@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchDataset, fetchRelatedDatasets, DOMAIN_COLORS } from '../api/datasets'
+import {
+  getDatasetRecordByRepoId,
+  getDatasetSchema,
+  previewRows,
+  getDatasetProfile,
+  getDatasetLineage,
+} from '../api/datasetRecords'
 import { DOMAIN_ILLUSTRATIONS } from '../lib/illustrations'
 import { fetchRelatedModels } from '../api/models'
 import CodeBlock from '../components/CodeBlock'
@@ -230,21 +237,42 @@ export default function DatasetDetailPage() {
   const [notFound, setNotFound] = useState(false)
 
   const [relatedModels, setRelatedModels] = useState([])
+  const [liveSchema, setLiveSchema] = useState(null)
+  const [previewData, setPreviewData] = useState(null)
+  const [profileData, setProfileData] = useState(null)
+  const [lineageData, setLineageData] = useState(null)
 
   useEffect(() => {
     setLoading(true)
     setNotFound(false)
-    fetchDataset(datasetId).then(data => {
+    fetchDataset(datasetId).then(async data => {
       if (!data) { setNotFound(true); setLoading(false); return }
       setDataset(data)
-      Promise.all([
+      const [ds, ms] = await Promise.all([
         fetchRelatedDatasets(data.relatedDatasetIds),
         fetchRelatedModels(data.relatedModelIds),
-      ]).then(([ds, ms]) => {
-        setRelatedDatasets(ds)
-        setRelatedModels(ms)
-        setLoading(false)
-      })
+      ])
+      setRelatedDatasets(ds)
+      setRelatedModels(ms)
+
+      if (data._repoId) {
+        try {
+          const record = await getDatasetRecordByRepoId(data._repoId)
+          if (record?.id) {
+            const [schema, rows, profile, lineage] = await Promise.all([
+              getDatasetSchema(record.id).catch(() => null),
+              previewRows(record.id, { limit: 10 }).catch(() => null),
+              getDatasetProfile(record.id).catch(() => null),
+              getDatasetLineage(record.id).catch(() => null),
+            ])
+            setLiveSchema(schema)
+            setPreviewData(rows)
+            setProfileData(profile)
+            setLineageData(lineage)
+          }
+        } catch { /* DatasetsService record may not exist yet */ }
+      }
+      setLoading(false)
     })
   }, [datasetId])
 
@@ -262,6 +290,14 @@ export default function DatasetDetailPage() {
 
   const { title, domain, format, license, desc, longDesc, size, rows, downloads, updated, version,
     coverage, schema, collection, usageNotes, codeSnippet } = dataset
+
+  const displaySchema = liveSchema?.columns?.map(c => ({
+    column: c.name || c.column,
+    type: c.dtype || c.type || '—',
+    desc: c.description || '',
+  })) || schema
+
+  const displayRows = previewData?.rows || profileData?.row_count || rows
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -297,7 +333,7 @@ export default function DatasetDetailPage() {
 
               <div style={{ display: 'flex', gap: 14, marginTop: 18, flexWrap: 'wrap', alignItems: 'center' }}>
                 <StatPill icon="↓" label={`${downloads} downloads`} />
-                <StatPill icon="⬢" label={`${rows} rows`} />
+                <StatPill icon="⬢" label={`${displayRows} rows`} />
                 <StatPill icon="◉" label={size} />
                 <StatPill icon="↺" label={`Updated ${updated}`} />
                 <StarButton repoId={dataset._repoId} initialCount={0} />
@@ -377,9 +413,19 @@ export default function DatasetDetailPage() {
           )}
 
           {/* Schema */}
-          {schema.length > 0 && (
-            <SectionCard label={`Schema — ${schema.length} columns`}>
-              <SchemaTable columns={schema} />
+          {displaySchema?.length > 0 && (
+            <SectionCard label={`Schema — ${displaySchema.length} columns`}>
+              <SchemaTable columns={displaySchema} />
+            </SectionCard>
+          )}
+
+          {lineageData && (
+            <SectionCard label="Lineage">
+              <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '18px 20px', fontSize: 13, color: MEDIUM }}>
+                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: "'Space Mono',monospace", fontSize: 11 }}>
+                  {JSON.stringify(lineageData, null, 2)}
+                </pre>
+              </div>
             </SectionCard>
           )}
 

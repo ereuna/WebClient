@@ -18,14 +18,6 @@ const DAG_NODES = [
 
 const STATE_ICON = { completed: '✅', active: '🔄', pending: '⏳' }
 
-const MOCK_RUNS = [
-  { run: '#142', status: 'success',  started: '2026-06-24 02:00', duration: '18m 32s', trigger: 'scheduled' },
-  { run: '#141', status: 'failed',   started: '2026-06-23 02:00', duration: '4m 11s',  trigger: 'scheduled' },
-  { run: '#140', status: 'success',  started: '2026-06-22 02:00', duration: '19m 05s', trigger: 'manual'    },
-  { run: '#139', status: 'success',  started: '2026-06-21 02:00', duration: '17m 48s', trigger: 'scheduled' },
-  { run: '#138', status: 'running',  started: '2026-06-20 14:30', duration: '—',       trigger: 'manual'    },
-]
-
 const STATUS_COLORS = {
   active:  { bg: '#dcfce7', color: '#16a34a', border: '#bbf7d0' },
   paused:  { bg: '#fef9c3', color: '#a16207', border: '#fde68a' },
@@ -225,16 +217,28 @@ function OverviewTab({ pipeline }) {
   )
 }
 
-function RunHistoryTab() {
+function RunHistoryTab({ runs = [] }) {
   const statusStyle = s => {
     const c = STATUS_COLORS[s] || STATUS_COLORS.draft
     return { background: c.bg, color: c.color, border: `1px solid ${c.border}` }
   }
+  const rows = runs.map(r => ({
+    run: r.id?.slice(0, 8) || '—',
+    status: r.status === 'succeeded' ? 'success' : r.status,
+    started: r.started_at || r.created_at,
+    duration: r.finished_at && r.started_at
+      ? `${Math.round((new Date(r.finished_at) - new Date(r.started_at)) / 60000)}m`
+      : '—',
+    trigger: r.trigger_type || 'manual',
+  }))
   return (
     <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, overflow: 'hidden' }}>
       <div style={{ padding: '20px 24px 14px', borderBottom: '1px solid #f0ebe0' }}>
         <SectionLabel>Run History</SectionLabel>
       </div>
+      {rows.length === 0 ? (
+        <div style={{ padding: 24, color: MUTED, fontSize: 13 }}>No runs yet.</div>
+      ) : (
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ background: '#faf7f0' }}>
@@ -250,10 +254,10 @@ function RunHistoryTab() {
           </tr>
         </thead>
         <tbody>
-          {MOCK_RUNS.map((row, i) => (
+          {rows.map((row, i) => (
             <tr
-              key={row.run}
-              style={{ borderBottom: i < MOCK_RUNS.length - 1 ? '1px solid #f5f0e8' : 'none' }}
+              key={row.run + i}
+              style={{ borderBottom: i < rows.length - 1 ? '1px solid #f5f0e8' : 'none' }}
               onMouseEnter={e => e.currentTarget.style.background = '#faf7f0'}
               onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
             >
@@ -284,6 +288,7 @@ function RunHistoryTab() {
           ))}
         </tbody>
       </table>
+      )}
     </div>
   )
 }
@@ -494,7 +499,7 @@ export default function PipelineDetailPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 80px' }}>
         {activeTab === 'overview'    && <OverviewTab pipeline={pipeline} />}
-        {activeTab === 'run-history' && <RunHistoryTab />}
+        {activeTab === 'run-history' && <RunHistoryTab runs={pipeline.runHistory} />}
         {activeTab === 'settings'    && <SettingsTab pipeline={pipeline} />}
       </div>
     </div>

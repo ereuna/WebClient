@@ -1,78 +1,62 @@
-const mockExperiments = [
-  {
-    id: 'exp-001',
-    name: 'resnet50-lr-sweep',
-    owner: 'TomiTsuma',
-    project: 'image-classification-v2',
-    status: 'completed',
-    metrics: { accuracy: 0.9231, loss: 0.2104, f1: 0.9188 },
-    params: { lr: 0.001, epochs: 50, batchSize: 64 },
-    createdAt: '2026-06-20T10:00:00Z',
-    duration: '2h 14m',
-  },
-  {
-    id: 'exp-002',
-    name: 'bert-fine-tune-sentiment',
-    owner: 'aether-ai',
-    project: 'sentiment-analysis',
-    status: 'running',
-    metrics: { accuracy: 0.8840, loss: 0.3312, f1: 0.8790 },
-    params: { lr: 0.00002, epochs: 5, batchSize: 32 },
-    createdAt: '2026-06-24T08:30:00Z',
-    duration: '45m (ongoing)',
-  },
-  {
-    id: 'exp-003',
-    name: 'gpt2-text-gen-warmup',
-    owner: 'TomiTsuma',
-    project: 'text-generation',
-    status: 'failed',
-    metrics: { accuracy: null, loss: null, f1: null },
-    params: { lr: 0.0005, epochs: 10, batchSize: 16 },
-    createdAt: '2026-06-18T14:00:00Z',
-    duration: '8m (failed)',
-  },
-  {
-    id: 'exp-004',
-    name: 'vit-imagenet-baseline',
-    owner: 'data-team',
-    project: 'vision-transformer',
-    status: 'completed',
-    metrics: { accuracy: 0.9512, loss: 0.1688, f1: 0.9498 },
-    params: { lr: 0.0003, epochs: 100, batchSize: 128 },
-    createdAt: '2026-05-30T09:00:00Z',
-    duration: '11h 42m',
-  },
-  {
-    id: 'exp-005',
-    name: 'whisper-finetune-swahili',
-    owner: 'TomiTsuma',
-    project: 'multilingual-asr',
-    status: 'completed',
-    metrics: { accuracy: 0.8765, loss: 0.2941, f1: 0.8710 },
-    params: { lr: 0.00005, epochs: 20, batchSize: 8 },
-    createdAt: '2026-06-12T11:00:00Z',
-    duration: '6h 03m',
-  },
-  {
-    id: 'exp-006',
-    name: 'stable-diffusion-lora-v1',
-    owner: 'aether-ai',
-    project: 'image-generation',
-    status: 'running',
-    metrics: { accuracy: null, loss: 0.4201, f1: null },
-    params: { lr: 0.0001, epochs: 30, batchSize: 4 },
-    createdAt: '2026-06-25T00:00:00Z',
-    duration: '3h 20m (ongoing)',
-  },
-]
+/**
+ * Experiments via PlatformService.
+ */
+import { platformApi } from './client.js'
 
-export function fetchAllExperiments() {
-  return Promise.resolve([...mockExperiments])
+function durationFromRun(run) {
+  if (!run?.start_time) return '—'
+  const end = run.end_time ? new Date(run.end_time) : new Date()
+  const ms = end - new Date(run.start_time)
+  const h = Math.floor(ms / 3600000)
+  const m = Math.floor((ms % 3600000) / 60000)
+  if (h > 0) return `${h}h ${m}m`
+  return `${m}m`
 }
 
-export function fetchExperiment(id) {
-  const experiment = mockExperiments.find(e => e.id === id)
-  if (!experiment) return Promise.reject(new Error(`Experiment not found: ${id}`))
-  return Promise.resolve({ ...experiment })
+function mapExperiment(e, latestRun = null) {
+  const params = latestRun?.params || e.tags || {}
+  const metrics = latestRun?.tags?.metrics || {}
+  return {
+    id: e.id,
+    name: e.name,
+    owner: e.tags?.owner || 'unknown',
+    project: e.tags?.project || e.description || '',
+    status: latestRun?.status || 'created',
+    metrics: {
+      accuracy: metrics.accuracy ?? null,
+      loss: metrics.loss ?? null,
+      f1: metrics.f1 ?? null,
+    },
+    params: {
+      lr: params.lr ?? params.learning_rate ?? null,
+      epochs: params.epochs ?? null,
+      batchSize: params.batch_size ?? params.batchSize ?? null,
+    },
+    createdAt: e.created_at,
+    duration: latestRun ? durationFromRun(latestRun) : '—',
+    repoId: e.repo_id,
+    runs: [],
+  }
+}
+
+export async function fetchAllExperiments() {
+  const rows = await platformApi.get('/experiments?limit=200').catch(() => [])
+  return Promise.all(
+    (rows || []).map(async (e) => {
+      let runs = []
+      try {
+        runs = await platformApi.get(`/experiments/${e.id}/runs?limit=1`)
+      } catch { /* ignore */ }
+      return mapExperiment(e, runs?.[0])
+    }),
+  )
+}
+
+export async function fetchExperiment(id) {
+  const e = await platformApi.get(`/experiments/${id}`)
+  let runs = []
+  try {
+    runs = await platformApi.get(`/experiments/${id}/runs?limit=50`)
+  } catch { /* ignore */ }
+  return { ...mapExperiment(e, runs?.[0]), runs: runs || [] }
 }

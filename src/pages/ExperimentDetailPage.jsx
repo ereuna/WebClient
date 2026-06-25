@@ -11,9 +11,6 @@ const CARD_BG = '#fff'
 const CARD_BORDER = '1px solid #e7e0d2'
 const CARD_RADIUS = 14
 
-const LOSS_HEIGHTS = [140, 128, 114, 102, 92, 80, 68, 58, 50, 44]
-const ACCURACY_HEIGHTS = [28, 40, 54, 68, 80, 92, 104, 116, 126, 136]
-
 function StatusBadge({ status }) {
   const map = {
     completed: { bg: '#e6f4ec', color: '#2d8a4e', label: 'Completed' },
@@ -31,6 +28,12 @@ function StatusBadge({ status }) {
       {s.label}
     </span>
   )
+}
+
+function fmtMetric(val) {
+  if (val == null || val === '') return '—'
+  if (typeof val === 'number') return Number.isInteger(val) ? String(val) : val.toFixed(4)
+  return String(val)
 }
 
 function ActionButton({ children, onClick, variant }) {
@@ -298,38 +301,35 @@ function OverviewTab({ experiment }) {
   )
 }
 
-function MetricsTab() {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+function MetricsTab({ experiment }) {
+  const metrics = experiment?.metrics || {}
+  const hasMetrics = [metrics.accuracy, metrics.loss, metrics.f1].some(v => v != null)
+
+  if (!hasMetrics) {
+    return (
       <Card>
-        <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap' }}>
-          <BarChart
-            title="Training Loss over Epochs"
-            bars={LOSS_HEIGHTS}
-            yHigh="1.0"
-            yLow="0.0"
-            xLabel="Epoch"
-          />
-          <BarChart
-            title="Accuracy over Epochs"
-            bars={ACCURACY_HEIGHTS}
-            yHigh="100%"
-            yLow="0%"
-            xLabel="Epoch"
-          />
+        <div style={{ padding: '40px 20px', textAlign: 'center' }}>
+          <div style={{ fontSize: 15, fontWeight: 600, color: DARK, marginBottom: 8 }}>No metrics history yet</div>
+          <p style={{ fontSize: 13.5, color: MUTED, margin: 0 }}>
+            Training metrics will appear here when experiment runs record them.
+          </p>
         </div>
       </Card>
+    )
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
       <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
         {[
-          { label: 'Best Accuracy', value: '92.31%', sub: 'Epoch 10' },
-          { label: 'Final Loss',    value: '0.2104', sub: 'Epoch 10' },
-          { label: 'Best F1',       value: '91.88%', sub: 'Epoch 9'  },
-          { label: 'Total Epochs',  value: '10',     sub: 'Completed'},
-        ].map(({ label, value, sub }) => (
+          { label: 'Accuracy', value: fmtMetric(metrics.accuracy) },
+          { label: 'Loss', value: fmtMetric(metrics.loss) },
+          { label: 'F1 Score', value: fmtMetric(metrics.f1) },
+          { label: 'Runs', value: String(experiment?.runs?.length || 0) },
+        ].map(({ label, value }) => (
           <Card key={label} style={{ flex: '1 1 140px', minWidth: 130 }}>
             <div style={{ fontSize: 11, color: MUTED, marginBottom: 6 }}>{label}</div>
             <div style={{ fontSize: 28, fontWeight: 700, color: DARK, lineHeight: 1 }}>{value}</div>
-            <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED, marginTop: 6 }}>{sub}</div>
           </Card>
         ))}
       </div>
@@ -338,12 +338,6 @@ function MetricsTab() {
 }
 
 function ArtifactsTab() {
-  const artifacts = [
-    { icon: '🧠', name: 'model.pt',             size: '1.2 GB' },
-    { icon: '📄', name: 'training_log.json',    size: '48 KB'  },
-    { icon: '🖼️', name: 'confusion_matrix.png', size: '112 KB' },
-    { icon: '📊', name: 'metrics.csv',          size: '8 KB'   },
-  ]
   return (
     <Card style={{ padding: 0 }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid #f0ebe0' }}>
@@ -352,9 +346,9 @@ function ArtifactsTab() {
           Files generated during the experiment run.
         </p>
       </div>
-      {artifacts.map((a, i) => (
-        <ArtifactRow key={a.name} {...a} isLast={i === artifacts.length - 1} />
-      ))}
+      <div style={{ padding: '40px 20px', textAlign: 'center', color: MUTED, fontSize: 14 }}>
+        No artifacts recorded for this experiment yet.
+      </div>
     </Card>
   )
 }
@@ -496,7 +490,7 @@ export default function ExperimentDetailPage() {
 
       <div style={{ maxWidth: 1200, margin: '32px auto', padding: '0 28px 80px' }}>
         {activeTab === 'Overview'     && <OverviewTab experiment={experiment} />}
-        {activeTab === 'Metrics'      && <MetricsTab />}
+        {activeTab === 'Metrics'      && <MetricsTab experiment={experiment} />}
         {activeTab === 'Artifacts'    && <ArtifactsTab />}
         {activeTab === 'Comparisons'  && <ComparisonsTab />}
       </div>

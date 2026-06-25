@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
+import { fetchDashboardData } from '../api/dashboard'
+import { useAuth } from '../context/AuthContext.jsx'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
@@ -20,38 +22,12 @@ const QUICK_ACTIONS = [
   { emoji: '⚡', label: 'Deploy Model', desc: 'Serve a model as an API endpoint', to: '/deployments' },
 ]
 
-const METRICS = [
-  { label: 'Models', value: '12', accent: '#cf5a2a' },
-  { label: 'Datasets', value: '8', accent: '#7c6af7' },
-  { label: 'Inference Calls', value: '48.2K', accent: '#2db88a' },
-  { label: 'Storage', value: '234 GB', accent: '#3498db' },
+const METRICS_DEFAULT = [
+  { label: 'Models', value: '0', accent: '#cf5a2a' },
+  { label: 'Datasets', value: '0', accent: '#7c6af7' },
+  { label: 'Pipelines', value: '0', accent: '#2db88a' },
+  { label: 'Spaces', value: '0', accent: '#3498db' },
 ]
-
-const ACTIVITY = [
-  { title: 'Training completed', sub: 'resnet50-lr-sweep', time: '2h ago', color: '#2db88a' },
-  { title: 'Model deployed', sub: 'bert-sentiment-v2', time: '5h ago', color: '#cf5a2a' },
-  { title: 'Dataset uploaded', sub: 'swahili-speech-corpus', time: 'Yesterday', color: '#7c6af7' },
-  { title: 'Pipeline executed', sub: 'image-classification-training', time: 'Yesterday', color: '#3498db' },
-  { title: 'Experiment started', sub: 'stable-diffusion-lora-v1', time: '2d ago', color: '#e67e22' },
-]
-
-const RESOURCES = {
-  Repositories: [
-    { name: 'resnet50-finetuned', desc: 'Fine-tuned ResNet-50 on custom image corpus', to: '/models/resnet50-finetuned' },
-    { name: 'bert-sentiment-v2', desc: 'Sentiment classifier trained on multilingual data', to: '/models/bert-sentiment-v2' },
-    { name: 'stable-diffusion-lora-v1', desc: 'LoRA adaptation for African art style generation', to: '/models/stable-diffusion-lora-v1' },
-  ],
-  Datasets: [
-    { name: 'swahili-speech-corpus', desc: '12,000 hours of annotated Swahili speech audio', to: '/datasets/swahili-speech-corpus' },
-    { name: 'nairobi-traffic-v2', desc: 'Urban traffic flow sensor data, 2021–2024', to: '/datasets/nairobi-traffic-v2' },
-    { name: 'afro-nlp-benchmark', desc: 'Benchmark suite across 18 African NLP tasks', to: '/datasets/afro-nlp-benchmark' },
-  ],
-  Experiments: [
-    { name: 'lr-sweep-resnet50', desc: 'Grid search over learning rate schedules', to: '/experiments/lr-sweep-resnet50' },
-    { name: 'bert-multilingual-eval', desc: 'Cross-lingual transfer evaluation run', to: '/experiments/bert-multilingual-eval' },
-    { name: 'sd-lora-ablation', desc: 'LoRA rank ablation study for style fidelity', to: '/experiments/sd-lora-ablation' },
-  ],
-}
 
 function SectionLabel({ children }) {
   return (
@@ -149,9 +125,9 @@ function ResourceCard({ name, desc, to }) {
   )
 }
 
-function ResourceTabs() {
-  const tabs = Object.keys(RESOURCES)
-  const [active, setActive] = useState(tabs[0])
+function ResourceTabs({ resources }) {
+  const tabs = Object.keys(resources)
+  const [active, setActive] = useState(tabs[0] || 'Repositories')
 
   return (
     <div>
@@ -173,21 +149,65 @@ function ResourceTabs() {
         ))}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {RESOURCES[active].map(r => (
+        {resources[active]?.length ? resources[active].map(r => (
           <ResourceCard key={r.name} {...r} />
-        ))}
+        )) : (
+          <div style={{ fontSize: 13, color: MUTED, padding: '12px 0' }}>No resources yet.</div>
+        )}
       </div>
     </div>
   )
 }
 
 export default function DashboardPage() {
+  const { user } = useAuth()
+  const [metrics, setMetrics] = useState(METRICS_DEFAULT)
+  const [activity, setActivity] = useState([])
+  const [resources, setResources] = useState({ Repositories: [], Datasets: [] })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchDashboardData()
+      .then(data => {
+        setMetrics([
+          { label: 'Models', value: String(data.metrics.models), accent: '#cf5a2a' },
+          { label: 'Datasets', value: String(data.metrics.datasets), accent: '#7c6af7' },
+          { label: 'Pipelines', value: String(data.metrics.pipelines), accent: '#2db88a' },
+          { label: 'Spaces', value: String(data.metrics.spaces), accent: '#3498db' },
+        ])
+        const recent = (data.recentRepos || []).slice(0, 5).map(r => ({
+          title: `${r.repo_type} updated`,
+          sub: r.slug,
+          time: new Date(r.updated_at).toLocaleDateString(),
+          color: '#cf5a2a',
+        }))
+        setActivity(recent)
+        const models = (data.recentRepos || []).filter(r => r.repo_type === 'MODEL').slice(0, 3)
+        const datasets = (data.recentRepos || []).filter(r => r.repo_type === 'DATASET').slice(0, 3)
+        setResources({
+          Repositories: models.map(r => ({
+            name: r.slug,
+            desc: r.description || '',
+            to: `/models/${r.slug}`,
+          })),
+          Datasets: datasets.map(r => ({
+            name: r.slug,
+            desc: r.description || '',
+            to: `/datasets/${r.slug}`,
+          })),
+        })
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
+  const greeting = user?.full_name || user?.username || 'there'
+
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <PageHero
         eyebrow={TODAY}
         title="Dashboard"
-        description="Good morning, TomiTsuma"
+        description={`Good morning, ${greeting}`}
         illustration={PAGE_ILLUSTRATIONS.dashboard}
         illustrationAlt="Dashboard illustration"
       />
@@ -205,11 +225,15 @@ export default function DashboardPage() {
 
         <div style={{ marginBottom: 36 }}>
           <SectionLabel>Your Metrics</SectionLabel>
-          <div style={{ display: 'flex', gap: 16 }}>
-            {METRICS.map(m => (
-              <MetricStatCard key={m.label} {...m} />
-            ))}
-          </div>
+          {loading ? (
+            <div style={{ color: MUTED, fontFamily: MONO, fontSize: 13 }}>Loading metrics…</div>
+          ) : (
+            <div style={{ display: 'flex', gap: 16 }}>
+              {metrics.map(m => (
+                <MetricStatCard key={m.label} {...m} />
+              ))}
+            </div>
+          )}
         </div>
 
         <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
@@ -220,8 +244,10 @@ export default function DashboardPage() {
               background: '#fff', border: CARD_BORDER, borderRadius: 14,
               padding: '4px 22px',
             }}>
-              {ACTIVITY.map((item, i) => (
-                <ActivityItem key={item.sub} {...item} isLast={i === ACTIVITY.length - 1} />
+              {activity.length === 0 ? (
+                <div style={{ padding: '20px 0', color: MUTED, fontSize: 13 }}>No recent activity.</div>
+              ) : activity.map((item, i) => (
+                <ActivityItem key={item.sub} {...item} isLast={i === activity.length - 1} />
               ))}
             </div>
           </div>
@@ -232,7 +258,7 @@ export default function DashboardPage() {
               background: '#fff', border: CARD_BORDER, borderRadius: 14,
               padding: '16px 20px',
             }}>
-              <ResourceTabs />
+              <ResourceTabs resources={resources} />
             </div>
           </div>
 
