@@ -24,6 +24,13 @@ export const DOMAIN_ILLUSTRATIONS = {
   Grid: '/illustrations/card-domain-grid.png',
 }
 
+export const ACTION_ILLUSTRATIONS = {
+  newModel: '/illustrations/action-new-model.png',
+  newDataset: '/illustrations/action-new-dataset.png',
+  launchTraining: '/illustrations/action-launch-training.png',
+  deployModel: '/illustrations/action-deploy-model.png',
+}
+
 export const PAGE_ILLUSTRATIONS = {
   models: '/illustrations/page-models-hero.png',
   datasets: '/illustrations/page-datasets-hero.png',

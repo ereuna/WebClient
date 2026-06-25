@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
-import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
+import { PAGE_ILLUSTRATIONS, ACTION_ILLUSTRATIONS } from '../lib/illustrations'
 import { fetchDashboardData } from '../api/dashboard'
 import { useAuth } from '../context/AuthContext.jsx'
 
@@ -16,10 +16,10 @@ const MONO = "'Space Mono',monospace"
 const TODAY = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
 
 const QUICK_ACTIONS = [
-  { emoji: '🧠', label: 'New Model', desc: 'Upload or create a model repository', to: '/new?type=model' },
-  { emoji: '📊', label: 'New Dataset', desc: 'Add a dataset to the platform', to: '/new?type=dataset' },
-  { emoji: '🚀', label: 'Launch Training', desc: 'Start an experiment or training run', to: '/experiments' },
-  { emoji: '⚡', label: 'Deploy Model', desc: 'Serve a model as an API endpoint', to: '/deployments' },
+  { illo: ACTION_ILLUSTRATIONS.newModel, label: 'New Model', desc: 'Upload or create a model repository', to: '/new?type=model' },
+  { illo: ACTION_ILLUSTRATIONS.newDataset, label: 'New Dataset', desc: 'Add a dataset to the platform', to: '/new?type=dataset' },
+  { illo: ACTION_ILLUSTRATIONS.launchTraining, label: 'Launch Training', desc: 'Start an experiment or training run', to: '/experiments' },
+  { illo: ACTION_ILLUSTRATIONS.deployModel, label: 'Deploy Model', desc: 'Serve a model as an API endpoint', to: '/deployments' },
 ]
 
 const METRICS_DEFAULT = [
@@ -40,7 +40,7 @@ function SectionLabel({ children }) {
   )
 }
 
-function QuickActionCard({ emoji, label, desc, to }) {
+function QuickActionCard({ illo, label, desc, to }) {
   return (
     <Link to={to} style={{ textDecoration: 'none', color: 'inherit', flex: 1 }}>
       <div
@@ -52,7 +52,17 @@ function QuickActionCard({ emoji, label, desc, to }) {
         onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
         onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
       >
-        <div style={{ fontSize: 26, marginBottom: 12, lineHeight: 1 }}>{emoji}</div>
+        <div style={{
+          width: 56, height: 56, borderRadius: 12, marginBottom: 14,
+          background: '#faf7f0', border: '1px solid #ece5d6', overflow: 'hidden',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <img
+            src={illo}
+            alt={label}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
         <div style={{ fontSize: 14.5, fontWeight: 600, color: DARK, marginBottom: 5 }}>{label}</div>
         <div style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.5 }}>{desc}</div>
       </div>
