@@ -3,4 +3,17 @@ dist
 .env
 .env.*
 .git
-*.md
+**/*.md
+
+# Design assets (wireframes, mockups — not needed for the build)
+design/
+
+# Database SQL files (belong to Database/ service, not the web container)
+sql/
+
+# Documentation
+docs/
+
+# Dev tooling
+eslint.config.js
+playwright.config.js

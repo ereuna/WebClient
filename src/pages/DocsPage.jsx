@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import PageHero from '../components/PageHero'
 import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
+import { renderMarkdown } from '../lib/markdown.jsx'
 
 const ACCENT = '#cf5a2a'
 
@@ -25,10 +26,17 @@ const sections = [
   {
     group: 'Models',
     items: [
-      { id: 'model-card', label: 'Model card format' },
+      { id: 'upload', label: 'Creating a model repository' },
+      { id: 'model-card', label: 'Model repository files' },
       { id: 'physics-check', label: 'Physics constraint checker' },
-      { id: 'upload', label: 'Uploading a model' },
       { id: 'versioning', label: 'Versioning & tags' },
+    ],
+  },
+  {
+    group: 'Datasets',
+    items: [
+      { id: 'dataset-repo', label: 'Creating a dataset repository' },
+      { id: 'dataset-files', label: 'Dataset repository files' },
     ],
   },
   {
@@ -177,6 +185,184 @@ graph.to_hdf5("graph.h5")
 g2 = EnergyGraph.from_json("graph.json")
 \`\`\``,
   },
+  upload: {
+    title: 'Creating a model repository',
+    body: `Model repositories are created and pushed to with the **Aether CLI** (\`aether\`) — a git-like tool for syncing a local folder with an Aether repository.
+
+## 1. Install the CLI
+
+The CLI ships from source inside the monorepo:
+
+\`\`\`bash
+cd AetherCLI
+pip install -e .
+aether --version
+\`\`\`
+
+## 2. Authenticate
+
+\`\`\`bash
+aether login
+\`\`\`
+
+This stores a token in \`~/.aether/credentials.json\` (auth is handled by **AuthService**, repo storage by **RepositoryService**).
+
+## 3. Create the repository
+
+Two equivalent ways to get started, both take \`--type MODEL\` (repo types are \`MODEL\`, \`DATASET\`, \`PIPELINE\`, \`SPACE\`, \`AGENT\`, \`WORKFLOW\`):
+
+\`\`\`bash
+# Option A — turn the current folder into a repo and create the remote for it
+mkdir geothermal-pinn && cd geothermal-pinn
+aether init --type MODEL
+
+# Option B — create the remote first, then clone it locally
+aether repo create geothermal-pinn --type MODEL --description "PINN for geothermal reservoirs"
+aether clone yourname/geothermal-pinn
+\`\`\`
+
+By default repos are created **private**; pass \`--public\` to make one visible in the model zoo immediately.
+
+## 4. Add your files and push
+
+\`\`\`bash
+aether add .
+aether commit -m "Add model weights and metadata"
+aether push
+\`\`\`
+
+\`aether status\` shows local-vs-remote diffs before you push; \`aether pull\` fetches the latest commit. Changed files are tracked by SHA-256 in \`.aether/manifest.json\`, and \`.gitignore\` / \`.aetherignore\` are respected.
+
+## Alternative: upload from the browser
+
+If you don't want to install the CLI, sign in on **aether.energy** and use the **Upload files** button on a model's page (\`/models/:slug/upload\`) to drag-and-drop the same files — it creates a commit the same way \`aether push\` does.
+
+## What to commit
+
+At minimum, push your model weights/checkpoint. To get a rich, auto-rendered model page, also include the four convention files described in **Model repository files** — README.md, config.json, hyperparameters.json and params.json.`,
+  },
+  'model-card': {
+    title: 'Model repository files',
+    body: `When you \`aether push\` files into a **MODEL** repository, the WebClient reads four well-known filenames out of the latest commit and renders them automatically on the model's detail page. All four are optional and independent — a section only appears if its file is present and parses correctly. Filenames are matched case-insensitively, at the repo root or nested in a subdirectory (e.g. \`metadata/config.json\`).
+
+| File | Rendered as | Required keys |
+|------|-------------|----------------|
+| \`README.md\` | "README" section (markdown) | none — free-form markdown |
+| \`config.json\` | "Configuration" table | none — any keys |
+| \`hyperparameters.json\` | "Hyperparameters" table | none — any keys |
+| \`params.json\` | Sidebar "Inference contract" card | \`inputs\`/\`outputs\` (see below) |
+
+## README.md
+
+Plain markdown, rendered verbatim. If it's missing, the page falls back to the short description you passed to \`aether repo create -d "..."\`. Use it the way you'd use a Hugging Face model card — overview, intended use, training data, limitations.
+
+## config.json
+
+General model metadata. There's no enforced schema — any key/value you add is shown as a row — but a fixed set of keys are recognized and pulled out as highlighted fields at the top of the table (everything else still renders below them):
+
+\`framework\`, \`model_type\`, \`architecture\`, \`task\`, \`family\`, \`version\`, \`license\`, \`optimizer\`, \`epochs\`, \`batch_size\`, \`parameters\`, \`description\`, and one of \`training_dataset\` / \`trainingDataset\` / \`dataset\` (also used to link the "Training data" sidebar card back to the dataset), plus \`dataset_version\`.
+
+\`\`\`json
+{
+  "framework": "PyTorch",
+  "model_type": "PINN",
+  "architecture": "encoder-decoder",
+  "task": "geothermal-reservoir-forecasting",
+  "training_dataset": "yourname/geothermal-sensors-2024",
+  "dataset_version": "v2.1.0",
+  "epochs": 200,
+  "batch_size": 32,
+  "optimizer": "AdamW",
+  "parameters": "42M",
+  "license": "Apache-2.0"
+}
+\`\`\`
+
+## hyperparameters.json
+
+A flat or nested key/value map of the actual training run's hyperparameters. Nested objects are flattened into dot-notation rows (e.g. \`optimizer.weight_decay\`) in a two-column Parameter / Value table.
+
+\`\`\`json
+{
+  "learning_rate": 3e-4,
+  "batch_size": 32,
+  "epochs": 200,
+  "optimizer": { "name": "AdamW", "weight_decay": 0.01 },
+  "scheduler": "cosine"
+}
+\`\`\`
+
+## params.json
+
+Describes the model's inference input/output contract, shown in the sidebar as "Inputs" / "Expected outputs". It needs an \`inputs\` (or \`input\` / \`input_schema\` / \`inputSchema\`) key and/or an \`outputs\` (or \`output\` / \`output_schema\` / \`outputSchema\`) key. Any of these three shapes works:
+
+\`\`\`json
+{
+  "inputs": [
+    { "name": "well_temperature", "type": "float32", "shape": [24], "description": "Hourly bottom-hole temperature, degC" },
+    { "name": "flow_rate", "type": "float32", "shape": [24], "description": "Hourly mass flow rate, kg/s" }
+  ],
+  "outputs": [
+    { "name": "power_output_kw", "type": "float32", "shape": [24], "description": "Forecasted generation" }
+  ]
+}
+\`\`\`
+
+A JSON-Schema-style object (\`{ "properties": { ... } }\`) or a plain \`{ "field_name": { "type": "..." } }\` map are also accepted — see \`InferenceParamsCard\` for the exact normalization rules.`,
+  },
+  'dataset-repo': {
+    title: 'Creating a dataset repository',
+    body: `Dataset repositories use the same \`aether\` CLI workflow as models — only the \`--type\` flag changes.
+
+## 1–2. Install & authenticate
+
+Same as models: \`pip install -e AetherCLI\`, then \`aether login\`. See **Creating a model repository** for details.
+
+## 3. Create the repository
+
+\`\`\`bash
+mkdir geothermal-sensors-2024 && cd geothermal-sensors-2024
+aether init --type DATASET
+
+# or
+aether repo create geothermal-sensors-2024 --type DATASET --description "Hourly sensor readings, 2020-2024"
+aether clone yourname/geothermal-sensors-2024
+\`\`\`
+
+## 4. Push your data files
+
+\`\`\`bash
+aether add .
+aether commit -m "Add raw sensor readings"
+aether push
+\`\`\`
+
+The platform recognizes tabular and scientific formats: CSV/TSV, Parquet, JSON/JSONL, NetCDF (\`.nc\`), and HDF5 (\`.h5\`/\`.hdf5\`). Pushed files are versioned like any other repo — visible in the repository's **Files** tab, downloadable, and diffed on every \`aether push\`.
+
+## Important: this is separate from the searchable dataset record
+
+Pushing files with \`aether push\` gives you source-controlled storage and a browsable Files/Versions history — the same as a model repo. It does **not** by itself populate the columns/rows/profile shown on the dataset's catalog page. That data is served live by **DatasetsService**, which has its own \`dataset\` resource (schema, row count, profile, lineage) linked to your repo by \`repo_id\`. A DatasetsService dataset + version currently has to be registered separately (its \`/datasets\` and \`/datasets/{id}/versions\` endpoints, keyed to the same \`repo_id\`) before the "Schema", "Preview", and "Profile" sections on the dataset page populate. See **Dataset repository files** for what to include either way.`,
+  },
+  'dataset-files': {
+    title: 'Dataset repository files',
+    body: `Unlike model repositories, dataset repositories don't have a fixed set of convention filenames that the WebClient auto-parses out of a commit. What to push:
+
+## Required: the data itself
+
+One or more data files in a format the platform understands — CSV/TSV, Parquet, JSON/JSONL, NetCDF, or HDF5. Prefer Parquet for large tabular data (columnar, typed, compressed) and NetCDF/HDF5 for gridded or multi-dimensional scientific data.
+
+## Recommended: README.md
+
+Good practice for anyone browsing the repo or running \`aether clone\` — describe collection methodology, coverage, units, and known caveats the way you would for a model. Note that today it's shown as plain repo content (Files tab / clone) rather than being auto-rendered on the dataset catalog page the way a model's README.md is (see **Model repository files**) — that gap is worth knowing about if you're relying on it for discoverability.
+
+## Where the catalog page's fields actually come from
+
+The dataset catalog page's domain, format, license, coverage, and schema fields are read from the repository's own \`metadata\` field on RepositoryService, not parsed from files you push. If you need those populated, set them via RepositoryService directly (or the web upload flow) rather than expecting a JSON file in the repo to be picked up automatically.
+
+## Optional: a manifest
+
+For multi-file datasets (e.g. per-year CSVs), a small \`manifest.json\` or \`manifest.csv\` listing files and their contents is good practice for consumers — it isn't parsed by the platform today, but it's the same pattern used for large model checkpoint sets.`,
+  },
   'sdk-install': {
     title: 'SDK Installation',
     body: `## Requirements
@@ -244,66 +430,6 @@ Old keys remain valid for 24 hours after rotation to allow zero-downtime deploys
   },
 }
 
-function renderContent(raw) {
-  const paragraphs = raw.split('\n\n')
-  return paragraphs.map((p, i) => {
-    if (p.startsWith('## ')) {
-      return <h2 key={i} style={{ fontSize: 20, fontWeight: 600, marginTop: 28, marginBottom: 10, letterSpacing: '-0.01em' }}>{p.slice(3)}</h2>
-    }
-    if (p.startsWith('| ')) {
-      const rows = p.split('\n').filter(r => !r.match(/^\|[-| ]+\|$/))
-      return (
-        <div key={i} style={{ overflowX: 'auto', marginTop: 14, marginBottom: 14 }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5 }}>
-            {rows.map((row, ri) => {
-              const cells = row.split('|').filter(c => c.trim())
-              const Tag = ri === 0 ? 'th' : 'td'
-              return (
-                <tr key={ri} style={{ borderBottom: '1px solid #ece5d6' }}>
-                  {cells.map((c, ci) => (
-                    <Tag key={ci} style={{
-                      padding: '9px 14px', textAlign: 'left',
-                      background: ri === 0 ? '#faf7f0' : 'transparent',
-                      fontWeight: ri === 0 ? 600 : 400,
-                      fontFamily: ri === 0 ? "'Space Mono',monospace" : 'inherit',
-                      fontSize: ri === 0 ? 11 : 13.5,
-                      color: ri === 0 ? '#8a857a' : '#1b1a17',
-                    }}>
-                      {c.trim().replace(/`([^`]+)`/g, '$1')}
-                    </Tag>
-                  ))}
-                </tr>
-              )
-            })}
-          </table>
-        </div>
-      )
-    }
-    if (p.startsWith('```')) {
-      const lines = p.split('\n')
-      const code = lines.slice(1, lines.lastIndexOf('```')).join('\n')
-      return (
-        <pre key={i} style={{
-          background: '#1b1a17', color: '#e8e2d6', borderRadius: 10, padding: '16px 18px',
-          fontSize: 13, fontFamily: "'Space Mono',monospace", overflowX: 'auto',
-          marginTop: 14, marginBottom: 14, lineHeight: 1.6,
-        }}>
-          <code>{code}</code>
-        </pre>
-      )
-    }
-    // Bold **text**
-    const parts = p.split(/(\*\*[^*]+\*\*)/)
-    return (
-      <p key={i} style={{ fontSize: 14.5, color: '#3d3a32', lineHeight: 1.7, marginBottom: 4 }}>
-        {parts.map((part, pi) =>
-          part.startsWith('**') ? <strong key={pi}>{part.slice(2, -2)}</strong> : part
-        )}
-      </p>
-    )
-  })
-}
-
 export default function DocsPage() {
   const [activeId, setActiveId] = useState('intro')
   const current = content[activeId] || { title: sections.flatMap(s => s.items).find(i => i.id === activeId)?.label || '', body: 'Coming soon.' }
@@ -359,7 +485,7 @@ export default function DocsPage() {
             {current.title}
           </h1>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {renderContent(current.body)}
+            {renderMarkdown(current.body)}
           </div>
         </div>
       </div>

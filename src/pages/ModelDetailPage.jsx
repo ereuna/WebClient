@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchModel, fetchRelatedModels, FAMILY_COLORS } from '../api/models'
+import { fetchModelRepoArtifacts } from '../api/repoFiles'
 import { FAMILY_ILLUSTRATIONS } from '../lib/illustrations'
 import MetricCard from '../components/MetricCard'
 import CodeBlock from '../components/CodeBlock'
 import StarButton from '../components/StarButton'
+import RepoReadme from '../components/model/RepoReadme'
+import HyperparametersTable from '../components/model/HyperparametersTable'
+import InferenceParamsCard from '../components/model/InferenceParamsCard'
+import ModelConfigCard from '../components/model/ModelConfigCard'
 import { useAuth } from '../context/AuthContext.jsx'
 
 const ACCENT = '#cf5a2a'
@@ -161,16 +166,26 @@ export default function ModelDetailPage() {
   const { user, authenticated } = useAuth()
   const [model, setModel] = useState(null)
   const [related, setRelated] = useState([])
+  const [repoArtifacts, setRepoArtifacts] = useState(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     setLoading(true)
     setNotFound(false)
+    setRepoArtifacts(null)
     fetchModel(modelId).then(data => {
       if (!data) { setNotFound(true); setLoading(false); return }
       setModel(data)
-      fetchRelatedModels(data.relatedIds).then(r => { setRelated(r); setLoading(false) })
+      const relatedPromise = fetchRelatedModels(data.relatedIds)
+      const artifactsPromise = data._repoId
+        ? fetchModelRepoArtifacts(data._repoId)
+        : Promise.resolve(null)
+      Promise.all([relatedPromise, artifactsPromise]).then(([r, artifacts]) => {
+        setRelated(r)
+        setRepoArtifacts(artifacts)
+        setLoading(false)
+      })
     })
   }, [modelId])
 
@@ -188,6 +203,9 @@ export default function ModelDetailPage() {
 
   const { title, family, license, desc, longDesc, tags, downloads, stars, size, updated, version,
     metrics, architecture, modelCard, versions, trainingDataset, endpoint, codeSnippet } = model
+
+  const { readme, hyperparameters, params, config } = repoArtifacts || {}
+  const configDataset = config?.training_dataset || config?.trainingDataset || config?.dataset
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -293,10 +311,33 @@ export default function ModelDetailPage() {
         {/* ── Main content ── */}
         <div style={{ flex: 1, minWidth: 0 }}>
 
-          {/* About */}
-          <SectionCard label="About">
-            <p style={{ fontSize: 14.5, color: '#3b3830', lineHeight: 1.7, margin: 0 }}>{longDesc}</p>
-          </SectionCard>
+          {/* README from repository */}
+          {readme && (
+            <SectionCard label="README">
+              <RepoReadme content={readme} />
+            </SectionCard>
+          )}
+
+          {/* About — fallback when repository has no README.md */}
+          {!readme && (
+            <SectionCard label="About">
+              <p style={{ fontSize: 14.5, color: '#3b3830', lineHeight: 1.7, margin: 0 }}>{longDesc}</p>
+            </SectionCard>
+          )}
+
+          {/* Model config from config.json */}
+          {config && (
+            <SectionCard label="Configuration">
+              <ModelConfigCard config={config} />
+            </SectionCard>
+          )}
+
+          {/* Hyperparameters from hyperparameters.json */}
+          {hyperparameters && (
+            <SectionCard label="Hyperparameters">
+              <HyperparametersTable data={hyperparameters} />
+            </SectionCard>
+          )}
 
           {/* Performance metrics */}
           {metrics.length > 0 && (
@@ -376,6 +417,9 @@ export default function ModelDetailPage() {
         {/* ── Sidebar ── */}
         <div style={{ width: 276, flexShrink: 0 }}>
 
+          {/* Inference inputs/outputs from params.json */}
+          {params && <InferenceParamsCard params={params} />}
+
           {/* Quick info */}
           <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
             <div style={{ padding: '14px 18px', borderBottom: '1px solid #f0ebe0' }}>
@@ -420,11 +464,18 @@ export default function ModelDetailPage() {
           </div>
 
           {/* Training dataset */}
-          {(trainingDataset !== '—' || architecture.training) && (
+          {(trainingDataset !== '—' || configDataset || architecture.training) && (
             <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '14px 18px', marginBottom: 16 }}>
               <SectionLabel>Training data</SectionLabel>
-              {trainingDataset !== '—' && (
-                <div style={{ fontSize: 13, fontWeight: 500, color: '#1b1a17', marginBottom: 4 }}>{trainingDataset}</div>
+              {(configDataset || trainingDataset !== '—') && (
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#1b1a17', marginBottom: 4 }}>
+                  {configDataset || trainingDataset}
+                </div>
+              )}
+              {config?.dataset_version && (
+                <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', marginBottom: 4 }}>
+                  {config.dataset_version}
+                </div>
               )}
               {architecture.training && (
                 <div style={{ fontSize: 12.5, color: '#56524a', lineHeight: 1.5 }}>{architecture.training}</div>

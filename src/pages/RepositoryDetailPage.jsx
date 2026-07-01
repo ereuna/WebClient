@@ -6,7 +6,12 @@ import {
   listFiles,
   listReleases,
 } from '../api/repositories'
+import { fetchModelRepoArtifacts } from '../api/repoFiles'
 import StarButton from '../components/StarButton'
+import RepoReadme from '../components/model/RepoReadme'
+import HyperparametersTable from '../components/model/HyperparametersTable'
+import InferenceParamsCard from '../components/model/InferenceParamsCard'
+import ModelConfigCard from '../components/model/ModelConfigCard'
 
 const ACCENT = '#cf5a2a'
 const DARK = '#1b1a17'
@@ -62,6 +67,93 @@ function Card({ children, style }) {
   return (
     <div style={{ background: CARD_BG, border: CARD_BORDER, borderRadius: CARD_RADIUS, ...style }}>
       {children}
+    </div>
+  )
+}
+
+function SectionLabel({ children }) {
+  return (
+    <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: ACCENT, marginBottom: 14, textTransform: 'uppercase' }}>
+      {children}
+    </div>
+  )
+}
+
+function ModelOverviewTab({ repo, artifacts }) {
+  const m = repo.metadata || {}
+  const topics = m.tags || m.topics || []
+  const { readme, hyperparameters, params, config } = artifacts || {}
+  const fallbackDesc = m.readme || m.long_description || repo.description
+  const configDataset = config?.training_dataset || config?.trainingDataset || config?.dataset
+
+  return (
+    <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 28 }}>
+        {readme ? (
+          <div>
+            <SectionLabel>README</SectionLabel>
+            <RepoReadme content={readme} />
+          </div>
+        ) : fallbackDesc ? (
+          <Card style={{ padding: '28px 32px' }}>
+            <SectionLabel>About</SectionLabel>
+            <p style={{ fontSize: 14, color: MEDIUM, lineHeight: 1.72, margin: 0, whiteSpace: 'pre-wrap' }}>{fallbackDesc}</p>
+          </Card>
+        ) : null}
+
+        {config && (
+          <div>
+            <SectionLabel>Configuration</SectionLabel>
+            <ModelConfigCard config={config} />
+          </div>
+        )}
+
+        {hyperparameters && (
+          <div>
+            <SectionLabel>Hyperparameters</SectionLabel>
+            <HyperparametersTable data={hyperparameters} />
+          </div>
+        )}
+      </div>
+
+      <div style={{ width: 276, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {params && <InferenceParamsCard params={params} />}
+
+        {topics.length > 0 && (
+          <Card style={{ padding: '20px' }}>
+            <SectionLabel>Topics</SectionLabel>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {topics.map(t => (
+                <span key={t} style={{ padding: '4px 10px', borderRadius: 20, background: '#f5f0e8', fontSize: 11 }}>{t}</span>
+              ))}
+            </div>
+          </Card>
+        )}
+
+        {(configDataset || m.license) && (
+          <Card style={{ padding: '20px' }}>
+            {configDataset && (
+              <>
+                <SectionLabel>Training data</SectionLabel>
+                <div style={{ fontSize: 13.5, fontWeight: 500, marginBottom: config?.dataset_version ? 4 : (m.license ? 16 : 0) }}>
+                  {configDataset}
+                </div>
+                {config?.dataset_version && (
+                  <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, marginBottom: m.license ? 16 : 0 }}>
+                    {config.dataset_version}
+                  </div>
+                )}
+              </>
+            )}
+            {m.license && (
+              <>
+                <SectionLabel>License</SectionLabel>
+                <div style={{ fontSize: 13.5, fontWeight: 500 }}>{m.license}</div>
+              </>
+            )}
+          </Card>
+        )}
+      </div>
     </div>
   )
 }
@@ -159,6 +251,7 @@ export default function RepositoryDetailPage() {
   const [commits, setCommits] = useState([])
   const [files, setFiles] = useState([])
   const [releases, setReleases] = useState([])
+  const [repoArtifacts, setRepoArtifacts] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -178,6 +271,10 @@ export default function RepositoryDetailPage() {
         if (latest?.sha) {
           const fileList = await listFiles(r.id, latest.sha).catch(() => [])
           setFiles(fileList || [])
+        }
+        if ((r.repo_type || 'MODEL').toUpperCase() === 'MODEL') {
+          const artifacts = await fetchModelRepoArtifacts(r.id).catch(() => null)
+          setRepoArtifacts(artifacts)
         }
       })
       .catch(err => setError(err.message))
@@ -235,7 +332,11 @@ export default function RepositoryDetailPage() {
       <TabBar activeTab={activeTab} onTab={setActiveTab} />
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 28px 80px' }}>
-        {activeTab === 'Overview' && <OverviewTab repo={repo} />}
+        {activeTab === 'Overview' && (
+          repoType === 'MODEL'
+            ? <ModelOverviewTab repo={repo} artifacts={repoArtifacts} />
+            : <OverviewTab repo={repo} />
+        )}
         {activeTab === 'Files' && <FilesTab files={files} latestCommit={commits[0]} />}
         {activeTab === 'Versions' && <VersionsTab releases={releases} />}
       </div>
