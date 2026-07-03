@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 05_model.sql — Model Domain (schema: model)
 -- Represents: Llama, PINN, GNN, RL Agent, Forecast Model, …
 

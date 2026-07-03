@@ -1,6 +1,6 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 03_repository.sql — Repository Domain (schema: repository)
--- Everything in Aether IS a repository.
+-- Everything in Ereuna IS a repository.
 
 CREATE TYPE repository.repo_type AS ENUM (
     'MODEL', 'DATASET', 'PIPELINE', 'SPACE', 'AGENT', 'WORKFLOW'

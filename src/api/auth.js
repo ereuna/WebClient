@@ -1,6 +1,6 @@
 /**
  * Authentication helpers.
- * Targets the Aether AuthService (/api/auth → :8000/api/v1).
+ * Targets the Ereuna AuthService (/api/auth → :8000/api/v1).
  */
 import {
   authApi,

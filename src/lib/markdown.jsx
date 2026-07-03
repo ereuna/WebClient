@@ -1,5 +1,5 @@
 /**
- * Lightweight markdown renderer styled for Aether docs / README content.
+ * Lightweight markdown renderer styled for Ereuna docs / README content.
  */
 
 function inlineFormat(text) {

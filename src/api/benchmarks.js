@@ -36,7 +36,7 @@ function mapBenchmark(b) {
       score: entry.score,
       submitted: entry.submitted,
     })),
-    codeSnippet: { python: '# Benchmark evaluation via Aether PlatformService' },
+    codeSnippet: { python: '# Benchmark evaluation via Ereuna PlatformService' },
   }
 }
 

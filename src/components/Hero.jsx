@@ -14,7 +14,7 @@ export default function Hero() {
             PHYSICS-INFORMED ML · THE ENERGY STACK
           </div>
           <h1 style={{ fontSize: 58, lineHeight: 1.02, letterSpacing: '-0.03em', fontWeight: 600, margin: 0 }}>
-            Energy ML,<br />finally reusable.
+            Ereuna<br />
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.55, color: '#56524a', maxWidth: 430, margin: '22px 0 0' }}>
             The community hub for physics-informed models across geothermal, nuclear, wind, solar, hydro
@@ -47,8 +47,8 @@ export default function Hero() {
           </div>
         </div>
         <img
-          src="/illustrations/09-aether-hub-pipeline.png"
-          alt="Aether hub pipeline"
+          src="/illustrations/09-ereuna-hub-pipeline.png"
+          alt="Ereuna hub pipeline"
           style={{ width: '100%', borderRadius: 16, display: 'block' }}
         />
       </div>

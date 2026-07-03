@@ -27,7 +27,7 @@ const cols = [
       { label: 'Transfer learning', to: '/docs' },
       { label: 'Constraint checker', to: '/docs' },
       { label: 'Foundation model', to: '/models' },
-      { label: 'Citing Aether', to: '/docs' },
+      { label: 'Citing Ereuna', to: '/docs' },
     ],
   },
   {
@@ -57,7 +57,7 @@ export default function Footer() {
             <Link to="/" style={{ textDecoration: 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 19, fontWeight: 600, color: '#f1ede4' }}>
                 <span style={{ display: 'inline-flex', width: 24, height: 24, alignItems: 'center', justifyContent: 'center', border: '1.6px solid #f1ede4', borderRadius: 7, fontSize: 13 }}>⬡</span>
-                Aether
+                Ereuna
               </div>
             </Link>
             <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#8a857a', margin: '14px 0 0', maxWidth: 280 }}>
@@ -86,7 +86,7 @@ export default function Footer() {
           fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#6f6a60',
         }}>
           <span>Built on TorchPharma · Thomas Amogolla Tsuma · INTI International University Malaysia</span>
-          <span>© 2026 Aether · Apache-2.0</span>
+          <span>© 2026 Ereuna · Apache-2.0</span>
         </div>
       </div>
     </div>

@@ -81,7 +81,7 @@ export default function BenchmarksPage() {
       <PageHero
         eyebrow="EVALUATION & LEADERBOARDS"
         title="Benchmarks"
-        description="Standardised benchmark suites for physics-informed energy ML. Every model that appears on Aether reports scores here."
+        description="Standardised benchmark suites for physics-informed energy ML. Every model that appears on Ereuna reports scores here."
         illustration={PAGE_ILLUSTRATIONS.benchmarks}
         illustrationAlt="Benchmarks illustration"
       >
@@ -115,7 +115,7 @@ export default function BenchmarksPage() {
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
                 <thead>
                   <tr style={{ background: '#faf7f0', borderBottom: '1px solid #ece5d6' }}>
-                    {['Rank', 'Model', 'Family', 'Aether Score', ''].map(h => (
+                    {['Rank', 'Model', 'Family', 'Ereuna Score', ''].map(h => (
                       <th key={h} style={{
                         padding: '12px 18px', textAlign: 'left', fontFamily: "'Space Mono',monospace",
                         fontSize: 10.5, color: '#8a857a', fontWeight: 400, letterSpacing: '0.04em',

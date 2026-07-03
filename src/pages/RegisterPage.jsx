@@ -64,7 +64,7 @@ export default function RegisterPage() {
                 display: 'inline-flex', width: 28, height: 28, alignItems: 'center', justifyContent: 'center',
                 border: '1.8px solid #1b1a17', borderRadius: 8, fontSize: 15,
               }}>⬡</span>
-              Aether
+              Ereuna
             </div>
           </Link>
           <div style={{ marginTop: 10, fontSize: 14, color: '#56524a' }}>Create your account</div>

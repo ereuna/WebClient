@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 13_notification.sql — Notification Domain (schema: notification)
 -- Supports: training completed, dataset uploaded, pipeline failed
 

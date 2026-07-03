@@ -133,7 +133,7 @@ export default function Nav() {
               display: 'inline-flex', width: 24, height: 24, alignItems: 'center', justifyContent: 'center',
               border: '1.6px solid #1b1a17', borderRadius: 7, fontSize: 13,
             }}>⬡</span>
-            Aether
+            Ereuna
           </div>
         </Link>
 

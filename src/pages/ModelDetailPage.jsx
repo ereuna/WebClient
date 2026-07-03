@@ -458,7 +458,7 @@ export default function ModelDetailPage() {
                 {endpoint}
               </code>
               <div style={{ marginTop: 12, fontSize: 11.5, color: '#6b6660', lineHeight: 1.5 }}>
-                Base URL: <span style={{ color: '#8a857a' }}>api.aether.energy</span>
+                Base URL: <span style={{ color: '#8a857a' }}>api.ereuna.energy</span>
               </div>
             </div>
           </div>

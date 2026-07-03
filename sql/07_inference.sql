@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 07_inference.sql — Inference Domain (schema: inference)
 -- Tracks: every inference, every async job, every deployment
 

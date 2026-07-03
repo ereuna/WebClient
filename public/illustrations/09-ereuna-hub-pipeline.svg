@@ -7,7 +7,7 @@
   </defs>
   <rect width="800" height="450" fill="url(#dots9)"/>
   <path d="M28 28h18M28 28v18M772 28h-18M772 28v18M28 422h18M28 422v-18M772 422h-18M772 422v-18" stroke="#b6ae9d" stroke-width="1.5"/>
-  <text x="48" y="44" font-family="monospace" font-size="10" fill="#8a857a" letter-spacing="0.06em">FIG.01  AETHER HUB PIPELINE</text>
+  <text x="48" y="44" font-family="monospace" font-size="10" fill="#8a857a" letter-spacing="0.06em">FIG.01  EREUNA HUB PIPELINE</text>
 
   <!-- iso grid ground -->
   <g stroke="#d3ccbd" stroke-width="0.8" opacity="0.7">
@@ -40,7 +40,7 @@
   </g>
   <text x="290" y="180" font-family="monospace" font-size="9" fill="#8a857a" text-anchor="middle">GNN MODULE</text>
 
-  <!-- central AETHER HUB -->
+  <!-- central EREUNA HUB -->
   <g stroke="#34322d" stroke-width="1.8" stroke-linejoin="round">
     <polygon points="280,248 420,318 420,390 280,320" fill="#efeadf"/>
     <polygon points="420,318 560,248 560,320 420,390" fill="#ddd6c4"/>
@@ -52,7 +52,7 @@
     <circle cx="340" cy="232" r="3" fill="#34322d"/>
     <circle cx="500" cy="232" r="3" fill="#34322d"/>
   </g>
-  <text x="420" y="182" font-family="monospace" font-size="10" fill="#1b1a17" text-anchor="middle" font-weight="bold">AETHER HUB</text>
+  <text x="420" y="182" font-family="monospace" font-size="10" fill="#1b1a17" text-anchor="middle" font-weight="bold">EREUNA HUB</text>
 
   <!-- RL output -->
   <g stroke="#34322d" stroke-width="1.5" stroke-linejoin="round">

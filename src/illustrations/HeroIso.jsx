@@ -1,4 +1,4 @@
-// Axon S1 Solid Iso — Aether pipeline: inputs → central hub → output
+// Axon S1 Solid Iso — Ereuna pipeline: inputs → central hub → output
 // Cool Mono palette with orange accent status LED
 export default function HeroIso() {
   return (
@@ -22,7 +22,7 @@ export default function HeroIso() {
       <div style={{
         position: 'absolute', top: 22, left: 24,
         fontFamily: "'Space Mono', monospace", fontSize: 10, letterSpacing: '0.06em', color: '#8a857a',
-      }}>FIG.01 — AETHER CORE</div>
+      }}>FIG.01 — EREUNA CORE</div>
 
       <svg viewBox="0 0 600 470" style={{ width: '100%', display: 'block' }}>
         {/* iso grid ground */}
@@ -109,7 +109,7 @@ export default function HeroIso() {
             <circle cx="435" cy="296" r="3" fill="#34322d" stroke="none"/>
           </g>
         </g>
-        <text x="345" y="186" fontFamily="'Space Mono',monospace" fontSize="10" fill="#1b1a17" textAnchor="middle" fontWeight="bold">AETHER HUB</text>
+        <text x="345" y="186" fontFamily="'Space Mono',monospace" fontSize="10" fill="#1b1a17" textAnchor="middle" fontWeight="bold">EREUNA HUB</text>
 
         {/* OUTPUT MODULE — floating */}
         <g style={{ animation: 'floaty2 7s ease-in-out infinite' }}>

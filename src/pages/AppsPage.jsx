@@ -82,7 +82,7 @@ export default function AppsPage() {
       <PageHero
         eyebrow="FLAGSHIP APPLICATIONS"
         title="Apps"
-        description="Interactive tools built on Aether models. Run them in-browser, fork and self-host, or embed via the REST API."
+        description="Interactive tools built on Ereuna models. Run them in-browser, fork and self-host, or embed via the REST API."
         illustration={PAGE_ILLUSTRATIONS.apps}
         illustrationAlt="Apps illustration"
       >

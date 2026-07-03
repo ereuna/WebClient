@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 12_billing.sql — Billing Domain (schema: billing)
 -- Tracks: GPU hours, inference usage, storage usage, training usage
 

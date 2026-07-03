@@ -193,9 +193,9 @@ function LatencyChart({ p50, p95, p99 }) {
 
 function OverviewTab({ deployment }) {
   const [copied, setCopied] = useState(false)
-  const endpointUrl = `https://api.aether.ai/v1/deployments/${deployment.name}`
+  const endpointUrl = `https://api.ereuna.ai/v1/deployments/${deployment.name}`
   const curlSnippet = `curl -X POST ${endpointUrl} \\
-  -H "Authorization: Bearer $AETHER_API_KEY" \\
+  -H "Authorization: Bearer $EREUNA_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{"input": "Hello, world!", "max_tokens": 128}'`
 

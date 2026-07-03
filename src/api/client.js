@@ -1,5 +1,5 @@
 /**
- * Base API client for Aether backend services.
+ * Base API client for Ereuna backend services.
  *
  * All requests go through the Vite dev proxy:
  *   /api/auth/*        →  AuthService       (:8000)
@@ -17,8 +17,8 @@ const PLATFORM_BASE = '/api/platform'
 
 // ── Token management ──────────────────────────────────────────────────────────
 
-const ACCESS_TOKEN_KEY  = 'aether_access_token'
-const REFRESH_TOKEN_KEY = 'aether_refresh_token'
+const ACCESS_TOKEN_KEY  = 'ereuna_access_token'
+const REFRESH_TOKEN_KEY = 'ereuna_refresh_token'
 
 export function getToken() {
   return sessionStorage.getItem(ACCESS_TOKEN_KEY) || localStorage.getItem(ACCESS_TOKEN_KEY)

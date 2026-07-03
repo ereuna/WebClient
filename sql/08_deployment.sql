@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 08_deployment.sql — Deployment Domain (schema: deployment)
 -- Equivalent to: HuggingFace Endpoints, SageMaker Endpoints
 

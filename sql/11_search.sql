@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 11_search.sql — Search Domain (schema: search)
 -- Postgres stores metadata only.
 -- Actual search lives in: OpenSearch / Qdrant

@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 06_training.sql — Training Domain (schema: training)
 -- Equivalent to: MLflow, Weights & Biases
 

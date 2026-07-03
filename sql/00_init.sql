@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 00_init.sql — Create all schemas
 
 CREATE SCHEMA IF NOT EXISTS identity;

@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 15_governance.sql — Governance Domain (schema: governance)
 -- Useful for: GDPR, PII, Model Governance
 

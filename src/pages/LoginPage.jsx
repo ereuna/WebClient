@@ -59,7 +59,7 @@ export default function LoginPage() {
                 display: 'inline-flex', width: 28, height: 28, alignItems: 'center', justifyContent: 'center',
                 border: '1.8px solid #1b1a17', borderRadius: 8, fontSize: 15,
               }}>⬡</span>
-              Aether
+              Ereuna
             </div>
           </Link>
           <div style={{ marginTop: 10, fontSize: 14, color: '#56524a' }}>Sign in to your account</div>
@@ -134,7 +134,7 @@ export default function LoginPage() {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 20, fontSize: 13, color: '#8a857a' }}>
-          New to Aether?{' '}
+          New to Ereuna?{' '}
           <Link to="/register" style={{ color: ACCENT, textDecoration: 'none', fontWeight: 500 }}>
             Create an account →
           </Link>

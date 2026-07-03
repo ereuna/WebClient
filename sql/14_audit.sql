@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 14_audit.sql — Audit Domain (schema: audit)
 -- Important for enterprise customers: immutable event log
 

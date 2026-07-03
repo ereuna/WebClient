@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 09_pipeline.sql — Pipeline Domain (schema: pipeline)
 -- Supports: PINN → RL → Forecast style chained pipelines
 

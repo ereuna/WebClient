@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 02_identity.sql — Identity & Access Management (schema: identity)
 
 CREATE TABLE identity.users (

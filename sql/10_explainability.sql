@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 10_explainability.sql — Explainability Domain (schema: explainability)
 -- Supports: SHAP, GNNExplainer, PINN residuals, RL policy explanations
 

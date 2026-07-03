@@ -2,7 +2,7 @@
 
 # Product Requirements Document (PRD)
 
-## Aether Web Platform
+## Ereuna Web Platform
 
 **Version:** 1.0
 **Owner:** Product & Platform Team
@@ -15,7 +15,7 @@
 
 ## Purpose
 
-The Aether Web Platform is the primary user-facing interface for the Aether ecosystem.
+The Ereuna Web Platform is the primary user-facing interface for the Ereuna ecosystem.
 
 It provides a unified experience for:
 
@@ -158,7 +158,7 @@ Home --> Settings
 ## Global Navigation
 
 ```text
-Aether Logo
+Ereuna Logo
 
 Search
 
@@ -1157,7 +1157,7 @@ GPU Utilization
 
 # Definition of Done
 
-The Aether Web Platform is complete when users can:
+The Ereuna Web Platform is complete when users can:
 
 * Create and manage repositories
 * Upload and discover models
@@ -1171,7 +1171,7 @@ The Aether Web Platform is complete when users can:
 * Monitor analytics
 * Search across all platform assets
 
-The web platform becomes the primary operating system for the entire Aether ecosystem, exposing every platform capability through a unified, modern, collaborative interface.
+The web platform becomes the primary operating system for the entire Ereuna ecosystem, exposing every platform capability through a unified, modern, collaborative interface.
 
 ```
 ```

@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 04_dataset.sql — Dataset Domain (schema: dataset)
 
 CREATE TABLE dataset.datasets (

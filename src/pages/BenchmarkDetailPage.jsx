@@ -97,7 +97,7 @@ function LeaderboardTable({ entries, metric, higherIsBetter }) {
             const barWidth = higherIsBetter
               ? (row.score / best) * 100
               : (best / row.score) * 100
-            const isAether = !!row.modelId
+            const isEreuna = !!row.modelId
             return (
               <tr
                 key={row.model}
@@ -110,14 +110,14 @@ function LeaderboardTable({ entries, metric, higherIsBetter }) {
                   <RankMedal rank={row.rank} />
                 </td>
                 <td style={{ padding: '13px 16px', fontWeight: row.rank <= 3 ? 700 : 500 }}>
-                  {isAether ? (
+                  {isEreuna ? (
                     <Link to={`/models/${row.modelId}`} style={{ textDecoration: 'none', color: '#1b1a17' }}>
                       {row.model}
                       <span style={{
                         marginLeft: 6, fontFamily: "'Space Mono',monospace", fontSize: 9,
                         padding: '1px 5px', borderRadius: 4,
                         background: ACCENT + '18', color: ACCENT,
-                      }}>aether</span>
+                      }}>ereuna</span>
                     </Link>
                   ) : (
                     <span style={{ color: '#3b3830' }}>{row.model}</span>
@@ -144,7 +144,7 @@ function LeaderboardTable({ entries, metric, higherIsBetter }) {
                   {row.submitted}
                 </td>
                 <td style={{ padding: '13px 16px' }}>
-                  {isAether && (
+                  {isEreuna && (
                     <Link to={`/models/${row.modelId}`} style={{ fontSize: 12, color: ACCENT, textDecoration: 'none' }}>
                       View →
                     </Link>
@@ -342,8 +342,8 @@ export default function BenchmarkDetailPage() {
           <SectionCard label={`Leaderboard — ${leaderboard.length} models`}>
             <LeaderboardTable entries={leaderboard} metric={metric} higherIsBetter={higherIsBetter} />
             <div style={{ marginTop: 10, fontFamily: "'Space Mono',monospace", fontSize: 10, color: '#a09990' }}>
-              <span style={{ background: ACCENT + '18', color: ACCENT, padding: '1px 5px', borderRadius: 4, marginRight: 6 }}>aether</span>
-              models are hosted on Aether and link to their model card.
+              <span style={{ background: ACCENT + '18', color: ACCENT, padding: '1px 5px', borderRadius: 4, marginRight: 6 }}>ereuna</span>
+              models are hosted on Ereuna and link to their model card.
             </div>
           </SectionCard>
 

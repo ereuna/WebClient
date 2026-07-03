@@ -45,9 +45,9 @@ export default function Pipeline() {
         fontFamily: "'Space Mono',monospace", fontSize: 13, color: '#e9e4d8', lineHeight: 1.9, overflowX: 'auto',
       }}>
         <span style={{ color: '#8a857a' }}># Python SDK</span><br />
-        <span style={{ color: '#cdb89a' }}>from aether import </span>
-        <span>AetherModel</span><br />
-        model = AetherModel.<span style={{ color: ACCENT }}>from_hub</span>(<span style={{ color: '#cdb89a' }}>"tsuma/olkaria-inverse-pinn-v1.2"</span>)<br />
+        <span style={{ color: '#cdb89a' }}>from ereuna import </span>
+        <span>EreunaModel</span><br />
+        model = EreunaModel.<span style={{ color: ACCENT }}>from_hub</span>(<span style={{ color: '#cdb89a' }}>"tsuma/olkaria-inverse-pinn-v1.2"</span>)<br />
         result = model.<span style={{ color: ACCENT }}>invert</span>(sensor_graph=my_field)
       </div>
     </div>

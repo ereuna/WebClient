@@ -1,4 +1,4 @@
-# Aether — PostgreSQL Schema
+# Ereuna — PostgreSQL Schema
 
 ## File Order
 

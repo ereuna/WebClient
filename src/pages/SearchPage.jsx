@@ -283,7 +283,7 @@ function SearchPrompt() {
           GLOBAL SEARCH
         </div>
         <h1 style={{ fontSize: 36, fontWeight: 600, color: DARK, margin: '0 0 12px', letterSpacing: '-0.02em' }}>
-          Search Aether
+          Search Ereuna
         </h1>
         <p style={{ fontSize: 15, color: MUTED, lineHeight: 1.6, marginBottom: 32 }}>
           Find models, datasets, pipelines, experiments, spaces, and more.

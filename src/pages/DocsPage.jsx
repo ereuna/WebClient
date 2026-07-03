@@ -61,14 +61,14 @@ const sections = [
 
 const content = {
   intro: {
-    title: 'Introduction to Aether',
-    body: `Aether is the community hub for physics-informed machine learning in the energy sector.
+    title: 'Introduction to Ereuna',
+    body: `Ereuna is the community hub for physics-informed machine learning in the energy sector.
 
 Every model in the zoo implements the **EnergyGraph** interface — a common graph representation for energy system state. This means a geothermal reservoir model and a grid dispatch policy can share the same input/output contract, and transfer learning across domains is first-class, not an afterthought.
 
-## What makes Aether different
+## What makes Ereuna different
 
-Most ML model repositories are domain-agnostic. Aether is opinionated: every model must pass the **physics constraint checker** before it appears. That means conservation of energy and mass are verified, not assumed.
+Most ML model repositories are domain-agnostic. Ereuna is opinionated: every model must pass the **physics constraint checker** before it appears. That means conservation of energy and mass are verified, not assumed.
 
 ## Who it's for
 
@@ -87,26 +87,26 @@ Start with the Quickstart to run your first inference call. Then read the Energy
 ## 1. Install the SDK
 
 \`\`\`bash
-pip install aether-energy
+pip install ereuna-energy
 \`\`\`
 
 ## 2. Authenticate
 
-Create an API key at **aether.energy/settings/keys**, then:
+Create an API key at **ereuna.energy/settings/keys**, then:
 
 \`\`\`bash
-export AETHER_API_KEY=ak_live_...
+export EREUNA_API_KEY=ak_live_...
 \`\`\`
 
 ## 3. Run inference
 
 \`\`\`python
-import aether
+import ereuna
 
-model = aether.load("TurkanaWind-24h")
+model = ereuna.load("TurkanaWind-24h")
 
 # Build an EnergyGraph with your site features
-graph = aether.EnergyGraph.from_csv("my_site.csv")
+graph = ereuna.EnergyGraph.from_csv("my_site.csv")
 
 # Forecast the next 24 hours
 result = model.predict(graph, horizon="24h")
@@ -117,7 +117,7 @@ print(result.uncertainty_p90) # calibrated P90 band
 ## 4. Check physics
 
 \`\`\`python
-from aether.checks import PhysicsSpec
+from ereuna.checks import PhysicsSpec
 
 report = PhysicsSpec().run(model, graph, result)
 print(report.pass_rate)  # target: > 99%
@@ -187,25 +187,25 @@ g2 = EnergyGraph.from_json("graph.json")
   },
   upload: {
     title: 'Creating a model repository',
-    body: `Model repositories are created and pushed to with the **Aether CLI** (\`aether\`) — a git-like tool for syncing a local folder with an Aether repository.
+    body: `Model repositories are created and pushed to with the **Ereuna CLI** (\`ereuna\`) — a git-like tool for syncing a local folder with an Ereuna repository.
 
 ## 1. Install the CLI
 
 The CLI ships from source inside the monorepo:
 
 \`\`\`bash
-cd AetherCLI
+cd EreunaCLI
 pip install -e .
-aether --version
+ereuna --version
 \`\`\`
 
 ## 2. Authenticate
 
 \`\`\`bash
-aether login
+ereuna login
 \`\`\`
 
-This stores a token in \`~/.aether/credentials.json\` (auth is handled by **AuthService**, repo storage by **RepositoryService**).
+This stores a token in \`~/.ereuna/credentials.json\` (auth is handled by **AuthService**, repo storage by **RepositoryService**).
 
 ## 3. Create the repository
 
@@ -214,11 +214,11 @@ Two equivalent ways to get started, both take \`--type MODEL\` (repo types are \
 \`\`\`bash
 # Option A — turn the current folder into a repo and create the remote for it
 mkdir geothermal-pinn && cd geothermal-pinn
-aether init --type MODEL
+ereuna init --type MODEL
 
 # Option B — create the remote first, then clone it locally
-aether repo create geothermal-pinn --type MODEL --description "PINN for geothermal reservoirs"
-aether clone yourname/geothermal-pinn
+ereuna repo create geothermal-pinn --type MODEL --description "PINN for geothermal reservoirs"
+ereuna clone yourname/geothermal-pinn
 \`\`\`
 
 By default repos are created **private**; pass \`--public\` to make one visible in the model zoo immediately.
@@ -226,16 +226,16 @@ By default repos are created **private**; pass \`--public\` to make one visible 
 ## 4. Add your files and push
 
 \`\`\`bash
-aether add .
-aether commit -m "Add model weights and metadata"
-aether push
+ereuna add .
+ereuna commit -m "Add model weights and metadata"
+ereuna push
 \`\`\`
 
-\`aether status\` shows local-vs-remote diffs before you push; \`aether pull\` fetches the latest commit. Changed files are tracked by SHA-256 in \`.aether/manifest.json\`, and \`.gitignore\` / \`.aetherignore\` are respected.
+\`ereuna status\` shows local-vs-remote diffs before you push; \`ereuna pull\` fetches the latest commit. Changed files are tracked by SHA-256 in \`.ereuna/manifest.json\`, and \`.gitignore\` / \`.ereunaignore\` are respected.
 
 ## Alternative: upload from the browser
 
-If you don't want to install the CLI, sign in on **aether.energy** and use the **Upload files** button on a model's page (\`/models/:slug/upload\`) to drag-and-drop the same files — it creates a commit the same way \`aether push\` does.
+If you don't want to install the CLI, sign in on **ereuna.energy** and use the **Upload files** button on a model's page (\`/models/:slug/upload\`) to drag-and-drop the same files — it creates a commit the same way \`ereuna push\` does.
 
 ## What to commit
 
@@ -243,7 +243,7 @@ At minimum, push your model weights/checkpoint. To get a rich, auto-rendered mod
   },
   'model-card': {
     title: 'Model repository files',
-    body: `When you \`aether push\` files into a **MODEL** repository, the WebClient reads four well-known filenames out of the latest commit and renders them automatically on the model's detail page. All four are optional and independent — a section only appears if its file is present and parses correctly. Filenames are matched case-insensitively, at the repo root or nested in a subdirectory (e.g. \`metadata/config.json\`).
+    body: `When you \`ereuna push\` files into a **MODEL** repository, the WebClient reads four well-known filenames out of the latest commit and renders them automatically on the model's detail page. All four are optional and independent — a section only appears if its file is present and parses correctly. Filenames are matched case-insensitively, at the repo root or nested in a subdirectory (e.g. \`metadata/config.json\`).
 
 | File | Rendered as | Required keys |
 |------|-------------|----------------|
@@ -254,7 +254,7 @@ At minimum, push your model weights/checkpoint. To get a rich, auto-rendered mod
 
 ## README.md
 
-Plain markdown, rendered verbatim. If it's missing, the page falls back to the short description you passed to \`aether repo create -d "..."\`. Use it the way you'd use a Hugging Face model card — overview, intended use, training data, limitations.
+Plain markdown, rendered verbatim. If it's missing, the page falls back to the short description you passed to \`ereuna repo create -d "..."\`. Use it the way you'd use a Hugging Face model card — overview, intended use, training data, limitations.
 
 ## config.json
 
@@ -312,36 +312,36 @@ A JSON-Schema-style object (\`{ "properties": { ... } }\`) or a plain \`{ "field
   },
   'dataset-repo': {
     title: 'Creating a dataset repository',
-    body: `Dataset repositories use the same \`aether\` CLI workflow as models — only the \`--type\` flag changes.
+    body: `Dataset repositories use the same \`ereuna\` CLI workflow as models — only the \`--type\` flag changes.
 
 ## 1–2. Install & authenticate
 
-Same as models: \`pip install -e AetherCLI\`, then \`aether login\`. See **Creating a model repository** for details.
+Same as models: \`pip install -e EreunaCLI\`, then \`ereuna login\`. See **Creating a model repository** for details.
 
 ## 3. Create the repository
 
 \`\`\`bash
 mkdir geothermal-sensors-2024 && cd geothermal-sensors-2024
-aether init --type DATASET
+ereuna init --type DATASET
 
 # or
-aether repo create geothermal-sensors-2024 --type DATASET --description "Hourly sensor readings, 2020-2024"
-aether clone yourname/geothermal-sensors-2024
+ereuna repo create geothermal-sensors-2024 --type DATASET --description "Hourly sensor readings, 2020-2024"
+ereuna clone yourname/geothermal-sensors-2024
 \`\`\`
 
 ## 4. Push your data files
 
 \`\`\`bash
-aether add .
-aether commit -m "Add raw sensor readings"
-aether push
+ereuna add .
+ereuna commit -m "Add raw sensor readings"
+ereuna push
 \`\`\`
 
-The platform recognizes tabular and scientific formats: CSV/TSV, Parquet, JSON/JSONL, NetCDF (\`.nc\`), and HDF5 (\`.h5\`/\`.hdf5\`). Pushed files are versioned like any other repo — visible in the repository's **Files** tab, downloadable, and diffed on every \`aether push\`.
+The platform recognizes tabular and scientific formats: CSV/TSV, Parquet, JSON/JSONL, NetCDF (\`.nc\`), and HDF5 (\`.h5\`/\`.hdf5\`). Pushed files are versioned like any other repo — visible in the repository's **Files** tab, downloadable, and diffed on every \`ereuna push\`.
 
 ## Important: this is separate from the searchable dataset record
 
-Pushing files with \`aether push\` gives you source-controlled storage and a browsable Files/Versions history — the same as a model repo. It does **not** by itself populate the columns/rows/profile shown on the dataset's catalog page. That data is served live by **DatasetsService**, which has its own \`dataset\` resource (schema, row count, profile, lineage) linked to your repo by \`repo_id\`. A DatasetsService dataset + version currently has to be registered separately (its \`/datasets\` and \`/datasets/{id}/versions\` endpoints, keyed to the same \`repo_id\`) before the "Schema", "Preview", and "Profile" sections on the dataset page populate. See **Dataset repository files** for what to include either way.`,
+Pushing files with \`ereuna push\` gives you source-controlled storage and a browsable Files/Versions history — the same as a model repo. It does **not** by itself populate the columns/rows/profile shown on the dataset's catalog page. That data is served live by **DatasetsService**, which has its own \`dataset\` resource (schema, row count, profile, lineage) linked to your repo by \`repo_id\`. A DatasetsService dataset + version currently has to be registered separately (its \`/datasets\` and \`/datasets/{id}/versions\` endpoints, keyed to the same \`repo_id\`) before the "Schema", "Preview", and "Profile" sections on the dataset page populate. See **Dataset repository files** for what to include either way.`,
   },
   'dataset-files': {
     title: 'Dataset repository files',
@@ -353,7 +353,7 @@ One or more data files in a format the platform understands — CSV/TSV, Parquet
 
 ## Recommended: README.md
 
-Good practice for anyone browsing the repo or running \`aether clone\` — describe collection methodology, coverage, units, and known caveats the way you would for a model. Note that today it's shown as plain repo content (Files tab / clone) rather than being auto-rendered on the dataset catalog page the way a model's README.md is (see **Model repository files**) — that gap is worth knowing about if you're relying on it for discoverability.
+Good practice for anyone browsing the repo or running \`ereuna clone\` — describe collection methodology, coverage, units, and known caveats the way you would for a model. Note that today it's shown as plain repo content (Files tab / clone) rather than being auto-rendered on the dataset catalog page the way a model's README.md is (see **Model repository files**) — that gap is worth knowing about if you're relying on it for discoverability.
 
 ## Where the catalog page's fields actually come from
 
@@ -373,21 +373,21 @@ For multi-file datasets (e.g. per-year CSVs), a small \`manifest.json\` or \`man
 ## Install
 
 \`\`\`bash
-pip install aether-energy
+pip install ereuna-energy
 \`\`\`
 
 For GPU support with CUDA 12:
 
 \`\`\`bash
-pip install aether-energy[cuda12]
+pip install ereuna-energy[cuda12]
 \`\`\`
 
 ## Verify
 
 \`\`\`python
-import aether
-print(aether.__version__)  # 0.9.1
-aether.ping()              # pong — API key verified
+import ereuna
+print(ereuna.__version__)  # 0.9.1
+ereuna.ping()              # pong — API key verified
 \`\`\`
 
 ## Optional dependencies
@@ -404,7 +404,7 @@ aether.ping()              # pong — API key verified
 
 ## Getting a key
 
-1. Sign in at **aether.energy**
+1. Sign in at **ereuna.energy**
 2. Go to **Settings → API keys**
 3. Click **New key**, give it a name, copy it immediately (it won't be shown again)
 
@@ -413,7 +413,7 @@ aether.ping()              # pong — API key verified
 Pass the key as an \`Authorization\` header:
 
 \`\`\`bash
-curl https://api.aether.energy/v1/models \\
+curl https://api.ereuna.energy/v1/models \\
   -H "Authorization: Bearer ak_live_..."
 \`\`\`
 

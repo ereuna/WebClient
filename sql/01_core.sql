@@ -1,4 +1,4 @@
--- Aether Transactional Database
+-- Ereuna Transactional Database
 -- 01_core.sql — Shared reference tables (schema: core)
 
 CREATE TABLE core.tags (

@@ -219,9 +219,9 @@ export default function RepositoriesPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#f1ede4' }}>
       <PageHero
-        eyebrow="AETHER ML PLATFORM"
+        eyebrow="EREUNA ML PLATFORM"
         title="Repositories"
-        description={`${repos.length} repositories — models, datasets, and utilities from the Aether community.`}
+        description={`${repos.length} repositories — models, datasets, and utilities from the Ereuna community.`}
         illustration={PAGE_ILLUSTRATIONS.repositories}
         illustrationAlt="Repositories illustration"
       />
