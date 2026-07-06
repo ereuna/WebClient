@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchDataset, fetchRelatedDatasets, DOMAIN_COLORS } from '../api/datasets'
-import {
-  getDatasetRecordByRepoId,
-  getDatasetSchema,
-  previewRows,
-  getDatasetProfile,
-  getDatasetLineage,
-} from '../api/datasetRecords'
+import { fetchDatasetRepoArtifacts } from '../api/repoFiles'
 import { DOMAIN_ILLUSTRATIONS } from '../lib/illustrations'
 import { fetchRelatedModels } from '../api/models'
 import CodeBlock from '../components/CodeBlock'
 import StarButton from '../components/StarButton'
+import RepoReadme from '../components/model/RepoReadme'
+import SchemaTable from '../components/dataset/SchemaTable'
+import DatasetFilesList from '../components/dataset/DatasetFilesList'
+import DatasetSchemaFiles from '../components/dataset/DatasetSchemaFiles'
+import DatasetProfileCard from '../components/dataset/DatasetProfileCard'
+import DatasetValidationCard from '../components/dataset/DatasetValidationCard'
 import { useAuth } from '../context/AuthContext.jsx'
 
 const ACCENT = '#cf5a2a'
@@ -95,42 +95,6 @@ function SectionCard({ label, children }) {
     <div style={{ marginBottom: 32 }}>
       <SectionLabel>{label}</SectionLabel>
       {children}
-    </div>
-  )
-}
-
-function SchemaTable({ columns }) {
-  return (
-    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-        <thead>
-          <tr style={{ background: '#faf7f0', borderBottom: '1px solid #ece5d6' }}>
-            {['Column', 'Type', 'Description'].map(h => (
-              <th key={h} style={{
-                padding: '10px 16px', textAlign: 'left',
-                fontFamily: "'Space Mono',monospace", fontSize: 10,
-                color: '#8a857a', fontWeight: 400, letterSpacing: '0.04em',
-              }}>{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {columns.map((col, i) => (
-            <tr key={col.column} style={{ borderBottom: i < columns.length - 1 ? '1px solid #f0ebe0' : 'none' }}>
-              <td style={{ padding: '10px 16px', fontFamily: "'Space Mono',monospace", fontSize: 11.5, fontWeight: 700, color: '#1b1a17' }}>
-                {col.column}
-              </td>
-              <td style={{ padding: '10px 16px' }}>
-                <span style={{
-                  fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '2px 7px',
-                  borderRadius: 5, background: '#f5f0e8', color: '#7a7568',
-                }}>{col.type}</span>
-              </td>
-              <td style={{ padding: '10px 16px', color: '#56524a', lineHeight: 1.45 }}>{col.desc}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   )
 }
@@ -237,41 +201,23 @@ export default function DatasetDetailPage() {
   const [notFound, setNotFound] = useState(false)
 
   const [relatedModels, setRelatedModels] = useState([])
-  const [liveSchema, setLiveSchema] = useState(null)
-  const [previewData, setPreviewData] = useState(null)
-  const [profileData, setProfileData] = useState(null)
-  const [lineageData, setLineageData] = useState(null)
+  const [repoArtifacts, setRepoArtifacts] = useState(null)
 
   useEffect(() => {
     setLoading(true)
     setNotFound(false)
+    setRepoArtifacts(null)
     fetchDataset(datasetId).then(async data => {
       if (!data) { setNotFound(true); setLoading(false); return }
       setDataset(data)
-      const [ds, ms] = await Promise.all([
+      const [ds, ms, artifacts] = await Promise.all([
         fetchRelatedDatasets(data.relatedDatasetIds),
         fetchRelatedModels(data.relatedModelIds),
+        data._repoId ? fetchDatasetRepoArtifacts(data._repoId) : Promise.resolve(null),
       ])
       setRelatedDatasets(ds)
       setRelatedModels(ms)
-
-      if (data._repoId) {
-        try {
-          const record = await getDatasetRecordByRepoId(data._repoId)
-          if (record?.id) {
-            const [schema, rows, profile, lineage] = await Promise.all([
-              getDatasetSchema(record.id).catch(() => null),
-              previewRows(record.id, { limit: 10 }).catch(() => null),
-              getDatasetProfile(record.id).catch(() => null),
-              getDatasetLineage(record.id).catch(() => null),
-            ])
-            setLiveSchema(schema)
-            setPreviewData(rows)
-            setProfileData(profile)
-            setLineageData(lineage)
-          }
-        } catch { /* DatasetsService record may not exist yet */ }
-      }
+      setRepoArtifacts(artifacts)
       setLoading(false)
     })
   }, [datasetId])
@@ -291,13 +237,7 @@ export default function DatasetDetailPage() {
   const { title, domain, format, license, desc, longDesc, size, rows, downloads, updated, version,
     coverage, schema, collection, usageNotes, codeSnippet } = dataset
 
-  const displaySchema = liveSchema?.columns?.map(c => ({
-    column: c.name || c.column,
-    type: c.dtype || c.type || '—',
-    desc: c.description || '',
-  })) || schema
-
-  const displayRows = previewData?.rows || profileData?.row_count || rows
+  const { readme, schema: repoSchema, profile, validation, files, commitSha } = repoArtifacts || {}
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -333,7 +273,7 @@ export default function DatasetDetailPage() {
 
               <div style={{ display: 'flex', gap: 14, marginTop: 18, flexWrap: 'wrap', alignItems: 'center' }}>
                 <StatPill icon="↓" label={`${downloads} downloads`} />
-                <StatPill icon="⬢" label={`${displayRows} rows`} />
+                <StatPill icon="⬢" label={`${rows} rows`} />
                 <StatPill icon="◉" label={size} />
                 <StatPill icon="↺" label={`Updated ${updated}`} />
                 <StarButton repoId={dataset._repoId} initialCount={0} />
@@ -393,10 +333,26 @@ export default function DatasetDetailPage() {
         {/* ── Main content ── */}
         <div style={{ flex: 1, minWidth: 0 }}>
 
-          {/* About */}
-          <SectionCard label="About">
-            <p style={{ fontSize: 14.5, color: '#3b3830', lineHeight: 1.7, margin: 0 }}>{longDesc}</p>
-          </SectionCard>
+          {/* README from repository */}
+          {readme && (
+            <SectionCard label="README">
+              <RepoReadme content={readme} />
+            </SectionCard>
+          )}
+
+          {/* About — fallback when repository has no README.md */}
+          {!readme && (
+            <SectionCard label="About">
+              <p style={{ fontSize: 14.5, color: '#3b3830', lineHeight: 1.7, margin: 0 }}>{longDesc}</p>
+            </SectionCard>
+          )}
+
+          {/* Files committed to the repository */}
+          {files?.length > 0 && (
+            <SectionCard label={`Files — ${files.length}`}>
+              <DatasetFilesList files={files} repoId={repoArtifacts.repoId} commitSha={commitSha} />
+            </SectionCard>
+          )}
 
           {/* Coverage */}
           {Object.keys(coverage).length > 0 && (
@@ -412,20 +368,28 @@ export default function DatasetDetailPage() {
             </SectionCard>
           )}
 
-          {/* Schema */}
-          {displaySchema?.length > 0 && (
-            <SectionCard label={`Schema — ${displaySchema.length} columns`}>
-              <SchemaTable columns={displaySchema} />
+          {/* Schema — from repo schema.json (grouped per data file) or metadata fallback */}
+          {repoSchema?.files ? (
+            <SectionCard label="Schema">
+              <DatasetSchemaFiles schema={repoSchema} />
+            </SectionCard>
+          ) : schema?.length > 0 && (
+            <SectionCard label={`Schema — ${schema.length} columns`}>
+              <SchemaTable columns={schema} />
             </SectionCard>
           )}
 
-          {lineageData && (
-            <SectionCard label="Lineage">
-              <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '18px 20px', fontSize: 13, color: MEDIUM }}>
-                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: "'Space Mono',monospace", fontSize: 11 }}>
-                  {JSON.stringify(lineageData, null, 2)}
-                </pre>
-              </div>
+          {/* Profile — per-file statistics from profile.json */}
+          {profile && (
+            <SectionCard label="Profile">
+              <DatasetProfileCard profile={profile} />
+            </SectionCard>
+          )}
+
+          {/* Validation — expectation checks from validation.json */}
+          {validation && (
+            <SectionCard label="Validation">
+              <DatasetValidationCard validation={validation} />
             </SectionCard>
           )}
 
