@@ -83,9 +83,8 @@ export function getIllustrationById(id) {
   return CARD_ILLUSTRATION_OPTIONS.find(o => o.id === id) || null
 }
 
-// Default illustration id for a given model family / dataset domain — used to
-// pre-select a sensible option in the creation form before the user picks one.
-export const FAMILY_ILLUSTRATION_ID = {
+// Illustration *id* (not a path) per family — used to pre-select a default in the picker, distinct from the path-keyed FAMILY_ILLUSTRATIONS above.
+export const FAMILY_DEFAULT_ILLUSTRATION_ID = {
   'PINN':        'card-pinn-library',
   'GNN / NNP':   'card-materials-gnn',
   'Grid RL':     'card-grid-dispatch-rl',
@@ -93,7 +92,8 @@ export const FAMILY_ILLUSTRATION_ID = {
   'Generative':  'card-generative',
 }
 
-export const DOMAIN_ILLUSTRATION_ID = {
+// Illustration *id* (not a path) per domain — used to pre-select a default in the picker, distinct from the path-keyed DOMAIN_ILLUSTRATIONS above.
+export const DOMAIN_DEFAULT_ILLUSTRATION_ID = {
   Geothermal: 'card-domain-geothermal',
   Nuclear:    'card-domain-nuclear',
   Wind:       'card-domain-wind',
