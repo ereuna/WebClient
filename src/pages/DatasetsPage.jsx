@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 import { fetchAllDatasets, DOMAIN_COLORS } from '../api/datasets'
 import PageHero from '../components/PageHero'
 import { CardIllustration } from '../components/CardIllustration'
-import { DOMAIN_ILLUSTRATIONS, PAGE_ILLUSTRATIONS } from '../lib/illustrations'
+import { DOMAIN_ILLUSTRATIONS, PAGE_ILLUSTRATIONS, getIllustrationById } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
 
 const DOMAINS = ['All', 'Geothermal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Grid']
 
 function DatasetCard({ dataset: d }) {
-  const illo = DOMAIN_ILLUSTRATIONS[d.domain]
+  const illo = (d.illustration && getIllustrationById(d.illustration)?.src) || DOMAIN_ILLUSTRATIONS[d.domain]
   return (
     <Link to={`/datasets/${d.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div

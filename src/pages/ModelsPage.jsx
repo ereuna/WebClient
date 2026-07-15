@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { fetchAllModels, FAMILY_COLORS } from '../api/models'
 import PageHero from '../components/PageHero'
 import { CardIllustration } from '../components/CardIllustration'
-import { FAMILY_ILLUSTRATIONS, PAGE_ILLUSTRATIONS } from '../lib/illustrations'
+import { FAMILY_ILLUSTRATIONS, PAGE_ILLUSTRATIONS, getIllustrationById } from '../lib/illustrations'
 
 const ACCENT = '#cf5a2a'
 
@@ -20,7 +20,7 @@ function FamilyDot({ family }) {
 }
 
 function ModelCard({ model }) {
-  const illo = FAMILY_ILLUSTRATIONS[model.family]
+  const illo = (model.illustration && getIllustrationById(model.illustration)?.src) || FAMILY_ILLUSTRATIONS[model.family]
   return (
     <Link to={`/models/${model.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
