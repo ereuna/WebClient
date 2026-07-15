@@ -38,6 +38,12 @@ export const METRIC_ILLUSTRATIONS = {
   Spaces: '/illustrations/metric-spaces.png',
 }
 
+export const TOKAMAK_ILLUSTRATIONS = {
+  reactorCore: '/illustrations/tokamak-reactor-core.png',
+  magneticConfinement: '/illustrations/tokamak-magnetic-confinement.png',
+  plasmaMonitor: '/illustrations/tokamak-plasma-monitor.png',
+}
+
 export const PAGE_ILLUSTRATIONS = {
   models: '/illustrations/page-models-hero.png',
   datasets: '/illustrations/page-datasets-hero.png',
