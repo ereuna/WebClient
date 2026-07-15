@@ -46,11 +46,13 @@ function mapRepoToDataset(repo) {
   const m = repo.metadata || {}
   return {
     // Identity
-    id:      repo.slug,
-    _repoId: repo.id,
+    id:          repo.slug,
+    _repoId:     repo.id,
+    ownerUserId: repo.owner_user_id || null,
     // Card-level fields
-    title:   m.title   || repo.slug,
-    domain:  m.domain  || 'Unknown',
+    title:        m.title   || repo.slug,
+    domain:       m.domain  || 'Unknown',
+    illustration: m.illustration || null,
     format:  m.format  || '—',
     license: m.license || '—',
     desc:    repo.description || '',
@@ -86,6 +88,11 @@ export async function fetchAllDatasets() {
     _cache = []
   }
   return _cache
+}
+
+/** Force the next fetchDataset/fetchAllDatasets call to refetch from the server. */
+export function invalidateDatasetsCache() {
+  _cache = null
 }
 
 export async function fetchDataset(slug) {
