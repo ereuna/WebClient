@@ -45,11 +45,13 @@ function mapRepoToModel(repo) {
   const m = repo.metadata || {}
   return {
     // Identity
-    id:      repo.slug,
-    _repoId: repo.id,
+    id:          repo.slug,
+    _repoId:     repo.id,
+    ownerUserId: repo.owner_user_id || null,
     // Card-level fields
-    title:   m.title   || repo.slug,
-    family:  m.family  || 'Unknown',
+    title:        m.title   || repo.slug,
+    family:       m.family  || 'Unknown',
+    illustration: m.illustration || null,
     license: m.license || '—',
     desc:    repo.description || '',
     tags:    m.tags    || [],
@@ -88,6 +90,11 @@ export async function fetchAllModels() {
     _cache = []
   }
   return _cache
+}
+
+/** Force the next fetchModel/fetchAllModels call to refetch from the server. */
+export function invalidateModelsCache() {
+  _cache = null
 }
 
 export async function fetchModel(slug) {
