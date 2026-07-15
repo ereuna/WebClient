@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { fetchDataset, fetchRelatedDatasets, DOMAIN_COLORS } from '../api/datasets'
+import { fetchDataset, fetchRelatedDatasets, DOMAIN_COLORS, invalidateDatasetsCache } from '../api/datasets'
 import { fetchDatasetRepoArtifacts } from '../api/repoFiles'
-import { DOMAIN_ILLUSTRATIONS } from '../lib/illustrations'
+import { updateRepository } from '../api/repositories.js'
+import { DOMAIN_ILLUSTRATIONS, getIllustrationById } from '../lib/illustrations'
+import IllustrationPicker from '../components/IllustrationPicker.jsx'
+import Modal from '../components/Modal.jsx'
 import { fetchRelatedModels } from '../api/models'
 import CodeBlock from '../components/CodeBlock'
 import StarButton from '../components/StarButton'
@@ -203,6 +206,11 @@ export default function DatasetDetailPage() {
   const [relatedModels, setRelatedModels] = useState([])
   const [repoArtifacts, setRepoArtifacts] = useState(null)
 
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const [pendingIllustration, setPendingIllustration] = useState(null)
+  const [savingIllustration, setSavingIllustration] = useState(false)
+  const [illustrationError, setIllustrationError] = useState('')
+
   useEffect(() => {
     setLoading(true)
     setNotFound(false)
@@ -238,6 +246,31 @@ export default function DatasetDetailPage() {
     coverage, schema, collection, usageNotes, codeSnippet } = dataset
 
   const { readme, schema: repoSchema, profile, validation, files, commitSha } = repoArtifacts || {}
+
+  const heroIllustrationSrc = (dataset.illustration && getIllustrationById(dataset.illustration)?.src) || DOMAIN_ILLUSTRATIONS[domain] || null
+  const isOwner = Boolean(user && dataset.ownerUserId && user.id === dataset.ownerUserId)
+
+  function openIllustrationPicker() {
+    setPendingIllustration(dataset.illustration || null)
+    setIllustrationError('')
+    setPickerOpen(true)
+  }
+
+  async function handleSaveIllustration() {
+    if (!pendingIllustration || !dataset._repoId) return
+    setSavingIllustration(true)
+    setIllustrationError('')
+    try {
+      await updateRepository(dataset._repoId, { metadata: { illustration: pendingIllustration } })
+      invalidateDatasetsCache()
+      setDataset(d => ({ ...d, illustration: pendingIllustration }))
+      setPickerOpen(false)
+    } catch (err) {
+      setIllustrationError(err.message || 'Failed to update illustration.')
+    } finally {
+      setSavingIllustration(false)
+    }
+  }
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -282,12 +315,37 @@ export default function DatasetDetailPage() {
 
             {/* CTA + illustration */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 200, maxWidth: 280 }}>
-              {DOMAIN_ILLUSTRATIONS[domain] && (
-                <img
-                  src={DOMAIN_ILLUSTRATIONS[domain]}
-                  alt={`${domain} illustration`}
-                  style={{ width: '100%', borderRadius: 12, display: 'block' }}
-                />
+              {(heroIllustrationSrc || isOwner) && (
+                <div style={{ position: 'relative' }}>
+                  {heroIllustrationSrc ? (
+                    <img
+                      src={heroIllustrationSrc}
+                      alt={`${domain} illustration`}
+                      style={{ width: '100%', borderRadius: 12, display: 'block' }}
+                    />
+                  ) : (
+                    <div style={{
+                      width: '100%', aspectRatio: '16/10', borderRadius: 12,
+                      background: '#f5f0e8', border: '1.4px dashed #ddd6c8',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#a09990',
+                    }}>
+                      No illustration
+                    </div>
+                  )}
+                  {isOwner && (
+                    <button
+                      onClick={openIllustrationPicker}
+                      style={{
+                        position: 'absolute', top: 8, right: 8,
+                        fontFamily: 'inherit', fontSize: 11, padding: '5px 10px', borderRadius: 7,
+                        border: 'none', background: 'rgba(27,26,23,.72)', color: '#fff', cursor: 'pointer',
+                      }}
+                    >
+                      {heroIllustrationSrc ? 'Change illustration' : 'Add illustration'}
+                    </button>
+                  )}
+                </div>
               )}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <Link
@@ -326,6 +384,48 @@ export default function DatasetDetailPage() {
           </div>
         </div>
       </div>
+
+      <Modal
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        title="Choose a card illustration"
+        footer={
+          <>
+            <button
+              onClick={() => setPickerOpen(false)}
+              style={{
+                fontFamily: 'inherit', fontSize: 14, padding: '10px 20px', borderRadius: 10,
+                border: '1.4px solid #ddd6c8', background: '#fff', color: '#56524a', cursor: 'pointer',
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSaveIllustration}
+              disabled={savingIllustration || !pendingIllustration}
+              style={{
+                fontFamily: 'inherit', fontSize: 14, fontWeight: 500, padding: '10px 20px', borderRadius: 10,
+                border: 'none',
+                background: savingIllustration || !pendingIllustration ? '#d0c8bc' : '#1b1a17',
+                color: savingIllustration || !pendingIllustration ? '#8a857a' : '#f1ede4',
+                cursor: savingIllustration || !pendingIllustration ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {savingIllustration ? 'Saving…' : 'Save'}
+            </button>
+          </>
+        }
+      >
+        {illustrationError && (
+          <div style={{
+            background: '#fdf2f0', border: '1px solid #f5c0b0', borderRadius: 9,
+            padding: '10px 14px', fontSize: 13, color: '#c0392b', marginBottom: 16,
+          }}>
+            {illustrationError}
+          </div>
+        )}
+        <IllustrationPicker value={pendingIllustration} onChange={setPendingIllustration} />
+      </Modal>
 
       {/* ── Body ── */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 80px', display: 'flex', gap: 36, alignItems: 'flex-start' }}>
