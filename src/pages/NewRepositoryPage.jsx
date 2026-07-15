@@ -12,6 +12,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { createRepository } from '../api/repositories.js'
+import IllustrationPicker from '../components/IllustrationPicker.jsx'
+import { CARD_ILLUSTRATION_OPTIONS, FAMILY_DEFAULT_ILLUSTRATION_ID, DOMAIN_DEFAULT_ILLUSTRATION_ID } from '../lib/illustrations.js'
 
 const ACCENT = '#cf5a2a'
 
@@ -242,6 +244,10 @@ export default function NewRepositoryPage() {
   const [domain, setDomain]   = useState('Geothermal')
   const [format, setFormat]   = useState('Parquet')
 
+  // Card illustration — defaults to the family/domain pick until the user overrides it
+  const [illustration, setIllustration] = useState(FAMILY_DEFAULT_ILLUSTRATION_ID['PINN'])
+  const [illustrationEdited, setIllustrationEdited] = useState(false)
+
   const [submitting, setSubmitting] = useState(false)
   const [error, setError]           = useState('')
 
@@ -249,6 +255,21 @@ export default function NewRepositoryPage() {
   useEffect(() => {
     if (!slugEdited) setSlug(toSlug(title))
   }, [title, slugEdited])
+
+  // Auto-pick a default illustration from family/domain unless the user overrode it
+  useEffect(() => {
+    if (illustrationEdited) return
+    if (repoType === 'MODEL') {
+      setIllustration(FAMILY_DEFAULT_ILLUSTRATION_ID[family] || CARD_ILLUSTRATION_OPTIONS[0].id)
+    } else if (repoType === 'DATASET') {
+      setIllustration(DOMAIN_DEFAULT_ILLUSTRATION_ID[domain] || CARD_ILLUSTRATION_OPTIONS[0].id)
+    }
+  }, [repoType, family, domain, illustrationEdited])
+
+  function handleIllustrationChange(id) {
+    setIllustrationEdited(true)
+    setIllustration(id)
+  }
 
   function handleSlugChange(e) {
     setSlugEdited(true)
@@ -270,6 +291,7 @@ export default function NewRepositoryPage() {
       title: title || slug,
       license,
       tags,
+      illustration,
       ...(repoType === 'MODEL'
         ? { family }
         : { domain, format }),
@@ -437,6 +459,14 @@ export default function NewRepositoryPage() {
                 </Field>
               </>
             )}
+
+            {/* Card illustration */}
+            <Field
+              label="Card illustration"
+              hint="Shown on catalog cards and the repository page. Defaults to your family/domain pick — change it anytime from the repository page."
+            >
+              <IllustrationPicker value={illustration} onChange={handleIllustrationChange} />
+            </Field>
 
             {/* License */}
             <Field label="License">
