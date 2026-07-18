@@ -37,14 +37,6 @@ export default function Hero() {
               }}>See how it works</span>
             </Link>
           </div>
-          <div style={{ display: 'flex', gap: 30, marginTop: 42, fontFamily: "'Space Mono',monospace" }}>
-            {[['20','models hosted'],['1,048','inference calls/mo'],['5','countries']].map(([n, l]) => (
-              <div key={l} style={{ borderLeft: n !== '20' ? '1px solid #ddd6c8' : 'none', paddingLeft: n !== '20' ? 30 : 0 }}>
-                <div style={{ fontSize: 25, color: '#1b1a17' }}>{n}</div>
-                <div style={{ fontSize: 11, color: '#8a857a', marginTop: 2 }}>{l}</div>
-              </div>
-            ))}
-          </div>
         </div>
         <img
           src="/illustrations/09-ereuna-hub-pipeline.png"

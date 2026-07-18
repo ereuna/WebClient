@@ -4,7 +4,7 @@ const steps = [
   { n: '01', title: 'Upload', desc: 'Drag a .pt or .safetensors checkpoint — TorchPharma format accepted.' },
   { n: '02', title: 'Physics check', desc: 'Automated validation of PDE residual, conservation and calibration.' },
   { n: '03', title: 'Model card', desc: 'A formal physics-domain card: provenance, performance, safety class.' },
-  { n: '04', title: 'Infer & fine-tune', desc: 'Call it from the SDK, REST API or fine-tune in the browser on your field.' },
+  { n: '04', title: 'Infer & fine-tune', desc: 'Pull it with the CLI today; REST API and in-browser fine-tuning are on the roadmap.' },
 ]
 
 export default function Pipeline() {
@@ -44,11 +44,10 @@ export default function Pipeline() {
         background: '#1b1a17', borderRadius: 14, marginTop: 18, padding: '20px 24px',
         fontFamily: "'Space Mono',monospace", fontSize: 13, color: '#e9e4d8', lineHeight: 1.9, overflowX: 'auto',
       }}>
-        <span style={{ color: '#8a857a' }}># Python SDK</span><br />
-        <span style={{ color: '#cdb89a' }}>from ereuna import </span>
-        <span>EreunaModel</span><br />
-        model = EreunaModel.<span style={{ color: ACCENT }}>from_hub</span>(<span style={{ color: '#cdb89a' }}>"tsuma/olkaria-inverse-pinn-v1.2"</span>)<br />
-        result = model.<span style={{ color: ACCENT }}>invert</span>(sensor_graph=my_field)
+        <span style={{ color: '#8a857a' }}># Ereuna CLI</span><br />
+        <span style={{ color: ACCENT }}>ereuna</span> login<br />
+        <span style={{ color: ACCENT }}>ereuna</span> clone <span style={{ color: '#cdb89a' }}>thomas/olkaria-inverse-pinn-v1.2</span><br />
+        <span style={{ color: ACCENT }}>ereuna</span> pull
       </div>
     </div>
   )

@@ -27,7 +27,7 @@ export default function CTA() {
         </Link>
       </div>
       <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', marginTop: 18 }}>
-        pip install ereuna-hub
+        git clone the repo → cd EreunaCLI → pip install -e .
       </div>
     </div>
   )

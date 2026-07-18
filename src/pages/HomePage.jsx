@@ -1,5 +1,4 @@
 import Hero from '../components/Hero'
-import TrustStrip from '../components/TrustStrip'
 import EnergyGraph from '../components/EnergyGraph'
 import ModelZoo from '../components/ModelZoo'
 import FlagshipApps from '../components/FlagshipApps'
@@ -11,7 +10,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <TrustStrip />
       <EnergyGraph />
       <ModelZoo />
       <FlagshipApps />

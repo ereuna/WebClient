@@ -24,7 +24,7 @@ function AppRow({ tag, title, desc, bullets, illoSrc, illoAlt, illoLeft, linkTo 
         ))}
       </div>
       <Link to={linkTo} style={{ textDecoration: 'none' }}>
-        <div style={{ marginTop: 20, fontWeight: 500, fontSize: 14, color: '#1b1a17', borderBottom: `1.5px solid ${ACCENT}`, display: 'inline-block', paddingBottom: 2, cursor: 'pointer' }}>Launch app →</div>
+        <div style={{ marginTop: 20, fontWeight: 500, fontSize: 14, color: '#1b1a17', borderBottom: `1.5px solid ${ACCENT}`, display: 'inline-block', paddingBottom: 2, cursor: 'pointer' }}>See what's live on /apps →</div>
       </Link>
     </div>
   )
@@ -39,54 +39,55 @@ export default function FlagshipApps() {
   return (
     <div style={{ background: '#fff', borderTop: '1px solid #e7e0d2', borderBottom: '1px solid #e7e0d2', marginTop: 64 }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '70px 28px 30px', textAlign: 'center' }}>
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>FLAGSHIP APPLICATIONS</div>
-        <h2 style={{ fontSize: 34, lineHeight: 1.08, letterSpacing: '-0.02em', fontWeight: 600, margin: '14px 0 0' }}>Built end-to-end on the hub.</h2>
+        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>APPS ON THE ROADMAP</div>
+        <h2 style={{ fontSize: 34, lineHeight: 1.08, letterSpacing: '-0.02em', fontWeight: 600, margin: '14px 0 0' }}>What we're building end-to-end on the hub.</h2>
         <p style={{ fontSize: 15, lineHeight: 1.6, color: '#56524a', maxWidth: 520, margin: '14px auto 0' }}>
-          Three production apps prove the EnergyGraph interface works for real operator workflows — connect your own sensor data and run.
+          Three concept apps sketch out how the EnergyGraph interface turns into real operator workflows. Not yet live —
+          this is the direction, not a product claim.
         </p>
       </div>
 
       <AppRow
-        tag="/apps/geosight"
+        tag="CONCEPT · GEOTHERMAL"
         title="Geothermal Field Intelligence"
-        desc="A live reservoir thermal map from the inverse PINN, inferred k(x), and plain-language anomaly alerts before they become production losses."
+        desc="Concept: a reservoir thermal map from the inverse PINN, inferred k(x), and plain-language anomaly alerts before they become production losses."
         bullets={[
-          'Reservoir thermal field, updated every 15 minutes',
-          'Anomaly alert with severity, interpretation and response',
-          'Upload well logs, fine-tune a PINN, launch in hours',
+          'Reservoir thermal field from sensor data',
+          'Anomaly alert with severity and interpretation',
+          'Upload well logs, fine-tune a PINN on your field',
         ]}
         illoSrc="/illustrations/05-geothermal-reservoir-slab.png"
         illoAlt="Geothermal reservoir slab"
-        linkTo="/apps/geosight"
+        linkTo="/apps"
       />
 
       <AppRow
-        tag="/apps/nucleval"
+        tag="CONCEPT · NUCLEAR MATERIALS"
         title="Nuclear Materials Safety Monitor"
-        desc="A vessel cross-section degradation heatmap from the materials GNN, 180-day property forecasts against hard safety limits, and inspection recommendations that write to your CMMS."
+        desc="Concept: a vessel cross-section degradation heatmap from the materials GNN, with property forecasts against hard safety limits and inspection recommendations."
         bullets={[
-          'Yield strength forecast with 90% CI and limit line',
-          'One-click IAEA-formatted inspection readiness report',
-          'Accept a recommendation → advance the inspection date',
+          'Yield strength forecast with a confidence interval and limit line',
+          'Inspection readiness report generated from the forecast',
+          'Recommendation flow to adjust the inspection date',
         ]}
         illoSrc="/illustrations/06-nuclear-vessel-monitor.png"
         illoAlt="Nuclear vessel monitor"
         illoLeft
-        linkTo="/apps/nucleval"
+        linkTo="/apps"
       />
 
       <AppRow
-        tag="/apps/gridlens"
+        tag="CONCEPT · GRID DISPATCH"
         title="National Grid Dispatch Optimiser"
-        desc="A 72-hour RL dispatch schedule that couples PINN reservoir-health signals into the reward — the unique geothermal-to-grid integration — with plain-language recommendations and a scenario simulator."
+        desc="Concept: an RL dispatch schedule that couples PINN reservoir-health signals into the reward — pairing geothermal reservoir state with grid dispatch — plus plain-language recommendations and a scenario simulator."
         bullets={[
-          'Live generation mix with carbon intensity vs NDC',
-          '"Reduce Olkaria drawdown 8% — reservoir declining"',
-          'Export the schedule to SCADA over OPC-UA',
+          'Generation mix view with carbon intensity',
+          'Plain-language reservoir-health recommendations',
+          'Exportable dispatch schedule for downstream planning tools',
         ]}
         illoSrc="/illustrations/07-grid-dispatch-convergence.png"
         illoAlt="Grid dispatch convergence"
-        linkTo="/apps/gridlens"
+        linkTo="/apps"
       />
     </div>
   )

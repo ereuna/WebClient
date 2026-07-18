@@ -16,14 +16,14 @@ export default function Discovery() {
           backgroundSize: '24px 24px', opacity: 0.6,
         }}/>
         <div style={{ position: 'relative' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>GENERATIVE · CHNO ENERGETICS</div>
+          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>CONCEPT · CHNO ENERGETICS</div>
           <h2 style={{ fontSize: 32, lineHeight: 1.1, letterSpacing: '-0.02em', fontWeight: 600, margin: '14px 0 0' }}>
             De-novo energetic<br />materials discovery.
           </h2>
           <p style={{ fontSize: 15, lineHeight: 1.6, color: '#b7b1a4', margin: '16px 0 0', maxWidth: 420 }}>
-            Set target properties, let the diffusion and SELFIES-LM models propose CHNO candidates, and have
-            the GNN score every one. Activation-steering sliders nudge the latent toward higher energy density —
-            sensitivity stays a hard ceiling.
+            A concept on the roadmap: set target properties, let diffusion and SELFIES-LM models propose CHNO
+            candidates, and have the GNN score every one. Activation-steering sliders would nudge the latent
+            toward higher energy density — sensitivity stays a hard ceiling.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 20 }}>
             {[
@@ -39,9 +39,9 @@ export default function Discovery() {
               }}>{label}</span>
             ))}
           </div>
-          <Link to="/apps/matexplorer" style={{ textDecoration: 'none' }}>
+          <Link to="/apps" style={{ textDecoration: 'none' }}>
             <div style={{ marginTop: 24, fontWeight: 500, fontSize: 14, color: '#f1ede4', borderBottom: `1.5px solid ${ACCENT}`, display: 'inline-block', paddingBottom: 2, cursor: 'pointer' }}>
-              Open the studio →
+              See what's live on /apps →
             </div>
           </Link>
         </div>
