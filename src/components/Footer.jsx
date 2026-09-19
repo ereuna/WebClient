@@ -61,8 +61,7 @@ export default function Footer() {
               </div>
             </Link>
             <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#8a857a', margin: '14px 0 0', maxWidth: 280 }}>
-              The Hugging Face of energy ML. Physics-informed models, one representation, built by and for
-              the people who run energy systems.
+              Ereuna is a physics-informed machine learning platform for geothermal energy.
             </p>
           </div>
           {cols.map(({ heading, links }) => (

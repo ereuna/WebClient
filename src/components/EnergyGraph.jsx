@@ -1,3 +1,5 @@
+import EnergyGraphLayers from '../illustrations/EnergyGraphLayers'
+
 const ACCENT = '#cf5a2a'
 
 export default function EnergyGraph() {
@@ -5,8 +7,8 @@ export default function EnergyGraph() {
     { title: 'PhysicsSpec', desc: 'PDE class, boundary conditions and inferred terms — the basis for weight transfer.' },
     { title: 'SensorGraph', desc: 'Wells and instruments as nodes; physical relationships as weighted edges.' },
     { title: 'FieldState', desc: 'A discretised field snapshot with per-node calibrated uncertainty.' },
-    { title: 'MaterialSpec', desc: 'Composition, crystal graph and operating conditions for materials GNNs.' },
   ]
+
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px 28px 30px' }}>
       <div style={{
@@ -20,25 +22,20 @@ export default function EnergyGraph() {
         }}/>
         <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 30, flexWrap: 'wrap' }}>
           <div>
-            <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>★ THE MISSING ABSTRACTION LAYER</div>
+            <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>ENERGYGRAPH SCHEMA</div>
             <h2 style={{ fontSize: 34, lineHeight: 1.08, letterSpacing: '-0.02em', fontWeight: 600, margin: '14px 0 0', maxWidth: 480 }}>
-              One representation for<br />every energy model.
+              Geothermal data<br />representation layer.
             </h2>
           </div>
-          <p style={{ fontSize: 15, lineHeight: 1.6, color: '#56524a', maxWidth: 340, margin: '6px 0 0' }}>
-            Text has the token. Energy ML had nothing — until <strong>EnergyGraph</strong>. Four composable
-            objects encode the physics that lets any model's inputs and outputs interoperate, and weights transfer.
+          <p style={{ fontSize: 15, lineHeight: 1.6, color: '#56524a', maxWidth: 360, margin: '6px 0 0' }}>
+            EnergyGraph is Ereuna's data representation schema. Three composable objects — <strong>PhysicsSpec</strong>, <strong>SensorGraph</strong>, and <strong>FieldState</strong> — encode governing equations, sensor networks, and subsurface state.
           </p>
         </div>
         <div style={{ position: 'relative', marginTop: 18 }}>
-          <img
-            src="/illustrations/01-energygraph-four-layers.png"
-            alt="EnergyGraph four-layer architecture"
-            style={{ width: '100%', borderRadius: 12, display: 'block' }}
-          />
+          <EnergyGraphLayers />
         </div>
         <div style={{
-          position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)',
+          position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(3,1fr)',
           gap: 22, marginTop: 24, borderTop: '1px solid #ece5d6', paddingTop: 26,
         }}>
           {features.map(f => (

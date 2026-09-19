@@ -5,9 +5,6 @@ import PageHero from '../components/PageHero'
 import { CardIllustration } from '../components/CardIllustration'
 import { FAMILY_ILLUSTRATIONS, PAGE_ILLUSTRATIONS, getIllustrationById } from '../lib/illustrations'
 
-const ACCENT = '#cf5a2a'
-
-const FAMILIES = ['All', 'PINN', 'GNN / NNP', 'Grid RL', 'Forecasting', 'Generative']
 const LICENSES = ['All licenses', 'Apache-2.0', 'MIT', 'CC BY 4.0', 'Restricted']
 
 function FamilyDot({ family }) {
@@ -20,7 +17,7 @@ function FamilyDot({ family }) {
 }
 
 function ModelCard({ model }) {
-  const illo = (model.illustration && getIllustrationById(model.illustration)?.src) || FAMILY_ILLUSTRATIONS[model.family]
+  const illo = (model.illustration && getIllustrationById(model.illustration)?.src) || FAMILY_ILLUSTRATIONS[model.family] || '/illustrations/card-pinn-library.png'
   return (
     <Link to={`/models/${model.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
@@ -31,7 +28,7 @@ function ModelCard({ model }) {
         onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'}
         onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
       >
-        {illo && <CardIllustration src={illo} alt={`${model.family} illustration`} height={140} />}
+        {illo && <CardIllustration src={illo} alt={`${model.title} illustration`} height={140} />}
         <div style={{ padding: '18px 20px 20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
@@ -54,8 +51,7 @@ function ModelCard({ model }) {
               }}>{t}</span>
             ))}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 14, fontSize: 12, color: '#a09990' }}>
-            <span>↓ {model.downloads}</span>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 14, fontSize: 12, color: '#a09990' }}>
             <span>Updated {model.updated}</span>
           </div>
         </div>
@@ -67,7 +63,6 @@ function ModelCard({ model }) {
 export default function ModelsPage() {
   const [allModels, setAllModels] = useState([])
   const [loading, setLoading] = useState(true)
-  const [family, setFamily] = useState('All')
   const [license, setLicense] = useState('All licenses')
   const [query, setQuery] = useState('')
 
@@ -76,22 +71,21 @@ export default function ModelsPage() {
   }, [])
 
   const filtered = allModels.filter(m => {
-    const matchFamily = family === 'All' || m.family === family
     const matchLicense = license === 'All licenses' || m.license === license
     const matchQuery = !query ||
       m.title.toLowerCase().includes(query.toLowerCase()) ||
       m.tags.some(t => t.includes(query.toLowerCase()))
-    return matchFamily && matchLicense && matchQuery
+    return matchLicense && matchQuery
   })
 
   return (
     <div style={{ minHeight: '100vh' }}>
       <PageHero
-        eyebrow="THE MODEL ZOO"
+        eyebrow="GEOTHERMAL MODELS"
         title="Models"
-        description="Physics-informed models across geothermal, nuclear, wind, solar, hydro and grid — all passing the physics constraint checker."
+        description="Physics-informed machine learning models for geothermal energy — all passing the physics constraint checker."
         illustration={PAGE_ILLUSTRATIONS.models}
-        illustrationAlt="Model zoo illustration"
+        illustrationAlt="Geothermal models illustration"
       >
           <div style={{ display: 'flex', gap: 10, marginTop: 28, flexWrap: 'wrap', alignItems: 'center' }}>
             <input
@@ -113,25 +107,6 @@ export default function ModelsPage() {
             >
               {LICENSES.map(l => <option key={l}>{l}</option>)}
             </select>
-          </div>
-
-          {/* Family tabs */}
-          <div style={{ display: 'flex', gap: 8, marginTop: 18, flexWrap: 'wrap' }}>
-            {FAMILIES.map(f => (
-              <button
-                key={f}
-                onClick={() => setFamily(f)}
-                style={{
-                  fontFamily: 'inherit', fontSize: 13, padding: '6px 14px', borderRadius: 20,
-                  border: '1.4px solid', cursor: 'pointer', fontWeight: family === f ? 600 : 400,
-                  background: family === f ? '#1b1a17' : '#fff',
-                  color: family === f ? '#f1ede4' : '#56524a',
-                  borderColor: family === f ? '#1b1a17' : '#ddd6c8',
-                }}
-              >
-                {f}
-              </button>
-            ))}
           </div>
       </PageHero>
 

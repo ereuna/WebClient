@@ -11,15 +11,13 @@ export default function Hero() {
       }}>
         <div>
           <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.08em', color: ACCENT, marginBottom: 20 }}>
-            PHYSICS-INFORMED ML · THE ENERGY STACK
+            PHYSICS-INFORMED ML · GEOTHERMAL ENERGY
           </div>
           <h1 style={{ fontSize: 58, lineHeight: 1.02, letterSpacing: '-0.03em', fontWeight: 600, margin: 0 }}>
             Ereuna<br />
           </h1>
-          <p style={{ fontSize: 18, lineHeight: 1.55, color: '#56524a', maxWidth: 430, margin: '22px 0 0' }}>
-            The community hub for physics-informed models across geothermal, nuclear, wind, solar, hydro
-            and grid — sharing one representation, <strong style={{ color: '#1b1a17' }}>EnergyGraph</strong>,
-            so every model travels.
+          <p style={{ fontSize: 18, lineHeight: 1.55, color: '#56524a', maxWidth: 450, margin: '22px 0 0' }}>
+            Ereuna is a physics-informed machine learning platform for geothermal energy. Featuring GeoSight and an integrated physics constraint checker, built on the EnergyGraph data representation schema.
           </p>
           <div style={{ display: 'flex', gap: 13, marginTop: 30, flexWrap: 'wrap' }}>
             <Link to="/models" style={{ textDecoration: 'none' }}>
@@ -39,8 +37,8 @@ export default function Hero() {
           </div>
         </div>
         <img
-          src="/illustrations/09-ereuna-hub-pipeline.png"
-          alt="Ereuna hub pipeline"
+          src="/illustrations/05-geothermal-reservoir-slab.png"
+          alt="Geothermal reservoir slab illustration"
           style={{ width: '100%', borderRadius: 16, display: 'block' }}
         />
       </div>

@@ -4,7 +4,7 @@ const steps = [
   { n: '01', title: 'Upload', desc: 'Drag a .pt or .safetensors checkpoint — TorchPharma format accepted.' },
   { n: '02', title: 'Physics check', desc: 'Automated validation of PDE residual, conservation and calibration.' },
   { n: '03', title: 'Model card', desc: 'A formal physics-domain card: provenance, performance, safety class.' },
-  { n: '04', title: 'Infer & fine-tune', desc: 'Pull it with the CLI today; REST API and in-browser fine-tuning are on the roadmap.' },
+  { n: '04', title: 'Infer & fine-tune', desc: 'Pull model checkpoints with the CLI or execute via REST API.' },
 ]
 
 export default function Pipeline() {
