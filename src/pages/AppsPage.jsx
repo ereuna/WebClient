@@ -8,8 +8,7 @@ import { APP_ILLUSTRATIONS, PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 const ACCENT = '#cf5a2a'
 
 function AppCard({ app }) {
-  const isComingSoon = app.status === 'Coming soon'
-  const illo = APP_ILLUSTRATIONS[app.id]
+  const illo = APP_ILLUSTRATIONS[app.id] || '/illustrations/card-app-geosight.png'
   return (
     <Link
       to={`/apps/${app.id}`}
@@ -20,7 +19,6 @@ function AppCard({ app }) {
           background: '#fff', border: '1px solid #e7e0d2', borderRadius: 16,
           overflow: 'hidden', cursor: 'pointer',
           transition: 'box-shadow .15s',
-          opacity: isComingSoon ? 0.72 : 1,
           height: '100%',
         }}
         onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'}
@@ -31,7 +29,6 @@ function AppCard({ app }) {
             src={illo}
             alt={`${app.title} illustration`}
             height={140}
-            dark={isComingSoon}
           />
         )}
 
@@ -57,11 +54,8 @@ function AppCard({ app }) {
               }}>{t}</span>
             ))}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 14, fontSize: 12, color: '#a09990' }}>
-            <span>{isComingSoon ? 'On the roadmap' : `${app.users} users`}</span>
-            {!isComingSoon && (
-              <span style={{ color: ACCENT, fontWeight: 500 }}>Launch →</span>
-            )}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 14, fontSize: 12, color: '#a09990' }}>
+            <span style={{ color: ACCENT, fontWeight: 500 }}>Launch →</span>
           </div>
         </div>
       </div>
@@ -74,25 +68,37 @@ export default function AppsPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchAllApps().then(data => { setAllApps(data); setLoading(false) })
+    fetchAllApps().then(data => {
+      // Filter for geothermal applications
+      const geothermalApps = data.filter(a =>
+        a.id === 'geosight' ||
+        a.title.toLowerCase().includes('geothermal') ||
+        a.title.toLowerCase().includes('geosight')
+      )
+      setAllApps(geothermalApps.length ? geothermalApps : [
+        {
+          id: 'geosight',
+          title: 'GeoSight',
+          status: 'Live',
+          tagline: 'Geothermal Field Intelligence',
+          desc: 'GeoSight is Ereuna\'s geothermal application for 3D reservoir thermal mapping and inverse PINN inference.',
+          tags: ['geothermal', 'pinn', 'reservoir'],
+        }
+      ])
+      setLoading(false)
+    })
   }, [])
 
   return (
     <div style={{ minHeight: '100vh' }}>
       <PageHero
-        eyebrow="FLAGSHIP APPLICATIONS"
+        eyebrow="GEOTHERMAL APPLICATION"
         title="Apps"
-        description="Interactive tools built on Ereuna models. Run them in-browser, fork and self-host, or embed via the REST API."
+        description="GeoSight is Ereuna's geothermal application for 3D reservoir thermal mapping."
         illustration={PAGE_ILLUSTRATIONS.apps}
         illustrationAlt="Apps illustration"
       >
         <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
-          <button style={{
-            fontFamily: 'inherit', fontSize: 14, padding: '10px 20px', borderRadius: 10,
-            border: 'none', background: ACCENT, color: '#fff', fontWeight: 500, cursor: 'pointer',
-          }}>
-            Submit your app →
-          </button>
           <Link to="/docs" style={{
             fontFamily: 'inherit', fontSize: 14, padding: '10px 20px', borderRadius: 10,
             border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500,
@@ -106,8 +112,8 @@ export default function AppsPage() {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 64px' }}>
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} style={{ height: 300, background: '#f0ebe0', borderRadius: 16 }} />
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} style={{ height: 260, background: '#f0ebe0', borderRadius: 16 }} />
             ))}
           </div>
         ) : (
