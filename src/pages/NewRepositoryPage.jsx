@@ -37,7 +37,7 @@ const REPO_TYPES = [
 ]
 
 const MODEL_FAMILIES = ['PINN', 'GNN / NNP', 'Grid RL', 'Forecasting', 'Generative', 'Other']
-const DATASET_DOMAINS = ['Geothermal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Grid', 'Other']
+const DATASET_DOMAINS = ['All', 'Geothermal Exploration', 'Seismicity', 'Site Drilling', 'Petrophysics', 'Reservoir Characterization','Reservoir Engineering', 'Production/Injection Engineering']
 const DATASET_FORMATS = ['Parquet', 'CSV', 'JSON', 'NetCDF', 'HDF5', 'TSV', 'Other']
 const LICENSES = ['Apache-2.0', 'MIT', 'CC BY 4.0', 'CC BY-NC 4.0', 'GPL-3.0', 'Restricted', 'Other']
 const VISIBILITIES = [

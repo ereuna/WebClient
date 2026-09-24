@@ -8,6 +8,15 @@ export const APP_ILLUSTRATIONS = {
 
 export const DOMAIN_ILLUSTRATIONS = {
   Geothermal: '/illustrations/card-domain-geothermal.png',
+  'Geothermal Exploration': '/illustrations/geothermal-exploration.png',
+  'Exploration': '/illustrations/geothermal-exploration.png',
+  'Seismicity': '/illustrations/geothermal-seismicity.png',
+  'Site Drilling': '/illustrations/geothermal-drilling.png',
+  'Drilling': '/illustrations/geothermal-drilling.png',
+  'Petrophysics': '/illustrations/geothermal-petrophysics.png',
+  'Reservoir Characterization': '/illustrations/geothermal-reservoir-characterization.png',
+  'Reservoir Engineering': '/illustrations/geothermal-reservoir-engineering.png',
+  'Production/Injection Engineering': '/illustrations/geothermal-production-injection.png',
 }
 
 export const ACTION_ILLUSTRATIONS = {
@@ -39,9 +48,16 @@ export const PAGE_ILLUSTRATIONS = {
 }
 
 export const CARD_ILLUSTRATION_OPTIONS = [
-  { id: 'card-pinn-library',      src: '/illustrations/card-pinn-library.png',      label: 'PINN Library' },
-  { id: 'card-domain-geothermal', src: '/illustrations/card-domain-geothermal.png', label: 'Geothermal' },
-  { id: 'geothermal-reservoir',   src: '/illustrations/05-geothermal-reservoir-slab.png', label: 'Geothermal Reservoir' },
+  { id: 'card-pinn-library',                      src: '/illustrations/card-pinn-library.png',                     label: 'PINN Library' },
+  { id: 'card-domain-geothermal',                 src: '/illustrations/card-domain-geothermal.png',                label: 'Geothermal' },
+  { id: 'geothermal-reservoir',                   src: '/illustrations/05-geothermal-reservoir-slab.png',          label: 'Geothermal Reservoir' },
+  { id: 'geothermal-exploration',                 src: '/illustrations/geothermal-exploration.png',                label: 'Exploration' },
+  { id: 'geothermal-seismicity',                  src: '/illustrations/geothermal-seismicity.png',                 label: 'Seismicity' },
+  { id: 'geothermal-drilling',                    src: '/illustrations/geothermal-drilling.png',                   label: 'Drilling' },
+  { id: 'geothermal-petrophysics',                src: '/illustrations/geothermal-petrophysics.png',               label: 'Petrophysics' },
+  { id: 'geothermal-reservoir-characterization',  src: '/illustrations/geothermal-reservoir-characterization.png', label: 'Reservoir Characterization' },
+  { id: 'geothermal-reservoir-engineering',       src: '/illustrations/geothermal-reservoir-engineering.png',      label: 'Reservoir Engineering' },
+  { id: 'geothermal-production-injection',        src: '/illustrations/geothermal-production-injection.png',       label: 'Production/Injection Engineering' },
 ]
 
 export function getIllustrationById(id) {

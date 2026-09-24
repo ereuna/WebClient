@@ -84,8 +84,7 @@ export default function Footer() {
           display: 'flex', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap',
           fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#6f6a60',
         }}>
-          <span>Built on TorchPharma · Thomas Amogolla Tsuma · INTI International University Malaysia</span>
-          <span>© 2026 Ereuna · Apache-2.0</span>
+          <span>Thomas Amogolla Tsuma</span>
         </div>
       </div>
     </div>

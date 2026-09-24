@@ -4,7 +4,8 @@ import ModelZoo from '../components/ModelZoo'
 import FlagshipApps from '../components/FlagshipApps'
 import TechnicalPositioning from '../components/TechnicalPositioning'
 import RegionalContext from '../components/RegionalContext'
-import Pipeline from '../components/Pipeline'
+import GeothermalResearchAreas from '../components/GeothermalResearchAreas'
+import HowEreunaIsOrganized from '../components/HowEreunaIsOrganized'
 import CTA from '../components/CTA'
 
 export default function HomePage() {
@@ -16,7 +17,8 @@ export default function HomePage() {
       <TechnicalPositioning />
       <RegionalContext />
       <ModelZoo />
-      <Pipeline />
+      <GeothermalResearchAreas />
+      <HowEreunaIsOrganized />
       <CTA />
     </>
   )

@@ -30,3 +30,33 @@ body {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(7px); }
 }
+
+/* HowEreunaIsOrganized — alternating text / illustration rows; stack on narrow screens */
+.org-row { display: grid; grid-template-columns: 1fr 1fr; }
+.org-row + .org-row { border-top: 1px solid #e7e0d2; }
+.org-row .org-art { border-left: 1px solid #e7e0d2; }
+.org-row--flip .org-text { order: 2; }
+.org-row--flip .org-art { border-left: 0; border-right: 1px solid #e7e0d2; }
+@media (max-width: 860px) {
+  .org-row { grid-template-columns: 1fr; }
+  .org-row--flip .org-text { order: 0; }
+  .org-row .org-art, .org-row--flip .org-art { border-left: 0; border-right: 0; border-top: 1px solid #e7e0d2; }
+}
+
+/* GeothermalResearchAreas — responsive layouts */
+.domain-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+@media (max-width: 980px) {
+  .domain-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 680px) {
+  .domain-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
