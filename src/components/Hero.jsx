@@ -17,7 +17,7 @@ export default function Hero() {
             Ereuna<br />
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.55, color: '#56524a', maxWidth: 450, margin: '22px 0 0' }}>
-            Ereuna is a physics-informed machine learning platform for geothermal energy. Featuring GeoSight and an integrated physics constraint checker, built on the EnergyGraph data representation schema.
+            Ereuna is a physics-informed machine learning platform for geothermal energy, with an integrated physics constraint checker, built on the EnergyGraph data representation schema. Includes GeoSight, a demo app running on synthetic and public data.
           </p>
           <div style={{ display: 'flex', gap: 13, marginTop: 30, flexWrap: 'wrap' }}>
             <Link to="/models" style={{ textDecoration: 'none' }}>

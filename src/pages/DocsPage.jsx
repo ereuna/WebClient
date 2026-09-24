@@ -60,7 +60,7 @@ const content = {
     title: 'Introduction to Ereuna',
     body: `Ereuna is a physics-informed machine learning platform for geothermal energy.
 
-GeoSight is Ereuna's geothermal application. Models on the platform utilize **EnergyGraph** — Ereuna's data representation schema comprising **PhysicsSpec**, **SensorGraph**, and **FieldState**.
+GeoSight is a demo geothermal application running on synthetic and public data. Models on the platform utilize **EnergyGraph** — Ereuna's data representation schema comprising **PhysicsSpec**, **SensorGraph**, and **FieldState**.
 
 ## What makes Ereuna different
 
@@ -95,7 +95,7 @@ export EREUNA_API_KEY=ak_live_...
 \`\`\`python
 import ereuna
 
-model = ereuna.load("olkaria-inverse-pinn-v1.2")
+model = ereuna.load("your-org/your-model")
 
 # Build an EnergyGraph with your site features
 graph = ereuna.EnergyGraph.from_csv("geothermal_wells.csv")

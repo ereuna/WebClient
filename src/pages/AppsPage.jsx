@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchAllApps, STATUS_COLORS } from '../api/apps'
+import { fetchAllApps, STATUS_COLORS, DEMO_STATUS } from '../api/apps'
 import PageHero from '../components/PageHero'
 import { CardIllustration } from '../components/CardIllustration'
 import { APP_ILLUSTRATIONS, PAGE_ILLUSTRATIONS } from '../lib/illustrations'
@@ -79,9 +79,9 @@ export default function AppsPage() {
         {
           id: 'geosight',
           title: 'GeoSight',
-          status: 'Live',
+          status: DEMO_STATUS,
           tagline: 'Geothermal Field Intelligence',
-          desc: 'GeoSight is Ereuna\'s geothermal application for 3D reservoir thermal mapping and inverse PINN inference.',
+          desc: 'GeoSight is a demo of 3D reservoir thermal mapping and inverse PINN inference, running on synthetic and public data.',
           tags: ['geothermal', 'pinn', 'reservoir'],
         }
       ])
@@ -94,7 +94,7 @@ export default function AppsPage() {
       <PageHero
         eyebrow="GEOTHERMAL APPLICATION"
         title="Apps"
-        description="GeoSight is Ereuna's geothermal application for 3D reservoir thermal mapping."
+        description="GeoSight is a demo of 3D reservoir thermal mapping, running on synthetic and public data."
         illustration={PAGE_ILLUSTRATIONS.apps}
         illustrationAlt="Apps illustration"
       >

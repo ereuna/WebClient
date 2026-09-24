@@ -406,7 +406,7 @@ export default function NewRepositoryPage() {
               <Input
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                placeholder={repoType === 'MODEL' ? 'e.g. GeoPINN-v2' : 'e.g. Olkaria Field Logs'}
+                placeholder={repoType === 'MODEL' ? 'e.g. GeoPINN-v2' : 'e.g. Synthetic Well Logs'}
               />
             </Field>
 
@@ -437,7 +437,7 @@ export default function NewRepositoryPage() {
                 onChange={e => setDescription(e.target.value)}
                 placeholder={repoType === 'MODEL'
                   ? 'Physics-informed network for geothermal reservoir simulation…'
-                  : 'Well-log P-T profiles from 34 production wells at Olkaria, Kenya…'}
+                  : 'Pressure-temperature profiles from well logs…'}
                 rows={2}
               />
             </Field>

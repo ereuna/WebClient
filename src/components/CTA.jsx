@@ -5,7 +5,7 @@ export default function CTA() {
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '72px 28px 64px', textAlign: 'center' }}>
       <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>
-        FROM OLKARIA TO MENENGAI TO WAIRAKEI
+        BUILT FOR GEOTHERMAL SUBSURFACE DATA
       </div>
       <h2 style={{ fontSize: 42, lineHeight: 1.05, letterSpacing: '-0.03em', fontWeight: 600, margin: '16px auto 0', maxWidth: 680 }}>
         Physics-informed machine learning platform for geothermal energy.

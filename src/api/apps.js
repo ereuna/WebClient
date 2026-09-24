@@ -3,9 +3,12 @@
  */
 import { listRepositories } from './repositories.js'
 
+export const DEMO_STATUS = 'Demo · synthetic/public data'
+
 export const STATUS_COLORS = {
   Live: '#2db88a',
   Beta: '#e67e22',
+  [DEMO_STATUS]: '#b7791f',
   'Coming soon': '#8a857a',
 }
 
