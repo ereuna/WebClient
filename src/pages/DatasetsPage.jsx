@@ -7,7 +7,7 @@ import { DOMAIN_ILLUSTRATIONS, PAGE_ILLUSTRATIONS, getIllustrationById } from '.
 
 const ACCENT = '#cf5a2a'
 
-const DOMAINS = ['All', 'Geothermal', 'Nuclear', 'Wind', 'Solar', 'Hydro', 'Grid']
+const DOMAINS = ['All', 'Geothermal Exploration', 'Seismicity', 'Site Drilling', 'Petrophysics', 'Reservoir Characterization','Reservoir Engineering', 'Production/Injection Engineering']
 
 function DatasetCard({ dataset: d }) {
   const illo = (d.illustration && getIllustrationById(d.illustration)?.src) || DOMAIN_ILLUSTRATIONS[d.domain]
