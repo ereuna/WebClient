@@ -1,45 +1,45 @@
 import { Link } from 'react-router-dom'
 
-const ACCENT = '#cf5a2a'
-
 const cols = [
   {
     heading: 'PLATFORM',
     links: [
-      { label: 'Models', to: '/models' },
-      { label: 'Datasets', to: '/datasets' },
+      { label: 'Research', to: '/research' },
+      { label: 'Domains', to: '/domains' },
+      { label: 'Fields', to: '/fields' },
+      { label: 'Workbench', to: '/workbench' },
       { label: 'Benchmarks', to: '/benchmarks' },
-      { label: 'Flagship apps', to: '/apps' },
     ],
   },
   {
     heading: 'DEVELOP',
     links: [
-      { label: 'Python SDK', to: '/docs' },
-      { label: 'REST API', to: '/docs' },
-      { label: 'EnergyGraph', to: '/docs' },
-      { label: 'Model cards', to: '/docs' },
+      { label: 'How Ereuna works', to: '/docs#organized' },
+      { label: 'Workbench overview', to: '/docs#workbench-overview' },
+      { label: 'EnergyGraph', to: '/docs#eg-spec' },
+      { label: 'Physics constraint checker', to: '/docs#physics-check' },
     ],
   },
   {
     heading: 'RESEARCH',
     links: [
-      { label: 'Transfer learning', to: '/docs' },
-      { label: 'Constraint checker', to: '/docs' },
-      { label: 'Foundation model', to: '/models' },
-      { label: 'Citing Ereuna', to: '/docs' },
+      { label: 'Olkaria studies', to: '/fields/olkaria' },
+      { label: 'Constraint checker', to: '/workbench/validate' },
+      { label: 'Inverse PINN k(x)', to: '/workbench/train' },
+      { label: 'Held-out benchmarks', to: '/benchmarks' },
     ],
   },
   {
     heading: 'COMMUNITY',
     links: [
-      { label: 'Upload a model', to: '/docs' },
+      { label: 'Documentation', to: '/docs' },
       { label: 'GitHub', href: 'https://github.com' },
       { label: 'Discord', href: 'https://discord.com' },
-      { label: 'Contact', to: '/docs' },
+      { label: 'Contact', to: '/docs#contact' },
     ],
   },
 ]
+
 
 const linkStyle = {
   cursor: 'pointer',
@@ -61,7 +61,7 @@ export default function Footer() {
               </div>
             </Link>
             <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#8a857a', margin: '14px 0 0', maxWidth: 280 }}>
-              Ereuna is a physics-informed machine learning platform for geothermal energy.
+              Ereuna is the computational engine for Kenya's geothermal energy.
             </p>
           </div>
           {cols.map(({ heading, links }) => (

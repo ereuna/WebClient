@@ -72,36 +72,40 @@ export function renderMarkdown(raw) {
     }
 
     // Markdown table
-    if (line.startsWith('| ')) {
+    if (line.startsWith('|')) {
       const tableLines = []
       while (i < lines.length && lines[i].startsWith('|')) {
         tableLines.push(lines[i])
         i += 1
       }
       const rows = tableLines.filter(r => !r.match(/^\|[-| :]+\|$/))
+      const hasHeader = rows.length > 0 && rows[0].replace(/^\|/, '').replace(/\|$/, '').split('|').some(c => c.trim().length > 0)
       blocks.push(
         <div key={blocks.length} style={{ overflowX: 'auto', marginTop: 14, marginBottom: 14 }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5 }}>
-            {rows.map((row, ri) => {
-              const cells = row.split('|').filter(c => c.trim())
-              const Tag = ri === 0 ? 'th' : 'td'
-              return (
-                <tr key={ri} style={{ borderBottom: '1px solid #ece5d6' }}>
-                  {cells.map((c, ci) => (
-                    <Tag key={ci} style={{
-                      padding: '9px 14px', textAlign: 'left',
-                      background: ri === 0 ? '#faf7f0' : 'transparent',
-                      fontWeight: ri === 0 ? 600 : 400,
-                      fontFamily: ri === 0 ? "'Space Mono',monospace" : 'inherit',
-                      fontSize: ri === 0 ? 11 : 13.5,
-                      color: ri === 0 ? '#8a857a' : '#1b1a17',
-                    }}>
-                      {c.trim().replace(/`([^`]+)`/g, '$1')}
-                    </Tag>
-                  ))}
-                </tr>
-              )
-            })}
+            <tbody>
+              {rows.map((row, ri) => {
+                const cells = row.replace(/^\|/, '').replace(/\|$/, '').split('|')
+                if (ri === 0 && !hasHeader) return null
+                const Tag = (ri === 0 && hasHeader) ? 'th' : 'td'
+                return (
+                  <tr key={ri} style={{ borderBottom: '1px solid #ece5d6' }}>
+                    {cells.map((c, ci) => (
+                      <Tag key={ci} style={{
+                        padding: '9px 14px', textAlign: 'left',
+                        background: (ri === 0 && hasHeader) ? '#faf7f0' : 'transparent',
+                        fontWeight: (ri === 0 && hasHeader) ? 600 : (ci === 0 && !hasHeader ? 600 : 400),
+                        fontFamily: (ri === 0 && hasHeader) ? "'Space Mono',monospace" : 'inherit',
+                        fontSize: (ri === 0 && hasHeader) ? 11 : 13.5,
+                        color: (ri === 0 && hasHeader) ? '#8a857a' : '#1b1a17',
+                      }}>
+                        {inlineFormat(c.trim())}
+                      </Tag>
+                    ))}
+                  </tr>
+                )
+              })}
+            </tbody>
           </table>
         </div>
       )

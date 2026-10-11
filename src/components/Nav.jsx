@@ -6,15 +6,13 @@ import GlobalSearch from './GlobalSearch.jsx'
 const ACCENT = '#cf5a2a'
 
 const navLinks = [
-  { label: 'Repositories', to: '/repositories' },
-  { label: 'Models', to: '/models' },
-  { label: 'Datasets', to: '/datasets' },
-  { label: 'Pipelines', to: '/pipelines' },
-  { label: 'Experiments', to: '/experiments' },
-  { label: 'Deployments', to: '/deployments' },
-  { label: 'Spaces', to: '/apps' },
-  { label: 'Organizations', to: '/organizations' },
+  { label: 'Research', to: '/research' },
+  { label: 'Domains', to: '/domains' },
+  { label: 'Fields', to: '/fields' },
+  { label: 'Workbench', to: '/workbench' },
+  { label: 'Benchmarks', to: '/benchmarks' },
 ]
+
 
 function UserMenu({ user, onLogout }) {
   const [open, setOpen] = useState(false)

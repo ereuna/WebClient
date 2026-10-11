@@ -17,24 +17,25 @@ export default function Hero() {
             Ereuna<br />
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.55, color: '#56524a', maxWidth: 450, margin: '22px 0 0' }}>
-            Ereuna is a physics-informed machine learning platform for geothermal energy, with an integrated physics constraint checker, built on the EnergyGraph data representation schema. Includes GeoSight, a demo app running on synthetic and public data.
+            Ereuna is a physics-informed machine learning platform for geothermal energy production in Kenya, with an integrated physics constraint checker, built on the EnergyGraph data representation schema. Includes GeoSight, a demo app running on synthetic and public data.
           </p>
           <div style={{ display: 'flex', gap: 13, marginTop: 30, flexWrap: 'wrap' }}>
-            <Link to="/models" style={{ textDecoration: 'none' }}>
+            <Link to="/research" style={{ textDecoration: 'none' }}>
               <span style={{
                 background: ACCENT, color: '#fff', fontWeight: 500, fontSize: 15,
                 padding: '13px 22px', borderRadius: 11, border: 'none', cursor: 'pointer',
                 display: 'inline-flex', alignItems: 'center', gap: 9, fontFamily: 'inherit',
-              }}>Browse models <span style={{ fontSize: 13 }}>→</span></span>
+              }}>Explore research <span style={{ fontSize: 13 }}>→</span></span>
             </Link>
-            <Link to="/docs" style={{ textDecoration: 'none' }}>
+            <Link to="/workbench" style={{ textDecoration: 'none' }}>
               <span style={{
                 background: '#fff', border: '1.4px solid #d8d1c2', color: '#1b1a17', fontWeight: 500,
                 fontSize: 15, padding: '13px 22px', borderRadius: 11, cursor: 'pointer', fontFamily: 'inherit',
                 display: 'inline-block',
-              }}>See how it works</span>
+              }}>Open workbench</span>
             </Link>
           </div>
+
         </div>
         <img
           src="/illustrations/05-geothermal-reservoir-slab.png"

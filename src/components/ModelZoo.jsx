@@ -44,7 +44,7 @@ export default function ModelZoo() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
         {cards.map(({ title, desc, tags, illo, illoAlt }) => (
-          <Link key={title} to="/models" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link key={title} to="/workbench/train" style={{ textDecoration: 'none', color: 'inherit' }}>
             <div
               style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 16, overflow: 'hidden', height: '100%' }}
               onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'}

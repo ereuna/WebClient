@@ -9,6 +9,13 @@ import DatasetsPage from './pages/DatasetsPage'
 import DatasetDetailPage from './pages/DatasetDetailPage'
 import BenchmarksPage from './pages/BenchmarksPage'
 import BenchmarkDetailPage from './pages/BenchmarkDetailPage'
+import ResearchPage from './pages/ResearchPage'
+import DomainsPage from './pages/DomainsPage'
+import DomainDetailPage from './pages/DomainDetailPage'
+import FieldsPage from './pages/FieldsPage'
+import FieldDetailPage from './pages/FieldDetailPage'
+import WorkbenchPage from './pages/WorkbenchPage'
+import WorkbenchActionPage from './pages/WorkbenchActionPage'
 import AppsPage from './pages/AppsPage'
 import AppDetailPage from './pages/AppDetailPage'
 import DocsPage from './pages/DocsPage'
@@ -55,6 +62,19 @@ export default function App() {
                 <Route path="/notifications" element={<NotificationsPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/new" element={<NewRepositoryPage />} />
+
+                {/* Primary Platform Sections: Research · Domains · Fields · Workbench · Benchmarks */}
+                <Route path="/research" element={<ResearchPage />} />
+
+                <Route path="/domains" element={<DomainsPage />} />
+                <Route path="/domains/:domainName" element={<DomainDetailPage />} />
+
+                <Route path="/fields" element={<FieldsPage />} />
+                <Route path="/fields/:fieldName" element={<FieldDetailPage />} />
+
+                <Route path="/workbench" element={<WorkbenchPage />} />
+                <Route path="/workbench/:action" element={<WorkbenchActionPage />} />
+
 
                 {/* Models */}
                 <Route path="/models" element={<ModelsPage />} />

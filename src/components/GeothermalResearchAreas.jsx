@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Modal from './Modal'
+import StatusBadge from './StatusBadge'
 
 const ACCENT = '#cf5a2a'
 const MONO = "'Space Mono',monospace"
@@ -217,13 +219,11 @@ export default function GeothermalResearchAreas() {
                 {/* Card Content */}
                 <div style={{ padding: '20px 22px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
                   <div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
                       <span style={{ fontFamily: MONO, fontSize: 10.5, color: '#8a857a', letterSpacing: '0.04em' }}>
                         DOMAIN {item.n}
                       </span>
-                      <span style={{ fontSize: 11, fontFamily: MONO, color: ACCENT }}>
-                        Inspect ↗
-                      </span>
+                      <StatusBadge status={item.id === 'reservoir-characterization' ? 'Drafted' : 'Coming soon'} />
                     </div>
 
                     <h3 style={{ fontSize: isFullSpan ? 22 : 18, fontWeight: 600, margin: '8px 0 4px', color: '#1b1a17' }}>
@@ -306,6 +306,22 @@ export default function GeothermalResearchAreas() {
 
               <div style={{ marginTop: 14, fontFamily: MONO, fontSize: 11, color: '#8a857a' }}>
                 Integrated EnergyGraph Component: <strong style={{ color: '#1b1a17' }}>{modalItem.energyGraphRole}</strong>
+              </div>
+
+              <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid #ede5d6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <StatusBadge status={modalItem.id === 'reservoir-characterization' ? 'Drafted' : 'Coming soon'} />
+                <Link
+                  to={`/domains/${modalItem.id}`}
+                  style={{
+                    fontSize: 13,
+                    fontFamily: MONO,
+                    color: ACCENT,
+                    textDecoration: 'none',
+                    fontWeight: 600,
+                  }}
+                >
+                  Explore domain page →
+                </Link>
               </div>
             </div>
           </div>

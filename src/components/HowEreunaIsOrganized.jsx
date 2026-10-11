@@ -27,15 +27,17 @@ const rows = [
   {
     n: '01', key: 'domains', title: 'Domains', Art: DomainsIso,
     desc: 'Seven research areas, from exploration and drilling to reservoir and production engineering.',
-    link: { to: '#domains', label: 'Explore the 7 research areas' },
+    link: { to: '/domains', label: 'Explore the 7 research areas' },
   },
   {
     n: '02', key: 'fields', title: 'Fields', Art: FieldsIso,
     desc: 'Work anchored to real Kenyan geothermal fields and the wells published about them.',
+    link: { to: '/fields', label: 'Explore geothermal fields' },
   },
   {
     n: '03', key: 'workbench', title: 'Workbench', Art: WorkbenchIso,
     desc: 'Run the chain yourself: simulate a reservoir, sample virtual wells, train, validate.',
+    link: { to: '/workbench', label: 'Open workbench' },
   },
   {
     n: '04', key: 'benchmarks', title: 'Benchmarks', Art: BenchmarksIso,
@@ -43,6 +45,7 @@ const rows = [
     link: { to: '/benchmarks', label: 'Browse benchmarks' },
   },
 ]
+
 
 export default function HowEreunaIsOrganized() {
   return (

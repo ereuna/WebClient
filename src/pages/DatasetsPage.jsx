@@ -133,7 +133,33 @@ export default function DatasetsPage() {
 
         {!loading && filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: '64px 0', color: '#8a857a', fontSize: 15 }}>
-            No datasets match your filters.
+            {allDatasets.length === 0 ? (
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: '#1b1a17', marginBottom: 6 }}>
+                  No datasets published yet
+                </div>
+                <div style={{ fontSize: 14, color: '#8a857a' }}>
+                  There are currently no datasets in the repository.
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div style={{ marginBottom: 12 }}>No datasets match your filters.</div>
+                {(domain !== 'All' || query) && (
+                  <button
+                    type="button"
+                    onClick={() => { setDomain('All'); setQuery('') }}
+                    style={{
+                      fontFamily: 'inherit', fontSize: 13, padding: '6px 14px', borderRadius: 8,
+                      border: '1px solid #ddd6c8', background: '#fff', cursor: 'pointer', color: ACCENT,
+                      fontWeight: 500,
+                    }}
+                  >
+                    Clear filters
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>

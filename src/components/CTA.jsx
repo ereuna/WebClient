@@ -11,21 +11,22 @@ export default function CTA() {
         Physics-informed machine learning platform for geothermal energy.
       </h2>
       <div style={{ display: 'flex', gap: 13, justifyContent: 'center', marginTop: 28, flexWrap: 'wrap' }}>
-        <Link to="/models" style={{ textDecoration: 'none' }}>
+        <Link to="/research" style={{ textDecoration: 'none' }}>
           <span style={{
             background: ACCENT, color: '#fff', fontWeight: 500, fontSize: 15,
             padding: '14px 24px', borderRadius: 11, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
             display: 'inline-block',
-          }}>Browse the model zoo →</span>
+          }}>Explore research →</span>
         </Link>
-        <Link to="/docs" style={{ textDecoration: 'none' }}>
+        <Link to="/workbench" style={{ textDecoration: 'none' }}>
           <span style={{
             background: '#fff', border: '1.4px solid #d8d1c2', color: '#1b1a17', fontWeight: 500,
             fontSize: 15, padding: '14px 24px', borderRadius: 11, cursor: 'pointer', fontFamily: 'inherit',
             display: 'inline-block',
-          }}>Read the docs</span>
+          }}>Open workbench</span>
         </Link>
       </div>
+
       <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', marginTop: 18 }}>
         git clone the repo → cd EreunaCLI → pip install -e .
       </div>

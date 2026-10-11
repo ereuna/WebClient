@@ -17,7 +17,7 @@ const TYPE_LABELS = {
   WORKFLOW: { label: 'Workflow', color: '#8a857a', path: '/models' },
 }
 
-export default function GlobalSearch({ placeholder = 'Search models, datasets…', style }) {
+export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }) {
   const [query, setQuery]     = useState('')
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)

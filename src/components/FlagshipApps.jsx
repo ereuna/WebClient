@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { STATUS_COLORS, DEMO_STATUS } from '../api/apps'
+import StatusBadge from './StatusBadge'
 
 const ACCENT = '#cf5a2a'
 
@@ -20,11 +20,9 @@ export default function FlagshipApps() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
               <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: ACCENT, letterSpacing: '0.05em' }}>APPLICATION</div>
-              <span style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 10.5, padding: '3px 8px', borderRadius: 6, fontWeight: 500,
-                background: STATUS_COLORS[DEMO_STATUS] + '18', color: STATUS_COLORS[DEMO_STATUS],
-              }}>{DEMO_STATUS}</span>
+              <StatusBadge status="Live" />
             </div>
+
             <h3 style={{ fontSize: 24, fontWeight: 600, margin: '10px 0 0' }}>GeoSight</h3>
             <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#56524a', margin: '12px 0 0' }}>
               A demo of reservoir thermal mapping, evaluating inferred thermal conductivity k(x) against field observations. Runs on synthetic and public data.
@@ -45,7 +43,11 @@ export default function FlagshipApps() {
         {/* Physics Constraint Checker */}
         <div style={{ background: '#f8f5ee', border: '1px solid #e7e0d2', borderRadius: 16, padding: 32, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div>
-            <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: ACCENT, letterSpacing: '0.05em' }}>CONSTRAINT CHECKER</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: ACCENT, letterSpacing: '0.05em' }}>CONSTRAINT CHECKER</div>
+              <StatusBadge status="Live" />
+            </div>
+
             <h3 style={{ fontSize: 24, fontWeight: 600, margin: '10px 0 0' }}>Physics Constraint Checker</h3>
             <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#56524a', margin: '12px 0 0' }}>
               Ereuna includes a physics constraint checker that evaluates model predictions against governing PDE residual bounds and conservation laws before model output acceptance.
