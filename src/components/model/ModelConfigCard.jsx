@@ -51,21 +51,21 @@ export default function ModelConfigCard({ config }) {
   if (!allRows.length) return null
 
   return (
-    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
+    <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 12, overflow: 'hidden' }}>
       <div style={{ padding: '4px 18px 12px' }}>
         {allRows.map(({ label, value }, i) => (
           <div key={label} style={{
             display: 'grid', gridTemplateColumns: '140px 1fr', gap: 12,
             padding: '11px 0',
-            borderBottom: i < allRows.length - 1 ? '1px solid #f0ebe0' : 'none',
+            borderBottom: i < allRows.length - 1 ? '1px solid #efebe2' : 'none',
           }}>
             <div style={{
-              fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a',
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: '#5f6670',
               textTransform: 'capitalize', paddingTop: 1,
             }}>
               {label}
             </div>
-            <div style={{ fontSize: 13.5, color: '#1b1a17', lineHeight: 1.5, wordBreak: 'break-word' }}>
+            <div style={{ fontSize: 13.5, color: '#17202e', lineHeight: 1.5, wordBreak: 'break-word' }}>
               {value}
             </div>
           </div>

@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchExperiment } from '../api/experiments'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
 const CARD_BG = '#fff'
-const CARD_BORDER = '1px solid #e7e0d2'
+const CARD_BORDER = '1px solid #ddd8cc'
 const CARD_RADIUS = 14
 
 function StatusBadge({ status }) {
@@ -17,12 +17,12 @@ function StatusBadge({ status }) {
     running:   { bg: '#fff3e0', color: '#e67e22', label: 'Running'   },
     failed:    { bg: '#fdecea', color: '#c0392b', label: 'Failed'    },
   }
-  const s = map[status] || { bg: '#f0ebe0', color: MUTED, label: status }
+  const s = map[status] || { bg: '#efebe2', color: MUTED, label: status }
   return (
     <span style={{
       display: 'inline-block', padding: '4px 12px', borderRadius: 20,
       background: s.bg, color: s.color,
-      fontFamily: "'Space Mono',monospace", fontSize: 11, fontWeight: 700,
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, fontWeight: 700,
       letterSpacing: '0.04em', textTransform: 'uppercase',
     }}>
       {s.label}
@@ -61,8 +61,8 @@ function ActionButton({ children, onClick, variant }) {
 function SectionLabel({ children }) {
   return (
     <div style={{
-      fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-      color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+      color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
     }}>
       {children}
     </div>
@@ -86,7 +86,7 @@ function MetaRow({ label, value }) {
     <div style={{
       display: 'flex', justifyContent: 'space-between',
       alignItems: 'flex-start', gap: 12,
-      padding: '9px 0', borderBottom: '1px solid #f0ebe0', fontSize: 13,
+      padding: '9px 0', borderBottom: '1px solid #efebe2', fontSize: 13,
     }}>
       <span style={{ color: MUTED, flexShrink: 0 }}>{label}</span>
       <span style={{ fontWeight: 500, color: DARK, textAlign: 'right', wordBreak: 'break-word' }}>{value}</span>
@@ -122,8 +122,8 @@ function BarChart({ title, bars, yLow, yHigh, xLabel }) {
           display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
           paddingBottom: 0,
         }}>
-          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 9, color: MUTED }}>{yHigh}</span>
-          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 9, color: MUTED }}>{yLow}</span>
+          <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, color: MUTED }}>{yHigh}</span>
+          <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, color: MUTED }}>{yLow}</span>
         </div>
         {bars.map((h, i) => (
           <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
@@ -132,12 +132,12 @@ function BarChart({ title, bars, yLow, yHigh, xLabel }) {
               borderRadius: '4px 4px 0 0',
               opacity: 0.85 + (i / bars.length) * 0.15,
             }} />
-            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 8, color: MUTED }}>{i + 1}</span>
+            <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 8, color: MUTED }}>{i + 1}</span>
           </div>
         ))}
       </div>
       <div style={{
-        fontFamily: "'Space Mono',monospace", fontSize: 9, color: MUTED,
+        fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, color: MUTED,
         textAlign: 'center', marginTop: 8, paddingLeft: 32,
       }}>
         {xLabel}
@@ -151,11 +151,11 @@ function ArtifactRow({ icon, name, size, isLast }) {
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '14px 20px', gap: 16,
-      borderBottom: isLast ? 'none' : '1px solid #f0ebe0',
+      borderBottom: isLast ? 'none' : '1px solid #efebe2',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <div style={{
-          width: 38, height: 38, borderRadius: 8, background: '#f5f0e8',
+          width: 38, height: 38, borderRadius: 8, background: '#efebe2',
           border: CARD_BORDER, display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 18, flexShrink: 0,
         }}>
@@ -163,7 +163,7 @@ function ArtifactRow({ icon, name, size, isLast }) {
         </div>
         <div>
           <div style={{ fontSize: 13.5, fontWeight: 500, color: DARK }}>{name}</div>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED, marginTop: 2 }}>{size}</div>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED, marginTop: 2 }}>{size}</div>
         </div>
       </div>
       <button style={{
@@ -172,7 +172,7 @@ function ArtifactRow({ icon, name, size, isLast }) {
         cursor: 'pointer', fontWeight: 500, flexShrink: 0,
         transition: 'background .15s',
       }}
-        onMouseEnter={e => e.currentTarget.style.background = '#f5f0e8'}
+        onMouseEnter={e => e.currentTarget.style.background = '#efebe2'}
         onMouseLeave={e => e.currentTarget.style.background = CARD_BG}
       >
         Download ↓
@@ -184,26 +184,26 @@ function ArtifactRow({ icon, name, size, isLast }) {
 function Skeleton() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '40px 28px 36px' }}>
+      <div style={{ background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)', borderBottom: '1px solid #ddd8cc', padding: '40px 28px 36px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ height: 11, width: 200, background: '#e7e0d2', borderRadius: 6, marginBottom: 18 }} />
-          <div style={{ height: 38, width: 300, background: '#e2dbd0', borderRadius: 8, marginBottom: 14 }} />
+          <div style={{ height: 11, width: 200, background: '#ddd8cc', borderRadius: 6, marginBottom: 18 }} />
+          <div style={{ height: 38, width: 300, background: '#ddd8cc', borderRadius: 8, marginBottom: 14 }} />
           <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
-            <div style={{ height: 26, width: 90, background: '#e7e0d2', borderRadius: 20 }} />
-            <div style={{ height: 26, width: 120, background: '#ede6d8', borderRadius: 20 }} />
+            <div style={{ height: 26, width: 90, background: '#ddd8cc', borderRadius: 20 }} />
+            <div style={{ height: 26, width: 120, background: '#efebe2', borderRadius: 20 }} />
           </div>
-          <div style={{ height: 13, width: 280, background: '#ece5d6', borderRadius: 6 }} />
+          <div style={{ height: 13, width: 280, background: '#efebe2', borderRadius: 6 }} />
         </div>
       </div>
       <div style={{ maxWidth: 1200, margin: '36px auto', padding: '0 28px', display: 'flex', gap: 32 }}>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
           {[220, 180, 160].map((h, i) => (
-            <div key={i} style={{ height: h, background: '#f0ebe0', borderRadius: CARD_RADIUS }} />
+            <div key={i} style={{ height: h, background: '#efebe2', borderRadius: CARD_RADIUS }} />
           ))}
         </div>
         <div style={{ width: 280, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
           {[160, 100].map((h, i) => (
-            <div key={i} style={{ height: h, background: '#f0ebe0', borderRadius: CARD_RADIUS }} />
+            <div key={i} style={{ height: h, background: '#efebe2', borderRadius: CARD_RADIUS }} />
           ))}
         </div>
       </div>
@@ -231,12 +231,12 @@ function OverviewTab({ experiment }) {
                 ].map(([k, v]) => (
                   <tr key={k}>
                     <td style={{
-                      padding: '9px 0', borderBottom: '1px solid #f0ebe0',
+                      padding: '9px 0', borderBottom: '1px solid #efebe2',
                       fontSize: 13, color: MUTED, width: '55%',
                     }}>{k}</td>
                     <td style={{
-                      padding: '9px 0', borderBottom: '1px solid #f0ebe0',
-                      fontFamily: "'Space Mono',monospace", fontSize: 13, color: DARK,
+                      padding: '9px 0', borderBottom: '1px solid #efebe2',
+                      fontFamily: "'IBM Plex Mono',monospace", fontSize: 13, color: DARK,
                       fontWeight: 600, textAlign: 'right',
                     }}>{v}</td>
                   </tr>
@@ -282,14 +282,14 @@ function OverviewTab({ experiment }) {
           {tags && tags.length > 0 && (
             <div style={{ marginTop: 16 }}>
               <div style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 9.5, letterSpacing: '0.06em',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 9.5, letterSpacing: '0.06em',
                 color: MUTED, marginBottom: 8, textTransform: 'uppercase',
               }}>Tags</div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {tags.map(t => (
                   <span key={t} style={{
-                    fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '3px 9px',
-                    borderRadius: 6, background: '#f5f0e8', color: '#7a7568',
+                    fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '3px 9px',
+                    borderRadius: 6, background: '#efebe2', color: '#545b66',
                   }}>{t}</span>
                 ))}
               </div>
@@ -340,7 +340,7 @@ function MetricsTab({ experiment }) {
 function ArtifactsTab() {
   return (
     <Card style={{ padding: 0 }}>
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid #f0ebe0' }}>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid #efebe2' }}>
         <SectionLabel>Artifacts</SectionLabel>
         <p style={{ margin: 0, fontSize: 13, color: MUTED }}>
           Files generated during the experiment run.
@@ -358,7 +358,7 @@ function ComparisonsTab() {
     <Card>
       <div style={{ padding: '28px 0', textAlign: 'center' }}>
         <div style={{
-          width: 56, height: 56, borderRadius: 14, background: '#f5f0e8',
+          width: 56, height: 56, borderRadius: 14, background: '#efebe2',
           border: CARD_BORDER, margin: '0 auto 18px',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 26,
@@ -419,9 +419,9 @@ export default function ExperimentDetailPage() {
         minHeight: '100vh', background: BG,
         display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16,
       }}>
-        <div style={{ fontSize: 48, fontWeight: 700, color: '#e7e0d2' }}>404</div>
+        <div style={{ fontSize: 48, fontWeight: 700, color: '#ddd8cc' }}>404</div>
         <div style={{ fontSize: 16, color: MUTED }}>Experiment not found.</div>
-        <Link to="/experiments" style={{ color: ACCENT, fontSize: 14, textDecoration: 'none' }}>← Back to Experiments</Link>
+        <Link to="/experiments" style={{ color: '#17202e', fontSize: 14, textDecoration: 'none' }}>← Back to Experiments</Link>
       </div>
     )
   }
@@ -431,13 +431,13 @@ export default function ExperimentDetailPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc',
         padding: '40px 28px 0',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{
-            fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED,
+            fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED,
             marginBottom: 18, display: 'flex', gap: 6, alignItems: 'center',
           }}>
             <Link to="/experiments" style={{ color: MUTED, textDecoration: 'none' }}>Experiments</Link>
@@ -460,7 +460,7 @@ export default function ExperimentDetailPage() {
               </h1>
               <div style={{
                 display: 'flex', gap: 20, marginTop: 12,
-                fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, flexWrap: 'wrap',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, flexWrap: 'wrap',
               }}>
                 <span>⏱ {experiment.duration}</span>
                 <span>📅 {fmtDate(experiment.createdAt)}</span>

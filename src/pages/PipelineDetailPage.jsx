@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchPipeline } from '../api/pipelines'
 
-const ACCENT = '#cf5a2a'
-const BG = '#f1ede4'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
+const ACCENT = '#c2410c'
+const BG = '#f5f2eb'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
 
 const DAG_NODES = [
   { id: 'ingest',     label: 'Dataset Ingest', state: 'completed' },
@@ -32,7 +32,7 @@ function StatusBadge({ status }) {
   return (
     <span style={{
       display: 'inline-block', padding: '3px 10px', borderRadius: 20,
-      fontSize: 11, fontFamily: "'Space Mono',monospace", fontWeight: 700,
+      fontSize: 11, fontFamily: "'IBM Plex Mono',monospace", fontWeight: 700,
       background: s.bg, color: s.color, border: `1px solid ${s.border}`,
       textTransform: 'uppercase', letterSpacing: '0.04em',
     }}>
@@ -44,8 +44,8 @@ function StatusBadge({ status }) {
 function SectionLabel({ children }) {
   return (
     <div style={{
-      fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-      color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+      color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
     }}>
       {children}
     </div>
@@ -56,7 +56,7 @@ function MetaRow({ label, value }) {
   return (
     <div style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-      padding: '10px 0', borderBottom: '1px solid #f0ebe0', gap: 12, fontSize: 13,
+      padding: '10px 0', borderBottom: '1px solid #efebe2', gap: 12, fontSize: 13,
     }}>
       <span style={{ color: MUTED, flexShrink: 0 }}>{label}</span>
       <span style={{ color: DARK, fontWeight: 500, textAlign: 'right', wordBreak: 'break-all' }}>{value}</span>
@@ -74,7 +74,7 @@ function DagNode({ node }) {
         ? `2px solid ${ACCENT}`
         : isCompleted
           ? '1px solid #22c55e40'
-          : '1px solid #e7e0d2',
+          : '1px solid #ddd8cc',
       borderRadius: 10,
       padding: '12px 16px',
       minWidth: 120,
@@ -87,12 +87,12 @@ function DagNode({ node }) {
       <span style={{ fontSize: 18, lineHeight: 1 }}>{STATE_ICON[node.state]}</span>
       <span style={{
         fontSize: 12, fontWeight: 600, color: isActive ? ACCENT : DARK,
-        fontFamily: "'Space Mono',monospace", textAlign: 'center', lineHeight: 1.3,
+        fontFamily: "'IBM Plex Mono',monospace", textAlign: 'center', lineHeight: 1.3,
       }}>
         {node.label}
       </span>
       <span style={{
-        fontSize: 10, color: MUTED, fontFamily: "'Space Mono',monospace",
+        fontSize: 10, color: MUTED, fontFamily: "'IBM Plex Mono',monospace",
         textTransform: 'uppercase', letterSpacing: '0.05em',
       }}>
         {node.state}
@@ -104,8 +104,8 @@ function DagNode({ node }) {
 function DagArrow() {
   return (
     <div style={{
-      display: 'flex', alignItems: 'center', color: '#c4bdb1',
-      fontFamily: "'Space Mono',monospace", fontSize: 18, flexShrink: 0, padding: '0 4px',
+      display: 'flex', alignItems: 'center', color: '#c9c4b8',
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 18, flexShrink: 0, padding: '0 4px',
       userSelect: 'none',
     }}>
       ›
@@ -116,22 +116,22 @@ function DagArrow() {
 function Skeleton() {
   return (
     <div style={{ minHeight: '100vh' }}>
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '52px 28px 44px' }}>
+      <div style={{ background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)', borderBottom: '1px solid #ddd8cc', padding: '52px 28px 44px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ height: 12, width: 140, background: '#e7e0d2', borderRadius: 6, marginBottom: 20 }} />
-          <div style={{ height: 36, width: 300, background: '#e7e0d2', borderRadius: 8, marginBottom: 14 }} />
-          <div style={{ height: 14, width: 440, background: '#ece5d6', borderRadius: 6 }} />
+          <div style={{ height: 12, width: 140, background: '#ddd8cc', borderRadius: 6, marginBottom: 20 }} />
+          <div style={{ height: 36, width: 300, background: '#ddd8cc', borderRadius: 8, marginBottom: 14 }} />
+          <div style={{ height: 14, width: 440, background: '#efebe2', borderRadius: 6 }} />
         </div>
       </div>
       <div style={{ maxWidth: 1200, margin: '40px auto', padding: '0 28px', display: 'flex', gap: 32 }}>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
           {[220, 160, 140].map((h, i) => (
-            <div key={i} style={{ height: h, background: '#f0ebe0', borderRadius: 12 }} />
+            <div key={i} style={{ height: h, background: '#efebe2', borderRadius: 12 }} />
           ))}
         </div>
         <div style={{ width: 280, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
           {[130, 100].map((h, i) => (
-            <div key={i} style={{ height: h, background: '#f0ebe0', borderRadius: 12 }} />
+            <div key={i} style={{ height: h, background: '#efebe2', borderRadius: 12 }} />
           ))}
         </div>
       </div>
@@ -147,7 +147,7 @@ function OverviewTab({ pipeline }) {
   return (
     <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
       <div style={{ flex: '0 0 65%', minWidth: 0 }}>
-        <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, padding: '24px 24px 20px', marginBottom: 24 }}>
+        <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, padding: '24px 24px 20px', marginBottom: 24 }}>
           <SectionLabel>DAG Visualization</SectionLabel>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, overflowX: 'auto', paddingBottom: 8 }}>
             {DAG_NODES.map((node, i) => (
@@ -159,12 +159,12 @@ function OverviewTab({ pipeline }) {
           </div>
           <div style={{ marginTop: 16, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             {Object.entries({ completed: '✅ Completed', active: '🔄 Running', pending: '⏳ Pending' }).map(([k, v]) => (
-              <span key={k} style={{ fontSize: 11, color: MUTED, fontFamily: "'Space Mono',monospace" }}>{v}</span>
+              <span key={k} style={{ fontSize: 11, color: MUTED, fontFamily: "'IBM Plex Mono',monospace" }}>{v}</span>
             ))}
           </div>
         </div>
 
-        <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, padding: '24px 24px 20px' }}>
+        <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, padding: '24px 24px 20px' }}>
           <SectionLabel>About this pipeline</SectionLabel>
           <p style={{ fontSize: 14, color: MEDIUM, lineHeight: 1.7, margin: 0 }}>
             {pipeline.description}
@@ -172,8 +172,8 @@ function OverviewTab({ pipeline }) {
           <div style={{ marginTop: 16, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {(pipeline.tags || []).map(tag => (
               <span key={tag} style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '3px 9px',
-                borderRadius: 6, background: '#f5f0e8', color: '#7a7568',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '3px 9px',
+                borderRadius: 6, background: '#efebe2', color: '#545b66',
               }}>
                 {tag}
               </span>
@@ -183,7 +183,7 @@ function OverviewTab({ pipeline }) {
       </div>
 
       <div style={{ flex: '0 0 35%', minWidth: 0 }}>
-        <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, padding: '20px 20px 8px', marginBottom: 16 }}>
+        <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, padding: '20px 20px 8px', marginBottom: 16 }}>
           <SectionLabel>Pipeline Metadata</SectionLabel>
           <MetaRow label="Owner" value={pipeline.owner} />
           <MetaRow label="Schedule" value={pipeline.schedule || 'Manual only'} />
@@ -204,9 +204,9 @@ function OverviewTab({ pipeline }) {
         </div>
 
         {nextRun && (
-          <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, padding: '16px 20px' }}>
+          <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, padding: '16px 20px' }}>
             <SectionLabel>Next Run</SectionLabel>
-            <div style={{ fontSize: 13.5, color: DARK, fontWeight: 600, fontFamily: "'Space Mono',monospace" }}>
+            <div style={{ fontSize: 13.5, color: DARK, fontWeight: 600, fontFamily: "'IBM Plex Mono',monospace" }}>
               {nextRun}
             </div>
             <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>Scheduled via cron: {pipeline.schedule}</div>
@@ -232,8 +232,8 @@ function RunHistoryTab({ runs = [] }) {
     trigger: r.trigger_type || 'manual',
   }))
   return (
-    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, overflow: 'hidden' }}>
-      <div style={{ padding: '20px 24px 14px', borderBottom: '1px solid #f0ebe0' }}>
+    <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, overflow: 'hidden' }}>
+      <div style={{ padding: '20px 24px 14px', borderBottom: '1px solid #efebe2' }}>
         <SectionLabel>Run History</SectionLabel>
       </div>
       {rows.length === 0 ? (
@@ -241,12 +241,12 @@ function RunHistoryTab({ runs = [] }) {
       ) : (
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
-          <tr style={{ background: '#faf7f0' }}>
+          <tr style={{ background: '#ffffff' }}>
             {['Run', 'Status', 'Started', 'Duration', 'Trigger'].map(h => (
               <th key={h} style={{
                 padding: '10px 20px', textAlign: 'left', fontSize: 11, fontWeight: 600,
-                color: MUTED, fontFamily: "'Space Mono',monospace", letterSpacing: '0.04em',
-                borderBottom: '1px solid #ece5d6',
+                color: MUTED, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: '0.04em',
+                borderBottom: '1px solid #efebe2',
               }}>
                 {h.toUpperCase()}
               </th>
@@ -257,29 +257,29 @@ function RunHistoryTab({ runs = [] }) {
           {rows.map((row, i) => (
             <tr
               key={row.run + i}
-              style={{ borderBottom: i < rows.length - 1 ? '1px solid #f5f0e8' : 'none' }}
-              onMouseEnter={e => e.currentTarget.style.background = '#faf7f0'}
+              style={{ borderBottom: i < rows.length - 1 ? '1px solid #efebe2' : 'none' }}
+              onMouseEnter={e => e.currentTarget.style.background = '#ffffff'}
               onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
             >
-              <td style={{ padding: '12px 20px', fontFamily: "'Space Mono',monospace", fontSize: 12, color: DARK, fontWeight: 600 }}>
+              <td style={{ padding: '12px 20px', fontFamily: "'IBM Plex Mono',monospace", fontSize: 12, color: DARK, fontWeight: 600 }}>
                 {row.run}
               </td>
               <td style={{ padding: '12px 20px' }}>
                 <span style={{
                   ...statusStyle(row.status),
                   display: 'inline-block', padding: '2px 9px', borderRadius: 20,
-                  fontSize: 10, fontFamily: "'Space Mono',monospace", fontWeight: 700,
+                  fontSize: 10, fontFamily: "'IBM Plex Mono',monospace", fontWeight: 700,
                   textTransform: 'uppercase',
                 }}>
                   {row.status}
                 </span>
               </td>
               <td style={{ padding: '12px 20px', fontSize: 13, color: MEDIUM }}>{row.started}</td>
-              <td style={{ padding: '12px 20px', fontFamily: "'Space Mono',monospace", fontSize: 12, color: DARK }}>{row.duration}</td>
+              <td style={{ padding: '12px 20px', fontFamily: "'IBM Plex Mono',monospace", fontSize: 12, color: DARK }}>{row.duration}</td>
               <td style={{ padding: '12px 20px' }}>
                 <span style={{
-                  fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '2px 8px',
-                  borderRadius: 6, background: '#f5f0e8', color: '#7a7568',
+                  fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '2px 8px',
+                  borderRadius: 6, background: '#efebe2', color: '#545b66',
                 }}>
                   {row.trigger}
                 </span>
@@ -303,16 +303,16 @@ function SettingsTab({ pipeline }) {
   const set = (k, v) => setForm(prev => ({ ...prev, [k]: v }))
   const inputStyle = {
     width: '100%', boxSizing: 'border-box', padding: '10px 12px', fontSize: 13.5,
-    border: '1px solid #e7e0d2', borderRadius: 8, background: '#faf7f0', color: DARK,
+    border: '1px solid #ddd8cc', borderRadius: 8, background: '#ffffff', color: DARK,
     fontFamily: 'inherit', outline: 'none',
   }
   const labelStyle = {
-    display: 'block', fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED,
+    display: 'block', fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED,
     textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6,
   }
   return (
     <div style={{ maxWidth: 600 }}>
-      <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, padding: '28px 28px 24px' }}>
+      <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, padding: '28px 28px 24px' }}>
         <SectionLabel>Pipeline Settings</SectionLabel>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div>
@@ -330,7 +330,7 @@ function SettingsTab({ pipeline }) {
           <div>
             <label style={labelStyle}>Schedule (cron)</label>
             <input
-              style={{ ...inputStyle, fontFamily: "'Space Mono',monospace" }}
+              style={{ ...inputStyle, fontFamily: "'IBM Plex Mono',monospace" }}
               value={form.schedule}
               placeholder="e.g. 0 2 * * *"
               onChange={e => set('schedule', e.target.value)}
@@ -342,7 +342,7 @@ function SettingsTab({ pipeline }) {
           <div>
             <label style={labelStyle}>Timeout (seconds)</label>
             <input
-              style={{ ...inputStyle, fontFamily: "'Space Mono',monospace" }}
+              style={{ ...inputStyle, fontFamily: "'IBM Plex Mono',monospace" }}
               type="number"
               value={form.timeout}
               onChange={e => set('timeout', e.target.value)}
@@ -351,13 +351,13 @@ function SettingsTab({ pipeline }) {
           <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
             <button style={{
               fontFamily: 'inherit', fontSize: 13.5, padding: '10px 22px', borderRadius: 9,
-              border: 'none', background: DARK, color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
+              border: 'none', background: DARK, color: '#f5f2eb', fontWeight: 500, cursor: 'pointer',
             }}>
               Save Changes
             </button>
             <button style={{
               fontFamily: 'inherit', fontSize: 13.5, padding: '10px 22px', borderRadius: 9,
-              border: '1px solid #e7e0d2', background: '#fff', color: DARK, fontWeight: 500, cursor: 'pointer',
+              border: '1px solid #ddd8cc', background: '#fff', color: DARK, fontWeight: 500, cursor: 'pointer',
             }}>
               Cancel
             </button>
@@ -388,9 +388,9 @@ export default function PipelineDetailPage() {
   if (notFound) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
-        <div style={{ fontSize: 48, fontWeight: 700, color: '#e7e0d2' }}>404</div>
+        <div style={{ fontSize: 48, fontWeight: 700, color: '#ddd8cc' }}>404</div>
         <div style={{ fontSize: 16, color: MUTED }}>Pipeline not found.</div>
-        <Link to="/pipelines" style={{ color: ACCENT, fontSize: 14, textDecoration: 'none' }}>← Back to Pipelines</Link>
+        <Link to="/pipelines" style={{ color: '#17202e', fontSize: 14, textDecoration: 'none' }}>← Back to Pipelines</Link>
       </div>
     )
   }
@@ -404,12 +404,12 @@ export default function PipelineDetailPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc',
         padding: '40px 28px 0',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 18, display: 'flex', gap: 6, alignItems: 'center' }}>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 18, display: 'flex', gap: 6, alignItems: 'center' }}>
             <Link to="/pipelines" style={{ color: MUTED, textDecoration: 'none' }}>Pipelines</Link>
             <span>›</span>
             <span style={{ color: DARK }}>{pipeline.owner}</span>
@@ -421,7 +421,7 @@ export default function PipelineDetailPage() {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10, flexWrap: 'wrap' }}>
                 <h1 style={{
-                  fontFamily: "'Space Mono',monospace", fontSize: 28, fontWeight: 700,
+                  fontFamily: "'IBM Plex Mono',monospace", fontSize: 28, fontWeight: 700,
                   color: DARK, margin: 0, letterSpacing: '-0.02em',
                 }}>
                   {pipeline.name}
@@ -432,15 +432,15 @@ export default function PipelineDetailPage() {
                 {pipeline.description}
               </p>
               <div style={{ display: 'flex', gap: 20, marginTop: 14, flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED }}>
                   ↺ {pipeline.runs} runs
                 </span>
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED }}>
                   ⏱ {pipeline.lastRun
                     ? new Date(pipeline.lastRun).toLocaleDateString('en-GB', { dateStyle: 'medium' })
                     : 'Never run'}
                 </span>
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED }}>
                   📅 {pipeline.schedule || 'No schedule'}
                 </span>
               </div>
@@ -456,13 +456,13 @@ export default function PipelineDetailPage() {
               </button>
               <button style={{
                 fontFamily: 'inherit', fontSize: 13, padding: '9px 16px', borderRadius: 9,
-                border: '1px solid #e7e0d2', background: '#fff', color: DARK, fontWeight: 500, cursor: 'pointer',
+                border: '1px solid #ddd8cc', background: '#fff', color: DARK, fontWeight: 500, cursor: 'pointer',
               }}>
                 ⏸ Pause
               </button>
               <button style={{
                 fontFamily: 'inherit', fontSize: 13, padding: '9px 16px', borderRadius: 9,
-                border: '1px solid #e7e0d2', background: '#fff', color: DARK, fontWeight: 500, cursor: 'pointer',
+                border: '1px solid #ddd8cc', background: '#fff', color: DARK, fontWeight: 500, cursor: 'pointer',
               }}>
                 Edit
               </button>
@@ -475,7 +475,7 @@ export default function PipelineDetailPage() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 0, borderTop: '1px solid #e3dccd', marginTop: 4 }}>
+          <div style={{ display: 'flex', gap: 0, borderTop: '1px solid #ddd8cc', marginTop: 4 }}>
             {TABS.map(tab => (
               <button
                 key={tab.id}

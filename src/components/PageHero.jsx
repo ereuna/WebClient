@@ -1,10 +1,9 @@
-const ACCENT = '#cf5a2a'
 
 export default function PageHero({ eyebrow, title, description, children, illustration, illustrationAlt }) {
   return (
     <div style={{
-      background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-      borderBottom: '1px solid #e3dccd',
+      background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+      borderBottom: '1px solid #ddd8cc',
       padding: illustration ? '44px 28px 40px' : '52px 28px 44px',
     }}>
       <div style={{
@@ -17,8 +16,8 @@ export default function PageHero({ eyebrow, title, description, children, illust
         <div>
           {eyebrow && (
             <div style={{
-              fontFamily: "'Space Mono',monospace", fontSize: 11,
-              letterSpacing: '0.08em', color: ACCENT, marginBottom: 16,
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 11,
+              letterSpacing: '0.08em', color: '#545b66', marginBottom: 16,
             }}>
               {eyebrow}
             </div>
@@ -30,7 +29,7 @@ export default function PageHero({ eyebrow, title, description, children, illust
             {title}
           </h1>
           {description && (
-            <p style={{ fontSize: 16, color: '#56524a', marginTop: 14, maxWidth: 540, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 16, color: '#545b66', marginTop: 14, maxWidth: 540, lineHeight: 1.6 }}>
               {description}
             </p>
           )}

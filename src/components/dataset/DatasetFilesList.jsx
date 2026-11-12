@@ -20,7 +20,7 @@ export default function DatasetFilesList({ files, repoId, commitSha }) {
   if (!files?.length) return null
 
   return (
-    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
+    <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 12, overflow: 'hidden' }}>
       {files.map((f, i) => (
         <button
           key={f.path || i}
@@ -28,13 +28,13 @@ export default function DatasetFilesList({ files, repoId, commitSha }) {
           style={{
             display: 'flex', width: '100%', alignItems: 'center', gap: 12,
             padding: '11px 18px', border: 'none', background: 'none', cursor: 'pointer',
-            borderBottom: i < files.length - 1 ? '1px solid #f0ebe0' : 'none',
+            borderBottom: i < files.length - 1 ? '1px solid #efebe2' : 'none',
             fontFamily: 'inherit', textAlign: 'left',
           }}
         >
-          <span style={{ flex: 1, fontSize: 13.5, color: '#1b1a17' }}>{f.path}</span>
-          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a' }}>{fmtBytes(f.size_bytes)}</span>
-          <span style={{ fontSize: 13, color: '#cf5a2a' }}>↓</span>
+          <span style={{ flex: 1, fontSize: 13.5, color: '#17202e' }}>{f.path}</span>
+          <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: '#5f6670' }}>{fmtBytes(f.size_bytes)}</span>
+          <span style={{ fontSize: 13, color: '#17202e' }}>↓</span>
         </button>
       ))}
     </div>

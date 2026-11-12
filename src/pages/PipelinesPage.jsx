@@ -4,22 +4,17 @@ import { fetchAllPipelines } from '../api/pipelines'
 import PageHero from '../components/PageHero'
 import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
 
 const STATUS_COLORS = {
   active: '#22c55e',
-  paused: '#8a857a',
+  paused: '#5f6670',
   draft: '#f59e0b',
 }
 
-const STATUS_LABELS = {
-  active: 'Active',
-  paused: 'Paused',
-  draft: 'Draft',
-}
 
 const STATUSES = ['All', 'Active', 'Paused', 'Draft']
 
@@ -39,14 +34,13 @@ function formatDate(iso) {
 
 function PipelineCard({ pipeline }) {
   const statusColor = STATUS_COLORS[pipeline.status] || MUTED
-  const statusLabel = STATUS_LABELS[pipeline.status] || pipeline.status
 
   return (
     <Link to={`/pipelines/${pipeline.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
         style={{
           background: '#fff',
-          border: '1px solid #e7e0d2',
+          border: '1px solid #ddd8cc',
           borderRadius: 14,
           padding: '20px 24px',
           cursor: 'pointer',
@@ -70,25 +64,13 @@ function PipelineCard({ pipeline }) {
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
                 <span style={{
-                  fontFamily: "'Space Mono',monospace",
+                  fontFamily: "'IBM Plex Mono',monospace",
                   fontSize: 14,
                   fontWeight: 600,
                   color: DARK,
                   letterSpacing: '-0.01em',
                 }}>
                   {pipeline.name}
-                </span>
-                <span style={{
-                  fontFamily: "'Space Mono',monospace",
-                  fontSize: 10,
-                  padding: '2px 7px',
-                  borderRadius: 5,
-                  background: `${statusColor}18`,
-                  color: statusColor,
-                  fontWeight: 600,
-                  letterSpacing: '0.04em',
-                }}>
-                  {statusLabel.toUpperCase()}
                 </span>
               </div>
               <div style={{ fontSize: 12, color: MUTED, marginBottom: 8 }}>
@@ -100,12 +82,12 @@ function PipelineCard({ pipeline }) {
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
                 {pipeline.tags.map(tag => (
                   <span key={tag} style={{
-                    fontFamily: "'Space Mono',monospace",
+                    fontFamily: "'IBM Plex Mono',monospace",
                     fontSize: 10,
                     padding: '2px 7px',
                     borderRadius: 5,
-                    background: '#f5f0e8',
-                    color: '#7a7568',
+                    background: '#efebe2',
+                    color: '#545b66',
                   }}>
                     {tag}
                   </span>
@@ -123,11 +105,11 @@ function PipelineCard({ pipeline }) {
                 <span>🕐 Last run: {formatDate(pipeline.lastRun)}</span>
                 {pipeline.schedule && (
                   <span style={{
-                    fontFamily: "'Space Mono',monospace",
+                    fontFamily: "'IBM Plex Mono',monospace",
                     fontSize: 10,
                     padding: '2px 8px',
                     borderRadius: 5,
-                    border: '1px solid #e7e0d2',
+                    border: '1px solid #ddd8cc',
                     color: MUTED,
                     background: '#faf7f2',
                   }}>
@@ -167,7 +149,7 @@ export default function PipelinesPage() {
   })
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1ede4' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f2eb' }}>
       <PageHero
         eyebrow="WORKFLOWS"
         title="Pipelines"
@@ -193,7 +175,7 @@ export default function PipelinesPage() {
                 fontSize: 14,
                 padding: '9px 14px',
                 borderRadius: 9,
-                border: '1.4px solid #ddd6c8',
+                border: '1.4px solid #c9c4b8',
                 background: '#fff',
                 outline: 'none',
                 width: 240,
@@ -213,8 +195,8 @@ export default function PipelinesPage() {
                     cursor: 'pointer',
                     fontWeight: statusFilter === s ? 600 : 400,
                     background: statusFilter === s ? DARK : '#fff',
-                    color: statusFilter === s ? '#f1ede4' : MEDIUM,
-                    borderColor: statusFilter === s ? DARK : '#ddd6c8',
+                    color: statusFilter === s ? '#f5f2eb' : MEDIUM,
+                    borderColor: statusFilter === s ? DARK : '#c9c4b8',
                     transition: 'all .12s',
                   }}
                 >
@@ -227,7 +209,7 @@ export default function PipelinesPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 64px' }}>
         <div style={{
-          fontFamily: "'Space Mono',monospace",
+          fontFamily: "'IBM Plex Mono',monospace",
           fontSize: 11,
           color: MUTED,
           marginBottom: 20,
@@ -261,7 +243,7 @@ export default function PipelinesPage() {
           }}>
             <div style={{ fontSize: 32, marginBottom: 16 }}>—</div>
             <div style={{ fontSize: 15, marginBottom: 6 }}>No pipelines match your filters.</div>
-            <div style={{ fontSize: 13, color: '#b0a898' }}>Try adjusting your search or status filter.</div>
+            <div style={{ fontSize: 13, color: '#5f6670' }}>Try adjusting your search or status filter.</div>
           </div>
         )}
       </div>

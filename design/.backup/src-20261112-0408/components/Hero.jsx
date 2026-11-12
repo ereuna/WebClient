@@ -1,0 +1,48 @@
+import { Link } from 'react-router-dom'
+
+const ACCENT = '#cf5a2a'
+
+export default function Hero() {
+  return (
+    <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 70%)', borderBottom: '1px solid #e3dccd' }}>
+      <div style={{
+        maxWidth: 1200, margin: '0 auto', padding: '64px 28px 60px',
+        display: 'grid', gridTemplateColumns: '1fr 1.05fr', gap: 36, alignItems: 'center',
+      }}>
+        <div>
+          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, letterSpacing: '0.08em', color: ACCENT, marginBottom: 20 }}>
+            PHYSICS-INFORMED ML · GEOTHERMAL ENERGY
+          </div>
+          <h1 style={{ fontSize: 58, lineHeight: 1.02, letterSpacing: '-0.03em', fontWeight: 600, margin: 0 }}>
+            Ereuna<br />
+          </h1>
+          <p style={{ fontSize: 18, lineHeight: 1.55, color: '#56524a', maxWidth: 450, margin: '22px 0 0' }}>
+            Ereuna is a physics-informed machine learning platform for geothermal energy production in Kenya, with an integrated physics constraint checker, built on the EnergyGraph data representation schema. Includes GeoSight, a demo app running on synthetic and public data.
+          </p>
+          <div style={{ display: 'flex', gap: 13, marginTop: 30, flexWrap: 'wrap' }}>
+            <Link to="/research" style={{ textDecoration: 'none' }}>
+              <span style={{
+                background: ACCENT, color: '#fff', fontWeight: 500, fontSize: 15,
+                padding: '13px 22px', borderRadius: 11, border: 'none', cursor: 'pointer',
+                display: 'inline-flex', alignItems: 'center', gap: 9, fontFamily: 'inherit',
+              }}>Explore research <span style={{ fontSize: 13 }}>→</span></span>
+            </Link>
+            <Link to="/workbench" style={{ textDecoration: 'none' }}>
+              <span style={{
+                background: '#fff', border: '1.4px solid #d8d1c2', color: '#1b1a17', fontWeight: 500,
+                fontSize: 15, padding: '13px 22px', borderRadius: 11, cursor: 'pointer', fontFamily: 'inherit',
+                display: 'inline-block',
+              }}>Open workbench</span>
+            </Link>
+          </div>
+
+        </div>
+        <img
+          src="/illustrations/05-geothermal-reservoir-slab.png"
+          alt="Geothermal reservoir slab illustration"
+          style={{ width: '100%', borderRadius: 16, display: 'block' }}
+        />
+      </div>
+    </div>
+  )
+}

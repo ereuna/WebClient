@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 
-const ACCENT = '#cf5a2a'
+const ACCENT = '#c2410c'
 
 export default function StarButton({ repoId, initialCount = 0, onToggle }) {
   const { user } = useAuth()
@@ -45,9 +45,9 @@ export default function StarButton({ repoId, initialCount = 0, onToggle }) {
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 7,
         padding: '8px 16px', borderRadius: 9, cursor: loading ? 'wait' : 'pointer',
-        border: `1.4px solid ${starred ? ACCENT : '#ddd6c8'}`,
+        border: `1.4px solid ${starred ? ACCENT : '#c9c4b8'}`,
         background: starred ? ACCENT + '12' : '#fff',
-        color: starred ? ACCENT : '#56524a',
+        color: starred ? ACCENT : '#545b66',
         fontFamily: 'inherit', fontSize: 13, fontWeight: 500,
         transition: 'all .15s',
       }}
@@ -55,10 +55,10 @@ export default function StarButton({ repoId, initialCount = 0, onToggle }) {
       <span style={{ fontSize: 15 }}>{starred ? '★' : '☆'}</span>
       <span>Star</span>
       <span style={{
-        fontFamily: "'Space Mono',monospace", fontSize: 11,
+        fontFamily: "'IBM Plex Mono',monospace", fontSize: 11,
         padding: '1px 6px', borderRadius: 6,
-        background: starred ? ACCENT + '20' : '#f0ebe0',
-        color: starred ? ACCENT : '#8a857a',
+        background: starred ? ACCENT + '20' : '#efebe2',
+        color: starred ? ACCENT : '#5f6670',
       }}>
         {count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count}
       </span>

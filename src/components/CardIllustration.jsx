@@ -2,8 +2,8 @@ export function CardIllustration({ src, alt, height = 158, dark = false }) {
   return (
     <div style={{
       height,
-      background: dark ? '#262421' : '#faf7f0',
-      borderBottom: `1px solid ${dark ? '#34322d' : '#ece5d6'}`,
+      background: dark ? '#17202e' : '#ffffff',
+      borderBottom: `1px solid ${dark ? '#17202e' : '#efebe2'}`,
       overflow: 'hidden',
     }}>
       <img

@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchDeployment } from '../api/deployments'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
 
 const STATUS_COLORS = {
   running: '#2db88a',
-  stopped: '#8a857a',
+  stopped: '#5f6670',
   error: '#e53e3e',
   pending: '#e67e22',
   paused: '#7c6af7',
@@ -23,7 +23,7 @@ function StatusBadge({ status }) {
       display: 'inline-flex', alignItems: 'center', gap: 6,
       padding: '4px 11px', borderRadius: 20,
       background: color + '18', color,
-      fontFamily: "'Space Mono',monospace", fontSize: 11, fontWeight: 700,
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, fontWeight: 700,
     }}>
       <span style={{ width: 6, height: 6, borderRadius: '50%', background: color, display: 'inline-block' }} />
       {status}
@@ -34,8 +34,8 @@ function StatusBadge({ status }) {
 function SectionLabel({ children }) {
   return (
     <div style={{
-      fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-      color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+      color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
     }}>
       {children}
     </div>
@@ -45,14 +45,14 @@ function SectionLabel({ children }) {
 function MetricCard({ label, value, unit, trend }) {
   return (
     <div style={{
-      background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+      background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
       padding: '18px 20px', flex: 1, minWidth: 0,
     }}>
       <div style={{ fontSize: 28, fontWeight: 700, color: DARK, lineHeight: 1.1 }}>
         {value}<span style={{ fontSize: 14, fontWeight: 500, color: MUTED, marginLeft: 4 }}>{unit}</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           {label}
         </div>
         <span style={{
@@ -87,7 +87,7 @@ function ActionButton({ children, onClick, variant }) {
     )
   }
   return (
-    <button onClick={onClick} style={{ ...base, background: '#fff', color: DARK, border: '1.4px solid #ddd6c8' }}>
+    <button onClick={onClick} style={{ ...base, background: '#fff', color: DARK, border: '1.4px solid #c9c4b8' }}>
       {children}
     </button>
   )
@@ -95,7 +95,7 @@ function ActionButton({ children, onClick, variant }) {
 
 function TabBar({ tabs, active, onSelect }) {
   return (
-    <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid #e7e0d2', marginBottom: 32 }}>
+    <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid #ddd8cc', marginBottom: 32 }}>
       {tabs.map(t => (
         <button
           key={t}
@@ -119,17 +119,17 @@ function TabBar({ tabs, active, onSelect }) {
 function BarChart({ title, bars }) {
   const maxVal = Math.max(...bars.map(b => b.value))
   return (
-    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, padding: '20px 24px', marginBottom: 24 }}>
-      <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: ACCENT, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 20 }}>
+    <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, padding: '20px 24px', marginBottom: 24 }}>
+      <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 20 }}>
         {title}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {bars.map((b, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 80, flexShrink: 0, fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED, textAlign: 'right' }}>
+            <div style={{ width: 80, flexShrink: 0, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED, textAlign: 'right' }}>
               {b.label}
             </div>
-            <div style={{ flex: 1, background: '#f5f0e8', borderRadius: 4, height: 22, overflow: 'hidden' }}>
+            <div style={{ flex: 1, background: '#efebe2', borderRadius: 4, height: 22, overflow: 'hidden' }}>
               <div style={{
                 height: '100%', borderRadius: 4,
                 background: `linear-gradient(90deg, ${ACCENT} 0%, #e8834a 100%)`,
@@ -137,13 +137,13 @@ function BarChart({ title, bars }) {
                 transition: 'width 0.4s ease',
               }} />
             </div>
-            <div style={{ width: 48, flexShrink: 0, fontFamily: "'Space Mono',monospace", fontSize: 11, color: DARK, fontWeight: 600 }}>
+            <div style={{ width: 48, flexShrink: 0, fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: DARK, fontWeight: 600 }}>
               {b.value}
             </div>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 14, fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED }}>
+      <div style={{ marginTop: 14, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED }}>
         requests / sec
       </div>
     </div>
@@ -158,14 +158,14 @@ function LatencyChart({ p50, p95, p99 }) {
     { label: 'p99', value: p99, color: '#e53e3e' },
   ]
   return (
-    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, padding: '20px 24px' }}>
-      <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: ACCENT, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 20 }}>
+    <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, padding: '20px 24px' }}>
+      <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 20 }}>
         Latency (p50 / p95 / p99)
       </div>
       <div style={{ display: 'flex', gap: 20, alignItems: 'flex-end', height: 120, marginBottom: 12 }}>
         {tiers.map(t => (
           <div key={t.label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, height: '100%', justifyContent: 'flex-end' }}>
-            <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, fontWeight: 700, color: t.color }}>
+            <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, fontWeight: 700, color: t.color }}>
               {t.value}ms
             </div>
             <div style={{
@@ -179,12 +179,12 @@ function LatencyChart({ p50, p95, p99 }) {
       </div>
       <div style={{ display: 'flex', gap: 20 }}>
         {tiers.map(t => (
-          <div key={t.label} style={{ flex: 1, textAlign: 'center', fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED }}>
+          <div key={t.label} style={{ flex: 1, textAlign: 'center', fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED }}>
             {t.label}
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 10, fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED }}>
+      <div style={{ marginTop: 10, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED }}>
         milliseconds
       </div>
     </div>
@@ -208,14 +208,14 @@ function OverviewTab({ deployment }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'flex-start' }}>
       <div>
-        <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, overflow: 'hidden', marginBottom: 24 }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #f0ebe0' }}>
+        <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, overflow: 'hidden', marginBottom: 24 }}>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid #efebe2' }}>
             <SectionLabel>Endpoint URL</SectionLabel>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <code style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 11, color: DARK,
-                flex: 1, wordBreak: 'break-all', lineHeight: 1.6, background: '#faf7f0',
-                padding: '10px 12px', borderRadius: 8, border: '1px solid #ece5d6',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: DARK,
+                flex: 1, wordBreak: 'break-all', lineHeight: 1.6, background: '#ffffff',
+                padding: '10px 12px', borderRadius: 8, border: '1px solid #efebe2',
               }}>
                 {endpointUrl}
               </code>
@@ -223,7 +223,7 @@ function OverviewTab({ deployment }) {
                 onClick={handleCopy}
                 style={{
                   fontFamily: 'inherit', fontSize: 12, padding: '8px 14px', borderRadius: 8,
-                  border: '1.4px solid #ddd6c8', background: copied ? '#f0faf5' : '#fff',
+                  border: '1.4px solid #c9c4b8', background: copied ? '#f0faf5' : '#fff',
                   color: copied ? '#2db88a' : DARK, cursor: 'pointer', fontWeight: 500,
                   whiteSpace: 'nowrap', flexShrink: 0, transition: 'all 0.2s',
                 }}
@@ -233,13 +233,13 @@ function OverviewTab({ deployment }) {
             </div>
           </div>
           <div style={{ padding: '16px 20px' }}>
-            <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>
+            <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>
               cURL example
             </div>
             <pre style={{
               margin: 0, padding: '16px', background: DARK, borderRadius: 10,
-              fontFamily: "'Space Mono',monospace", fontSize: 11.5, lineHeight: 1.7,
-              color: '#c8c0b0', overflowX: 'auto',
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 11.5, lineHeight: 1.7,
+              color: '#c9c4b8', overflowX: 'auto',
             }}>
               <code>{curlSnippet}</code>
             </pre>
@@ -248,8 +248,8 @@ function OverviewTab({ deployment }) {
       </div>
 
       <div>
-        <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #f0ebe0' }}>
+        <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid #efebe2' }}>
             <SectionLabel>Configuration</SectionLabel>
           </div>
           <div style={{ padding: '4px 20px 12px' }}>
@@ -266,10 +266,10 @@ function OverviewTab({ deployment }) {
               <div key={k} style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 padding: '11px 0',
-                borderBottom: i < arr.length - 1 ? '1px solid #f5f0e8' : 'none',
+                borderBottom: i < arr.length - 1 ? '1px solid #efebe2' : 'none',
                 fontSize: 13.5,
               }}>
-                <span style={{ color: MUTED, fontFamily: "'Space Mono',monospace", fontSize: 11 }}>{k}</span>
+                <span style={{ color: MUTED, fontFamily: "'IBM Plex Mono',monospace", fontSize: 11 }}>{k}</span>
                 <span style={{ fontWeight: 500, color: DARK }}>{v}</span>
               </div>
             ))}
@@ -286,7 +286,7 @@ function MetricsTab({ deployment }) {
   if (!hasMetrics) {
     return (
       <div style={{
-        background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+        background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
         padding: '40px 28px', textAlign: 'center',
       }}>
         <div style={{ fontSize: 15, fontWeight: 600, color: DARK, marginBottom: 8 }}>No metrics history yet</div>
@@ -318,13 +318,13 @@ function LogsTab({ logs = [] }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED }}>
           {lines.length > 0 ? `Log stream — ${lines.length} events` : 'No log entries yet'}
         </div>
       </div>
       {lines.length === 0 ? (
         <div style={{
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 10,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 10,
           padding: '40px 20px', textAlign: 'center', color: MUTED, fontSize: 14,
         }}>
           Deployment logs will appear here when the service emits events.
@@ -365,18 +365,18 @@ function SettingsTab() {
 
   const inputStyle = {
     fontFamily: 'inherit', fontSize: 14, padding: '10px 14px', borderRadius: 9,
-    border: '1.4px solid #ddd6c8', background: '#fff', color: DARK,
+    border: '1.4px solid #c9c4b8', background: '#fff', color: DARK,
     width: '100%', boxSizing: 'border-box', outline: 'none',
   }
 
   const labelStyle = {
-    display: 'block', fontFamily: "'Space Mono',monospace", fontSize: 10,
+    display: 'block', fontFamily: "'IBM Plex Mono',monospace", fontSize: 10,
     color: MUTED, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 7,
   }
 
   return (
     <div style={{ maxWidth: 560 }}>
-      <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14, padding: '24px 28px' }}>
+      <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14, padding: '24px 28px' }}>
         <SectionLabel>Scaling</SectionLabel>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, marginBottom: 24 }}>
           <div>
@@ -439,14 +439,14 @@ function SettingsTab() {
 function Skeleton() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '52px 28px 44px' }}>
+      <div style={{ background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)', borderBottom: '1px solid #ddd8cc', padding: '52px 28px 44px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ height: 12, width: 160, background: '#e7e0d2', borderRadius: 6, marginBottom: 20 }} />
-          <div style={{ height: 38, width: 280, background: '#e7e0d2', borderRadius: 8, marginBottom: 14 }} />
-          <div style={{ height: 14, width: 380, background: '#ece5d6', borderRadius: 6, marginBottom: 24 }} />
+          <div style={{ height: 12, width: 160, background: '#ddd8cc', borderRadius: 6, marginBottom: 20 }} />
+          <div style={{ height: 38, width: 280, background: '#ddd8cc', borderRadius: 8, marginBottom: 14 }} />
+          <div style={{ height: 14, width: 380, background: '#efebe2', borderRadius: 6, marginBottom: 24 }} />
           <div style={{ display: 'flex', gap: 10 }}>
             {[90, 80, 80, 80].map((w, i) => (
-              <div key={i} style={{ height: 36, width: w, background: '#ece5d6', borderRadius: 9 }} />
+              <div key={i} style={{ height: 36, width: w, background: '#efebe2', borderRadius: 9 }} />
             ))}
           </div>
         </div>
@@ -454,10 +454,10 @@ function Skeleton() {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 28px' }}>
         <div style={{ display: 'flex', gap: 16, marginBottom: 32 }}>
           {[1, 2, 3, 4, 5].map(i => (
-            <div key={i} style={{ flex: 1, height: 90, background: '#e7e0d2', borderRadius: 14 }} />
+            <div key={i} style={{ flex: 1, height: 90, background: '#ddd8cc', borderRadius: 14 }} />
           ))}
         </div>
-        <div style={{ height: 400, background: '#e7e0d2', borderRadius: 14 }} />
+        <div style={{ height: 400, background: '#ddd8cc', borderRadius: 14 }} />
       </div>
     </div>
   )
@@ -487,9 +487,9 @@ export default function DeploymentDetailPage() {
   if (notFound) {
     return (
       <div style={{ minHeight: '100vh', background: BG, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
-        <div style={{ fontSize: 48, fontWeight: 700, color: '#e7e0d2' }}>404</div>
+        <div style={{ fontSize: 48, fontWeight: 700, color: '#ddd8cc' }}>404</div>
         <div style={{ fontSize: 16, color: MUTED }}>Deployment not found.</div>
-        <Link to="/deployments" style={{ color: ACCENT, fontSize: 14, textDecoration: 'none' }}>← Back to Deployments</Link>
+        <Link to="/deployments" style={{ color: '#17202e', fontSize: 14, textDecoration: 'none' }}>← Back to Deployments</Link>
       </div>
     )
   }
@@ -510,9 +510,9 @@ export default function DeploymentDetailPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '40px 28px 36px' }}>
+      <div style={{ background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)', borderBottom: '1px solid #ddd8cc', padding: '40px 28px 36px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 20, display: 'flex', gap: 6, alignItems: 'center' }}>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 20, display: 'flex', gap: 6, alignItems: 'center' }}>
             <Link to="/deployments" style={{ color: MUTED, textDecoration: 'none' }}>Deployments</Link>
             <span>›</span>
             <span style={{ color: DARK }}>{name}</span>
@@ -523,14 +523,14 @@ export default function DeploymentDetailPage() {
               <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 14, flexWrap: 'wrap' }}>
                 <StatusBadge status={status} />
                 <span style={{
-                  fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '4px 10px',
-                  borderRadius: 20, border: '1px solid #e7e0d2', color: MUTED, background: '#faf7f0',
+                  fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '4px 10px',
+                  borderRadius: 20, border: '1px solid #ddd8cc', color: MUTED, background: '#ffffff',
                 }}>
                   {model}
                 </span>
                 <span style={{
-                  fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '4px 10px',
-                  borderRadius: 20, border: '1px solid #e7e0d2', color: MUTED, background: '#faf7f0',
+                  fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '4px 10px',
+                  borderRadius: 20, border: '1px solid #ddd8cc', color: MUTED, background: '#ffffff',
                 }}>
                   {version}
                 </span>
@@ -541,10 +541,10 @@ export default function DeploymentDetailPage() {
               </h1>
 
               <div style={{ display: 'flex', gap: 18, marginTop: 14, flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, display: 'flex', alignItems: 'center', gap: 5 }}>
                   ◎ {region}
                 </span>
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, display: 'flex', alignItems: 'center', gap: 5 }}>
                   ⊕ Created {createdDate}
                 </span>
               </div>

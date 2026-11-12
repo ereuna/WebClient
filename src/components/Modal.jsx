@@ -24,7 +24,7 @@ export default function Modal({ open, onClose, title, children, footer, maxWidth
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: '#fff', borderRadius: 16, border: '1px solid #e7e0d2',
+          background: '#fff', borderRadius: 16, border: '1px solid #ddd8cc',
           width: '100%', maxWidth, maxHeight: '85vh', overflowY: 'auto',
           padding: '28px 28px 24px', boxShadow: '0 20px 60px rgba(0,0,0,.25)',
         }}
@@ -36,7 +36,7 @@ export default function Modal({ open, onClose, title, children, footer, maxWidth
             aria-label="Close"
             style={{
               background: 'none', border: 'none', cursor: 'pointer', fontSize: 20,
-              color: '#8a857a', lineHeight: 1, padding: 4,
+              color: '#5f6670', lineHeight: 1, padding: 4,
             }}
           >
             ×

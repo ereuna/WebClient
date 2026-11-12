@@ -51,7 +51,7 @@ export default function App() {
 
           {/* All other pages share the shell */}
           <Route path="*" element={
-            <div style={{ background: '#f1ede4', color: '#1b1a17', overflowX: 'hidden' }}>
+            <div style={{ background: '#f5f2eb', color: '#17202e', overflowX: 'hidden' }}>
               <Nav />
               <Routes>
                 <Route path="/" element={<HomePage />} />

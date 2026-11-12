@@ -6,7 +6,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { searchRepositories } from '../api/repositories.js'
 
-const ACCENT = '#cf5a2a'
 
 const TYPE_LABELS = {
   MODEL:    { label: 'Model',    color: '#7c6af7', path: '/models' },
@@ -14,7 +13,7 @@ const TYPE_LABELS = {
   SPACE:    { label: 'Space',    color: '#e91e8c', path: '/apps' },
   PIPELINE: { label: 'Pipeline', color: '#e67e22', path: '/models' },
   AGENT:    { label: 'Agent',    color: '#3498db', path: '/models' },
-  WORKFLOW: { label: 'Workflow', color: '#8a857a', path: '/models' },
+  WORKFLOW: { label: 'Workflow', color: '#5f6670', path: '/models' },
 }
 
 export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }) {
@@ -73,7 +72,7 @@ export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }
       <div style={{ position: 'relative' }}>
         <span style={{
           position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)',
-          color: '#a09990', fontSize: 14, pointerEvents: 'none',
+          color: '#5f6670', fontSize: 14, pointerEvents: 'none',
         }}>⌕</span>
         <input
           value={query}
@@ -84,7 +83,7 @@ export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }
           style={{
             fontFamily: 'inherit', fontSize: 14, width: '100%', boxSizing: 'border-box',
             padding: '10px 14px 10px 36px', borderRadius: 10,
-            border: '1.4px solid #ddd6c8', background: '#fff', outline: 'none',
+            border: '1.4px solid #c9c4b8', background: '#fff', outline: 'none',
             boxShadow: open ? '0 0 0 3px rgba(207,90,42,.12)' : 'none',
             transition: 'box-shadow .15s',
           }}
@@ -92,7 +91,7 @@ export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }
         {loading && (
           <span style={{
             position: 'absolute', right: 13, top: '50%', transform: 'translateY(-50%)',
-            color: '#a09990', fontSize: 11,
+            color: '#5f6670', fontSize: 11,
           }}>…</span>
         )}
       </div>
@@ -100,7 +99,7 @@ export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }
       {open && results.length > 0 && (
         <div style={{
           position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 12,
           boxShadow: '0 8px 32px rgba(0,0,0,.12)', zIndex: 200, overflow: 'hidden',
         }}>
           {results.map((hit, i) => {
@@ -112,29 +111,29 @@ export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }
                 style={{
                   display: 'flex', alignItems: 'center', gap: 12,
                   padding: '11px 16px', cursor: 'pointer',
-                  borderBottom: i < results.length - 1 ? '1px solid #f0ebe0' : 'none',
+                  borderBottom: i < results.length - 1 ? '1px solid #efebe2' : 'none',
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = '#faf7f0'}
+                onMouseEnter={e => e.currentTarget.style.background = '#ffffff'}
                 onMouseLeave={e => e.currentTarget.style.background = '#fff'}
               >
                 <span style={{
                   display: 'inline-block', padding: '2px 7px', borderRadius: 6, fontSize: 10,
-                  fontFamily: "'Space Mono',monospace", fontWeight: 600,
+                  fontFamily: "'IBM Plex Mono',monospace", fontWeight: 600,
                   background: meta.color + '18', color: meta.color, flexShrink: 0,
                 }}>{meta.label}</span>
 
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13.5, fontWeight: 500, color: '#1b1a17', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: 13.5, fontWeight: 500, color: '#17202e', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {hit.slug}
                   </div>
                   {hit.description && (
-                    <div style={{ fontSize: 12, color: '#8a857a', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <div style={{ fontSize: 12, color: '#5f6670', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {hit.description}
                     </div>
                   )}
                 </div>
 
-                <div style={{ display: 'flex', gap: 10, flexShrink: 0, fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#a09990' }}>
+                <div style={{ display: 'flex', gap: 10, flexShrink: 0, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: '#5f6670' }}>
                   <span>★ {hit.star_count ?? 0}</span>
                   <span>↓ {hit.download_count ?? 0}</span>
                 </div>
@@ -143,8 +142,8 @@ export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }
           })}
 
           <div style={{
-            padding: '9px 16px', borderTop: '1px solid #f0ebe0',
-            fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#a09990',
+            padding: '9px 16px', borderTop: '1px solid #efebe2',
+            fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: '#5f6670',
           }}>
             Press Enter to open first result · Esc to close
           </div>
@@ -154,8 +153,8 @@ export default function GlobalSearch({ placeholder = 'Search Ereuna…', style }
       {open && results.length === 0 && !loading && query.trim() && (
         <div style={{
           position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12,
-          padding: '16px', textAlign: 'center', fontSize: 13, color: '#8a857a',
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 12,
+          padding: '16px', textAlign: 'center', fontSize: 13, color: '#5f6670',
           boxShadow: '0 4px 16px rgba(0,0,0,.08)', zIndex: 200,
         }}>
           No results for "{query}"

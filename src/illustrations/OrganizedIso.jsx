@@ -8,17 +8,17 @@
 // copy or whitelist item W9 (Olkaria, Menengai, East African Rift). No well IDs, figures,
 // or metric values are drawn — plots are unitless shapes.
 
-const INK = '#34322d'
-const MUTED = '#8a857a'
-const FAINT = '#cfc8b9'
-const LEADER = '#bdb6a6'
-const LEFT = '#efeadf'
-const RIGHT = '#e4ddcf'
-const ACC = '#cf5a2a'
-const ACC_TOP = '#f7e2d5'
-const ACC_LEFT = '#f3d3c0'
-const ACC_RIGHT = '#ecc3aa'
-const MONO = "'Space Mono',monospace"
+const INK = '#17202e'
+const MUTED = '#6b717b'
+const FAINT = '#ddd8cc'
+const LEADER = '#c9c4b8'
+const LEFT = '#ffffff'
+const RIGHT = '#f2efe8'
+const ACC = '#c2410c'
+const ACC_TOP = '#f8e8e2'
+const ACC_LEFT = '#f2d5ca'
+const ACC_RIGHT = '#eabeac'
+const MONO = "'IBM Plex Mono',monospace"
 
 // World (x, y, z) -> screen. x runs right-down, y runs left-down, z runs up.
 // Depth toward the viewer is x + y + z, so draw in ascending x + y order.
@@ -140,7 +140,7 @@ export function DomainsIso() {
         if (i === LIFTED) {
           return (
             <polygon key={i} points={pts(p(x, 0), p(x + 1, 0), p(x + 1, 1.5), p(x, 1.5))}
-              fill="#e6dfd0" stroke={INK} strokeWidth="1" strokeDasharray="3 3" />
+              fill="#f2efe8" stroke={INK} strokeWidth="1" strokeDasharray="3 3" />
           )
         }
         const plain = i !== 0 && i !== 6
@@ -255,7 +255,7 @@ export function FieldsIso() {
       </g>
 
       {/* rift floor + fault traces with ticks on the downthrown side */}
-      <polygon points={pts(p(FW, 0), p(FE, 0), p(FE, D), p(FW, D))} fill="#f5f0e7" />
+      <polygon points={pts(p(FW, 0), p(FE, 0), p(FE, D), p(FW, D))} fill="#ffffff" />
       <g stroke={INK} strokeWidth="1.1">
         <Line a={p(FW, 0)} b={p(FW, D)} />
         <Line a={p(FE, 0)} b={p(FE, D)} />
@@ -293,12 +293,12 @@ export function FieldsIso() {
 
       {/* published well data — a stack of sheets linked to one well */}
       <Leader from={[pubHead[0] + 6.5, pubHead[1]]} to={[338, pubHead[1]]} square={false} />
-      <rect x="350" y="64" width="144" height="176" rx="6" fill="#fff" stroke="#e0d9ca" />
-      <rect x="344" y="70" width="144" height="176" rx="6" fill="#fff" stroke="#e0d9ca" />
+      <rect x="350" y="64" width="144" height="176" rx="6" fill="#fff" stroke="#f2efe8" />
+      <rect x="344" y="70" width="144" height="176" rx="6" fill="#fff" stroke="#f2efe8" />
       <rect x="338" y="76" width="144" height="176" rx="6" fill="#fff" stroke={INK} strokeWidth="1.2" />
       <Label x={350} y={95} anchor="start" size={8.5}>PUBLISHED WELL DATA</Label>
-      <rect x="350" y="102" width="112" height="3" rx="1.5" fill="#ebe5d8" />
-      <rect x="350" y="109" width="78" height="3" rx="1.5" fill="#ebe5d8" />
+      <rect x="350" y="102" width="112" height="3" rx="1.5" fill="#ffffff" />
+      <rect x="350" y="109" width="78" height="3" rx="1.5" fill="#ffffff" />
       <g stroke={INK} strokeWidth="1">
         <line x1="352" y1="124" x2="468" y2="124" />
         <line x1="352" y1="124" x2="352" y2="234" />

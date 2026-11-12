@@ -22,20 +22,20 @@ export default function HyperparametersTable({ data }) {
   if (!rows.length) return null
 
   return (
-    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, overflow: 'hidden' }}>
+    <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 12, overflow: 'hidden' }}>
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5 }}>
           <thead>
-            <tr style={{ borderBottom: '1px solid #ece5d6' }}>
+            <tr style={{ borderBottom: '1px solid #efebe2' }}>
               <th style={{
-                padding: '10px 18px', textAlign: 'left', background: '#faf7f0',
-                fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', fontWeight: 600,
+                padding: '10px 18px', textAlign: 'left', background: '#ffffff',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: '#5f6670', fontWeight: 600,
               }}>
                 Parameter
               </th>
               <th style={{
-                padding: '10px 18px', textAlign: 'left', background: '#faf7f0',
-                fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', fontWeight: 600,
+                padding: '10px 18px', textAlign: 'left', background: '#ffffff',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: '#5f6670', fontWeight: 600,
               }}>
                 Value
               </th>
@@ -43,14 +43,14 @@ export default function HyperparametersTable({ data }) {
           </thead>
           <tbody>
             {rows.map(({ key, value }, i) => (
-              <tr key={key} style={{ borderBottom: i < rows.length - 1 ? '1px solid #f0ebe0' : 'none' }}>
+              <tr key={key} style={{ borderBottom: i < rows.length - 1 ? '1px solid #efebe2' : 'none' }}>
                 <td style={{
-                  padding: '10px 18px', fontFamily: "'Space Mono',monospace",
-                  fontSize: 11.5, color: '#56524a', verticalAlign: 'top', width: '38%',
+                  padding: '10px 18px', fontFamily: "'IBM Plex Mono',monospace",
+                  fontSize: 11.5, color: '#545b66', verticalAlign: 'top', width: '38%',
                 }}>
                   {key}
                 </td>
-                <td style={{ padding: '10px 18px', color: '#1b1a17', verticalAlign: 'top', wordBreak: 'break-word' }}>
+                <td style={{ padding: '10px 18px', color: '#17202e', verticalAlign: 'top', wordBreak: 'break-word' }}>
                   {value}
                 </td>
               </tr>

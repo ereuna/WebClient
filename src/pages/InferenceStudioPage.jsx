@@ -6,7 +6,7 @@ import { runInference } from "../api/inference";
 const sentimentChipStyle = (sentiment) => {
   if (sentiment === "positive") return { background: "#dcfce7", color: "#166534" };
   if (sentiment === "negative") return { background: "#fee2e2", color: "#991b1b" };
-  return { background: "#f3f0ea", color: "#56524a" };
+  return { background: "#f3f0ea", color: "#545b66" };
 };
 
 export default function InferenceStudioPage() {
@@ -57,10 +57,10 @@ export default function InferenceStudioPage() {
   const tokenCount = textInput.trim().split(/\s+/).filter(Boolean).length;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f1ede4", fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#f5f2eb", fontFamily: "'Inter', sans-serif" }}>
       <div
         style={{
-          background: "linear-gradient(135deg, #1b1a17 0%, #2d2b25 50%, #3a1f10 100%)",
+          background: "linear-gradient(135deg, #17202e 0%, #243042 50%, #3a1f10 100%)",
           padding: "48px 28px 40px",
           color: "#fff",
         }}
@@ -69,12 +69,12 @@ export default function InferenceStudioPage() {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
               <div style={{
-                width: 36, height: 36, borderRadius: 8, background: "#cf5a2a",
+                width: 36, height: 36, borderRadius: 8, background: "#c2410c",
                 display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
               }}>▶</div>
               <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700, letterSpacing: "-0.5px" }}>Inference Studio</h1>
             </div>
-            <p style={{ margin: 0, color: "#a09890", fontSize: 15 }}>Interactive model playground — run live inference on deployed models</p>
+            <p style={{ margin: 0, color: "#8a8f98", fontSize: 15 }}>Interactive model playground — run live inference on deployed models</p>
           </div>
           <img
             src={PAGE_ILLUSTRATIONS.inference}
@@ -89,18 +89,18 @@ export default function InferenceStudioPage() {
           <div
             style={{
               background: "#fff",
-              border: "1px solid #e7e0d2",
+              border: "1px solid #ddd8cc",
               borderRadius: 16,
               padding: 28,
             }}
           >
             <div style={{ marginBottom: 24 }}>
-              <h2 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 700, color: "#1b1a17" }}>Input</h2>
-              <p style={{ margin: 0, fontSize: 13, color: "#8a857a" }}>Configure your model and provide input data</p>
+              <h2 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 700, color: "#17202e" }}>Input</h2>
+              <p style={{ margin: 0, fontSize: 13, color: "#5f6670" }}>Configure your model and provide input data</p>
             </div>
 
             <div style={{ marginBottom: 20 }}>
-              <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#56524a", marginBottom: 6 }}>
+              <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#545b66", marginBottom: 6 }}>
                 Model
               </label>
               <select
@@ -110,10 +110,10 @@ export default function InferenceStudioPage() {
                   width: "100%",
                   padding: "10px 12px",
                   borderRadius: 8,
-                  border: "1px solid #e7e0d2",
+                  border: "1px solid #ddd8cc",
                   background: "#faf9f6",
                   fontSize: 14,
-                  color: "#1b1a17",
+                  color: "#17202e",
                   appearance: "none",
                   backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a857a' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\")",
                   backgroundRepeat: "no-repeat",
@@ -136,7 +136,7 @@ export default function InferenceStudioPage() {
                     padding: "2px 8px",
                     borderRadius: 20,
                     background: "#fdf0e8",
-                    color: "#cf5a2a",
+                    color: "#c2410c",
                     border: "1px solid #f5d5c0",
                   }}
                 >
@@ -159,7 +159,7 @@ export default function InferenceStudioPage() {
 
             {(!selectedModel?.tags?.length || selectedModel.tags.includes('text') || selectedModel?.family?.includes('Forecast')) && (
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#56524a", marginBottom: 6 }}>
+                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#545b66", marginBottom: 6 }}>
                   Text Input
                 </label>
                 <textarea
@@ -171,10 +171,10 @@ export default function InferenceStudioPage() {
                     width: "100%",
                     padding: "12px",
                     borderRadius: 8,
-                    border: "1px solid #e7e0d2",
+                    border: "1px solid #ddd8cc",
                     background: "#faf9f6",
                     fontSize: 14,
-                    color: "#1b1a17",
+                    color: "#17202e",
                     resize: "vertical",
                     outline: "none",
                     fontFamily: "inherit",
@@ -182,7 +182,7 @@ export default function InferenceStudioPage() {
                     boxSizing: "border-box",
                   }}
                 />
-                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#8a857a" }}>
+                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#5f6670" }}>
                   {tokenCount} token{tokenCount !== 1 ? "s" : ""} estimated
                 </p>
               </div>
@@ -190,7 +190,7 @@ export default function InferenceStudioPage() {
 
             {selectedModel?.tags?.includes('vision') && (
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#56524a", marginBottom: 6 }}>
+                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#545b66", marginBottom: 6 }}>
                   Image Input
                 </label>
                 <div
@@ -198,7 +198,7 @@ export default function InferenceStudioPage() {
                   onDragLeave={() => setDragOver(false)}
                   onDrop={(e) => { e.preventDefault(); setDragOver(false); }}
                   style={{
-                    border: `2px dashed ${dragOver ? "#cf5a2a" : "#e7e0d2"}`,
+                    border: `2px dashed ${dragOver ? "#c2410c" : "#ddd8cc"}`,
                     borderRadius: 10,
                     padding: "36px 24px",
                     textAlign: "center",
@@ -208,20 +208,20 @@ export default function InferenceStudioPage() {
                   }}
                 >
                   <div style={{ fontSize: 32, marginBottom: 10 }}>🖼️</div>
-                  <p style={{ margin: "0 0 4px", fontSize: 14, fontWeight: 600, color: "#1b1a17" }}>
+                  <p style={{ margin: "0 0 4px", fontSize: 14, fontWeight: 600, color: "#17202e" }}>
                     Drop image here
                   </p>
-                  <p style={{ margin: "0 0 12px", fontSize: 12, color: "#8a857a" }}>
+                  <p style={{ margin: "0 0 12px", fontSize: 12, color: "#5f6670" }}>
                     PNG, JPG, WebP up to 10MB
                   </p>
                   <button
                     style={{
                       padding: "8px 16px",
                       borderRadius: 8,
-                      border: "1px solid #e7e0d2",
+                      border: "1px solid #ddd8cc",
                       background: "#fff",
                       fontSize: 13,
-                      color: "#56524a",
+                      color: "#545b66",
                       cursor: "pointer",
                       fontWeight: 500,
                     }}
@@ -234,12 +234,12 @@ export default function InferenceStudioPage() {
 
             {selectedModel?.tags?.includes('audio') && (
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#56524a", marginBottom: 6 }}>
+                <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#545b66", marginBottom: 6 }}>
                   Audio Input
                 </label>
                 <div
                   style={{
-                    border: "2px dashed #e7e0d2",
+                    border: "2px dashed #ddd8cc",
                     borderRadius: 10,
                     padding: "36px 24px",
                     textAlign: "center",
@@ -248,10 +248,10 @@ export default function InferenceStudioPage() {
                   }}
                 >
                   <div style={{ fontSize: 32, marginBottom: 10 }}>🎙️</div>
-                  <p style={{ margin: "0 0 4px", fontSize: 14, fontWeight: 600, color: "#1b1a17" }}>
+                  <p style={{ margin: "0 0 4px", fontSize: 14, fontWeight: 600, color: "#17202e" }}>
                     Drop audio file here
                   </p>
-                  <p style={{ margin: "0 0 12px", fontSize: 12, color: "#8a857a" }}>
+                  <p style={{ margin: "0 0 12px", fontSize: 12, color: "#5f6670" }}>
                     MP3, WAV, M4A up to 25MB
                   </p>
                   <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
@@ -259,10 +259,10 @@ export default function InferenceStudioPage() {
                       style={{
                         padding: "8px 16px",
                         borderRadius: 8,
-                        border: "1px solid #e7e0d2",
+                        border: "1px solid #ddd8cc",
                         background: "#fff",
                         fontSize: 13,
-                        color: "#56524a",
+                        color: "#545b66",
                         cursor: "pointer",
                         fontWeight: 500,
                       }}
@@ -273,10 +273,10 @@ export default function InferenceStudioPage() {
                       style={{
                         padding: "8px 16px",
                         borderRadius: 8,
-                        border: "1px solid #cf5a2a",
+                        border: "1px solid #c2410c",
                         background: "#fdf5f0",
                         fontSize: 13,
-                        color: "#cf5a2a",
+                        color: "#c2410c",
                         cursor: "pointer",
                         fontWeight: 500,
                       }}
@@ -300,7 +300,7 @@ export default function InferenceStudioPage() {
                   cursor: "pointer",
                   fontSize: 13,
                   fontWeight: 600,
-                  color: "#56524a",
+                  color: "#545b66",
                   padding: 0,
                 }}
               >
@@ -324,13 +324,13 @@ export default function InferenceStudioPage() {
                     padding: 16,
                     background: "#faf9f6",
                     borderRadius: 10,
-                    border: "1px solid #e7e0d2",
+                    border: "1px solid #ddd8cc",
                   }}
                 >
                   <div style={{ marginBottom: 14 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: "#56524a" }}>Temperature</label>
-                      <span style={{ fontSize: 13, color: "#cf5a2a", fontWeight: 600 }}>{temperature}</span>
+                      <label style={{ fontSize: 13, fontWeight: 600, color: "#545b66" }}>Temperature</label>
+                      <span style={{ fontSize: 13, color: "#c2410c", fontWeight: 600 }}>{temperature}</span>
                     </div>
                     <input
                       type="range"
@@ -339,9 +339,9 @@ export default function InferenceStudioPage() {
                       step={0.1}
                       value={temperature}
                       onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                      style={{ width: "100%", accentColor: "#cf5a2a" }}
+                      style={{ width: "100%", accentColor: "#c2410c" }}
                     />
-                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#8a857a" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#5f6670" }}>
                       <span>0</span>
                       <span>2</span>
                     </div>
@@ -349,8 +349,8 @@ export default function InferenceStudioPage() {
 
                   <div style={{ marginBottom: 14 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: "#56524a" }}>Max Tokens</label>
-                      <span style={{ fontSize: 13, color: "#cf5a2a", fontWeight: 600 }}>{maxTokens}</span>
+                      <label style={{ fontSize: 13, fontWeight: 600, color: "#545b66" }}>Max Tokens</label>
+                      <span style={{ fontSize: 13, color: "#c2410c", fontWeight: 600 }}>{maxTokens}</span>
                     </div>
                     <input
                       type="range"
@@ -359,9 +359,9 @@ export default function InferenceStudioPage() {
                       step={32}
                       value={maxTokens}
                       onChange={(e) => setMaxTokens(parseInt(e.target.value))}
-                      style={{ width: "100%", accentColor: "#cf5a2a" }}
+                      style={{ width: "100%", accentColor: "#c2410c" }}
                     />
-                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#8a857a" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#5f6670" }}>
                       <span>32</span>
                       <span>1024</span>
                     </div>
@@ -369,8 +369,8 @@ export default function InferenceStudioPage() {
 
                   <div>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: "#56524a" }}>Top-p</label>
-                      <span style={{ fontSize: 13, color: "#cf5a2a", fontWeight: 600 }}>{topP}</span>
+                      <label style={{ fontSize: 13, fontWeight: 600, color: "#545b66" }}>Top-p</label>
+                      <span style={{ fontSize: 13, color: "#c2410c", fontWeight: 600 }}>{topP}</span>
                     </div>
                     <input
                       type="range"
@@ -379,9 +379,9 @@ export default function InferenceStudioPage() {
                       step={0.05}
                       value={topP}
                       onChange={(e) => setTopP(parseFloat(e.target.value))}
-                      style={{ width: "100%", accentColor: "#cf5a2a" }}
+                      style={{ width: "100%", accentColor: "#c2410c" }}
                     />
-                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#8a857a" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#5f6670" }}>
                       <span>0</span>
                       <span>1</span>
                     </div>
@@ -398,7 +398,7 @@ export default function InferenceStudioPage() {
                 padding: "12px",
                 borderRadius: 10,
                 border: "none",
-                background: loading ? "#e5b89e" : "#cf5a2a",
+                background: loading ? "#e5b89e" : "#c2410c",
                 color: "#fff",
                 fontWeight: 600,
                 fontSize: 15,
@@ -414,14 +414,14 @@ export default function InferenceStudioPage() {
           <div
             style={{
               background: "#fff",
-              border: "1px solid #e7e0d2",
+              border: "1px solid #ddd8cc",
               borderRadius: 16,
               padding: 28,
             }}
           >
             <div style={{ marginBottom: 24 }}>
-              <h2 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 700, color: "#1b1a17" }}>Response</h2>
-              <p style={{ margin: 0, fontSize: 13, color: "#8a857a" }}>Model output and interpretability</p>
+              <h2 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 700, color: "#17202e" }}>Response</h2>
+              <p style={{ margin: 0, fontSize: 13, color: "#5f6670" }}>Model output and interpretability</p>
             </div>
 
             {!loading && !result && (
@@ -433,16 +433,16 @@ export default function InferenceStudioPage() {
                   justifyContent: "center",
                   padding: "60px 24px",
                   textAlign: "center",
-                  border: "1px dashed #e7e0d2",
+                  border: "1px dashed #ddd8cc",
                   borderRadius: 12,
                   background: "#faf9f6",
                 }}
               >
                 <div style={{ fontSize: 36, marginBottom: 12, opacity: 0.5 }}>▶</div>
-                <p style={{ margin: 0, fontSize: 14, color: "#8a857a", lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: 14, color: "#5f6670", lineHeight: 1.6 }}>
                   Run the model to see results here.
                 </p>
-                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#b0aaa2" }}>
+                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#8a8f98" }}>
                   Select a model and click Run Inference
                 </p>
               </div>
@@ -464,15 +464,15 @@ export default function InferenceStudioPage() {
                     width: 40,
                     height: 40,
                     borderRadius: "50%",
-                    border: "3px solid #e7e0d2",
-                    borderTopColor: "#cf5a2a",
+                    border: "3px solid #ddd8cc",
+                    borderTopColor: "#c2410c",
                     animation: "spin 0.8s linear infinite",
                     marginBottom: 16,
                   }}
                 />
                 <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-                <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#56524a" }}>Running inference...</p>
-                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#8a857a" }}>Processing with {selectedModel?.title || selectedModelId}</p>
+                <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#545b66" }}>Running inference...</p>
+                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#5f6670" }}>Processing with {selectedModel?.title || selectedModelId}</p>
               </div>
             )}
 
@@ -480,7 +480,7 @@ export default function InferenceStudioPage() {
               <div>
                 <div style={{ marginBottom: 20 }}>
                   <div style={{ marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: "#8a857a", textTransform: "uppercase", letterSpacing: "0.8px" }}>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: "#5f6670", textTransform: "uppercase", letterSpacing: "0.8px" }}>
                       JSON Output
                     </span>
                     <span
@@ -499,7 +499,7 @@ export default function InferenceStudioPage() {
                   </div>
                   <pre
                     style={{
-                      background: "#1b1a17",
+                      background: "#17202e",
                       color: "#a8d8a8",
                       fontFamily: "'JetBrains Mono', 'Fira Code', 'Courier New', monospace",
                       padding: 16,
@@ -521,16 +521,16 @@ export default function InferenceStudioPage() {
                     marginBottom: 20,
                   }}
                 >
-                  <h4 style={{ margin: "0 0 10px", fontSize: 13, fontWeight: 700, color: "#1b1a17", textTransform: "uppercase", letterSpacing: "0.8px" }}>
+                  <h4 style={{ margin: "0 0 10px", fontSize: 13, fontWeight: 700, color: "#17202e", textTransform: "uppercase", letterSpacing: "0.8px" }}>
                     Explanation
                   </h4>
-                  <p style={{ margin: "0 0 14px", fontSize: 14, color: "#56524a", lineHeight: 1.7 }}>
+                  <p style={{ margin: "0 0 14px", fontSize: 14, color: "#545b66", lineHeight: 1.7 }}>
                     {result.explanation}
                   </p>
 
                   {result.tokens && result.tokens.length > 0 && (
                     <div>
-                      <p style={{ margin: "0 0 8px", fontSize: 12, fontWeight: 600, color: "#8a857a" }}>
+                      <p style={{ margin: "0 0 8px", fontSize: 12, fontWeight: 600, color: "#5f6670" }}>
                         Token Attribution
                       </p>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
@@ -553,15 +553,15 @@ export default function InferenceStudioPage() {
                       <div style={{ display: "flex", gap: 16, marginTop: 10 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                           <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#dcfce7", border: "1px solid #bbf7d0", display: "inline-block" }} />
-                          <span style={{ fontSize: 11, color: "#8a857a" }}>Positive</span>
+                          <span style={{ fontSize: 11, color: "#5f6670" }}>Positive</span>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                           <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#fee2e2", border: "1px solid #fecaca", display: "inline-block" }} />
-                          <span style={{ fontSize: 11, color: "#8a857a" }}>Negative</span>
+                          <span style={{ fontSize: 11, color: "#5f6670" }}>Negative</span>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#f3f0ea", border: "1px solid #e7e0d2", display: "inline-block" }} />
-                          <span style={{ fontSize: 11, color: "#8a857a" }}>Neutral</span>
+                          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#f3f0ea", border: "1px solid #ddd8cc", display: "inline-block" }} />
+                          <span style={{ fontSize: 11, color: "#5f6670" }}>Neutral</span>
                         </div>
                       </div>
                     </div>
@@ -577,7 +577,7 @@ export default function InferenceStudioPage() {
             marginTop: 16,
             padding: "12px 20px",
             background: "#fff",
-            border: "1px solid #e7e0d2",
+            border: "1px solid #ddd8cc",
             borderRadius: 10,
             display: "flex",
             alignItems: "center",
@@ -591,31 +591,31 @@ export default function InferenceStudioPage() {
                 width: 8,
                 height: 8,
                 borderRadius: "50%",
-                background: result ? "#22c55e" : "#8a857a",
+                background: result ? "#22c55e" : "#5f6670",
                 display: "inline-block",
               }}
             />
-            <span style={{ color: "#56524a", fontWeight: 500 }}>Model:</span>
-            <span style={{ color: "#1b1a17", fontWeight: 600 }}>{selectedModel?.title || selectedModelId}</span>
+            <span style={{ color: "#545b66", fontWeight: 500 }}>Model:</span>
+            <span style={{ color: "#17202e", fontWeight: 600 }}>{selectedModel?.title || selectedModelId}</span>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ color: "#56524a", fontWeight: 500 }}>Latency:</span>
-            <span style={{ color: result ? "#cf5a2a" : "#8a857a", fontWeight: 600 }}>
+            <span style={{ color: "#545b66", fontWeight: 500 }}>Latency:</span>
+            <span style={{ color: result ? "#c2410c" : "#5f6670", fontWeight: 600 }}>
               {result ? `${latency}ms` : "—"}
             </span>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ color: "#56524a", fontWeight: 500 }}>Tokens processed:</span>
-            <span style={{ color: result ? "#1b1a17" : "#8a857a", fontWeight: 600 }}>
+            <span style={{ color: "#545b66", fontWeight: 500 }}>Tokens processed:</span>
+            <span style={{ color: result ? "#17202e" : "#5f6670", fontWeight: 600 }}>
               {result ? tokenCount : error ? "Error" : "—"}
             </span>
           </div>
 
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ color: "#56524a", fontWeight: 500 }}>Endpoint:</span>
-            <code style={{ fontSize: 12, background: "#f3f0ea", padding: "2px 8px", borderRadius: 4, color: "#56524a" }}>
+            <span style={{ color: "#545b66", fontWeight: 500 }}>Endpoint:</span>
+            <code style={{ fontSize: 12, background: "#f3f0ea", padding: "2px 8px", borderRadius: 4, color: "#545b66" }}>
               /api/v1/inference/{selectedModelId}
             </code>
           </div>

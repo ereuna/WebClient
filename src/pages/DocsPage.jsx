@@ -445,8 +445,8 @@ export default function DocsPage() {
           {sections.map(section => (
             <div key={section.group} style={{ marginBottom: 26 }}>
               <div style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.05em',
-                color: '#8a857a', marginBottom: 8,
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.05em',
+                color: '#5f6670', marginBottom: 8,
               }}>
                 {section.group.toUpperCase()}
               </div>
@@ -458,8 +458,8 @@ export default function DocsPage() {
                     display: 'block', width: '100%', textAlign: 'left',
                     fontFamily: 'inherit', fontSize: 13.5, padding: '6px 10px', borderRadius: 7,
                     border: 'none', cursor: 'pointer', marginBottom: 1,
-                    background: activeId === item.id ? '#f0ebe0' : 'transparent',
-                    color: activeId === item.id ? '#1b1a17' : '#56524a',
+                    background: activeId === item.id ? '#efebe2' : 'transparent',
+                    color: activeId === item.id ? '#17202e' : '#545b66',
                     fontWeight: activeId === item.id ? 600 : 400,
                   }}
                 >
@@ -470,7 +470,7 @@ export default function DocsPage() {
           ))}
         </div>
 
-        <div style={{ width: 1, background: '#e3dccd', flexShrink: 0 }} />
+        <div style={{ width: 1, background: '#ddd8cc', flexShrink: 0 }} />
 
         <div style={{ flex: 1, maxWidth: 740 }}>
           <h1 style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 24 }}>

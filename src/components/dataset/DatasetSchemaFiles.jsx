@@ -1,6 +1,6 @@
 import SchemaTable from './SchemaTable'
 
-const ACCENT = '#cf5a2a'
+const ACCENT = '#c2410c'
 
 function fmtNum(n) {
   if (n == null) return '—'
@@ -33,17 +33,17 @@ export default function DatasetSchemaFiles({ schema }) {
       {Object.entries(files).map(([name, file]) => (
         <div key={name}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 12.5, fontWeight: 700, color: '#1b1a17' }}>
+            <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 12.5, fontWeight: 700, color: '#17202e' }}>
               {name}
             </span>
             {file.format && (
               <span style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 9.5, padding: '2px 7px',
-                borderRadius: 5, background: ACCENT + '18', color: ACCENT, textTransform: 'uppercase',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 9.5, padding: '2px 7px',
+                borderRadius: 5, background: ACCENT + '18', color: '#545b66', textTransform: 'uppercase',
               }}>{file.format}</span>
             )}
             {file.row_count != null && (
-              <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a' }}>
+              <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: '#5f6670' }}>
                 {fmtNum(file.row_count)} rows
               </span>
             )}

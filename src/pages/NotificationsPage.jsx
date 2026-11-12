@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchNotifications } from '../api/notifications'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
-const MONO = "'Space Mono',monospace"
-const CARD_BORDER = '1px solid #e7e0d2'
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
+const MONO = "'IBM Plex Mono',monospace"
+const CARD_BORDER = '1px solid #ddd8cc'
 
 const TYPE_ICONS = {
   pipeline_completed: '🔄',
@@ -41,7 +41,7 @@ function NotificationRow({ notif, onMarkRead }) {
 
   const rowBg = notif.read
     ? (hovered ? '#f9f5ee' : '#fff')
-    : (hovered ? '#f5f0e8' : '#faf7f0')
+    : (hovered ? '#efebe2' : '#ffffff')
 
   return (
     <div
@@ -160,8 +160,8 @@ export default function NotificationsPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc',
         padding: '40px 28px 36px',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -279,7 +279,7 @@ export default function NotificationsPage() {
                 {tab === 'Unread' && unreadCount > 0 && (
                   <span style={{
                     marginLeft: 6,
-                    background: activeTab === 'Unread' ? ACCENT : '#e7e0d2',
+                    background: activeTab === 'Unread' ? ACCENT : '#ddd8cc',
                     color: activeTab === 'Unread' ? '#fff' : MUTED,
                     borderRadius: 10,
                     padding: '1px 6px',

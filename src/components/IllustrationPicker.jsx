@@ -1,6 +1,6 @@
 import { CARD_ILLUSTRATION_OPTIONS } from '../lib/illustrations'
 
-const ACCENT = '#cf5a2a'
+const ACCENT = '#c2410c'
 
 export default function IllustrationPicker({ value, onChange }) {
   return (
@@ -19,7 +19,7 @@ export default function IllustrationPicker({ value, onChange }) {
             style={{
               position: 'relative',
               padding: 0,
-              border: `2px solid ${selected ? ACCENT : '#e7e0d2'}`,
+              border: `2px solid ${selected ? ACCENT : '#ddd8cc'}`,
               borderRadius: 10,
               overflow: 'hidden',
               cursor: 'pointer',
@@ -36,8 +36,8 @@ export default function IllustrationPicker({ value, onChange }) {
               />
             </div>
             <div style={{
-              fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '6px 8px',
-              color: selected ? ACCENT : '#56524a', background: selected ? '#fff8f4' : '#faf7f0',
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '6px 8px',
+              color: selected ? ACCENT : '#545b66', background: selected ? '#fff8f4' : '#ffffff',
             }}>
               {opt.label}
             </div>

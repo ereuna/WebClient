@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { DomainsIso, FieldsIso, WorkbenchIso, BenchmarksIso } from '../illustrations/OrganizedIso'
 
-const ACCENT = '#cf5a2a'
-const MONO = "'Space Mono',monospace"
+const ACCENT = '#c2410c'
+const MONO = "'IBM Plex Mono',monospace"
 
 // Small eyebrow glyphs (14px line icons), one per row.
 const glyph = { width: 14, height: 14, viewBox: '0 0 14 14', fill: 'none', stroke: ACCENT, strokeWidth: 1.3, strokeLinejoin: 'round' }
@@ -51,40 +51,40 @@ export default function HowEreunaIsOrganized() {
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '72px 28px 20px' }}>
       <div style={{ marginBottom: 28 }}>
-        <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>HOW EREUNA IS ORGANIZED</div>
+        <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.06em', color: '#17202e' }}>HOW EREUNA IS ORGANIZED</div>
         <h2 style={{ fontSize: 34, lineHeight: 1.08, letterSpacing: '-0.02em', fontWeight: 600, margin: '14px 0 0', maxWidth: 560 }}>
           From a geothermal question to a tested answer
         </h2>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 20, overflow: 'hidden' }}>
+      <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 20, overflow: 'hidden' }}>
         {rows.map(({ n, key, title, desc, Art, link }, i) => (
           <div key={key} className={`org-row${i % 2 ? ' org-row--flip' : ''}`}>
             <div className="org-text" style={{
               padding: 'clamp(32px, 5vw, 60px) clamp(24px, 4.5vw, 56px)',
               display: 'flex', flexDirection: 'column', justifyContent: 'center',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: MONO, fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: MONO, fontSize: 12, letterSpacing: '0.06em', color: '#17202e' }}>
                 {icons[key]}
                 {n}
               </div>
               <h3 style={{ fontSize: 30, lineHeight: 1.1, letterSpacing: '-0.02em', fontWeight: 600, margin: '12px 0 0' }}>{title}</h3>
-              <p style={{ fontSize: 15, lineHeight: 1.6, color: '#56524a', margin: '12px 0 0', maxWidth: 400 }}>{desc}</p>
+              <p style={{ fontSize: 15, lineHeight: 1.6, color: '#545b66', margin: '12px 0 0', maxWidth: 400 }}>{desc}</p>
               {link && (
                 link.to.startsWith('#') ? (
-                  <a href={link.to} style={{ marginTop: 18, fontSize: 14, fontWeight: 500, color: ACCENT, textDecoration: 'none' }}>
+                  <a href={link.to} style={{ marginTop: 18, fontSize: 14, fontWeight: 500, color: '#17202e', textDecoration: 'none' }}>
                     {link.label} ▸
                   </a>
                 ) : (
-                  <Link to={link.to} style={{ marginTop: 18, fontSize: 14, fontWeight: 500, color: ACCENT, textDecoration: 'none' }}>
+                  <Link to={link.to} style={{ marginTop: 18, fontSize: 14, fontWeight: 500, color: '#17202e', textDecoration: 'none' }}>
                     {link.label} ▸
                   </Link>
                 )
               )}
             </div>
             <div className="org-art" style={{
-              background: '#faf7f0',
-              backgroundImage: 'radial-gradient(#e7e0d1 1px,transparent 1px)', backgroundSize: '22px 22px',
+              background: '#ffffff',
+              backgroundImage: 'radial-gradient(#ddd8cc 1px,transparent 1px)', backgroundSize: '22px 22px',
               padding: '28px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 360,
             }}>
               <Art />

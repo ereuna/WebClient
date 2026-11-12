@@ -9,7 +9,7 @@ export const STATUS_COLORS = {
   Live: '#2db88a',
   Beta: '#e67e22',
   [DEMO_STATUS]: '#b7791f',
-  'Coming soon': '#8a857a',
+  'Coming soon': '#5f6670',
 }
 
 function mapSpaceRepo(repo) {

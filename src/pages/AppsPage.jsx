@@ -5,10 +5,9 @@ import PageHero from '../components/PageHero'
 import { CardIllustration } from '../components/CardIllustration'
 import { APP_ILLUSTRATIONS, PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
-const ACCENT = '#cf5a2a'
 
 function AppCard({ app }) {
-  const illo = APP_ILLUSTRATIONS[app.id] || '/illustrations/card-app-geosight.png'
+  const illo = APP_ILLUSTRATIONS[app.id] || '/illustrations/survey/card-app-geosight.webp'
   return (
     <Link
       to={`/apps/${app.id}`}
@@ -16,7 +15,7 @@ function AppCard({ app }) {
     >
       <div
         style={{
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 16,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 16,
           overflow: 'hidden', cursor: 'pointer',
           transition: 'box-shadow .15s',
           height: '100%',
@@ -36,26 +35,26 @@ function AppCard({ app }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
             <div style={{ fontSize: 18, fontWeight: 600 }}>{app.title}</div>
             <span style={{
-              fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '3px 8px',
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '3px 8px',
               borderRadius: 6, fontWeight: 500,
-              background: (STATUS_COLORS[app.status] || '#8a857a') + '18',
-              color: STATUS_COLORS[app.status] || '#8a857a',
+              background: (STATUS_COLORS[app.status] || '#5f6670') + '18',
+              color: STATUS_COLORS[app.status] || '#5f6670',
             }}>{app.status}</span>
           </div>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a', marginTop: 3 }}>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: '#5f6670', marginTop: 3 }}>
             {app.tagline}
           </div>
-          <div style={{ fontSize: 13.5, color: '#56524a', lineHeight: 1.55, marginTop: 10 }}>{app.desc}</div>
+          <div style={{ fontSize: 13.5, color: '#545b66', lineHeight: 1.55, marginTop: 10 }}>{app.desc}</div>
           <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}>
             {app.tags.map(t => (
               <span key={t} style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '2px 7px',
-                borderRadius: 5, background: '#f5f0e8', color: '#7a7568',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '2px 7px',
+                borderRadius: 5, background: '#efebe2', color: '#545b66',
               }}>{t}</span>
             ))}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 14, fontSize: 12, color: '#a09990' }}>
-            <span style={{ color: ACCENT, fontWeight: 500 }}>Launch →</span>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 14, fontSize: 12, color: '#5f6670' }}>
+            <span style={{ color: '#17202e', fontWeight: 500 }}>Launch →</span>
           </div>
         </div>
       </div>
@@ -101,7 +100,7 @@ export default function AppsPage() {
         <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
           <Link to="/docs" style={{
             fontFamily: 'inherit', fontSize: 14, padding: '10px 20px', borderRadius: 10,
-            border: '1.4px solid #ddd6c8', background: '#fff', color: '#1b1a17', fontWeight: 500,
+            border: '1.4px solid #c9c4b8', background: '#fff', color: '#17202e', fontWeight: 500,
             textDecoration: 'none', display: 'inline-block',
           }}>
             View API docs
@@ -113,7 +112,7 @@ export default function AppsPage() {
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} style={{ height: 260, background: '#f0ebe0', borderRadius: 16 }} />
+              <div key={i} style={{ height: 260, background: '#efebe2', borderRadius: 16 }} />
             ))}
           </div>
         ) : (

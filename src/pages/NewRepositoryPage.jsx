@@ -15,7 +15,7 @@ import { createRepository } from '../api/repositories.js'
 import IllustrationPicker from '../components/IllustrationPicker.jsx'
 import { CARD_ILLUSTRATION_OPTIONS, FAMILY_DEFAULT_ILLUSTRATION_ID, DOMAIN_DEFAULT_ILLUSTRATION_ID } from '../lib/illustrations.js'
 
-const ACCENT = '#cf5a2a'
+const ACCENT = '#c2410c'
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -61,11 +61,11 @@ function toSlug(str) {
 function Label({ children, required }) {
   return (
     <div style={{
-      fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.07em',
-      color: '#56524a', textTransform: 'uppercase', marginBottom: 8,
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.07em',
+      color: '#545b66', textTransform: 'uppercase', marginBottom: 8,
     }}>
       {children}
-      {required && <span style={{ color: ACCENT, marginLeft: 4 }}>*</span>}
+      {required && <span style={{ color: '#17202e', marginLeft: 4 }}>*</span>}
     </div>
   )
 }
@@ -75,7 +75,7 @@ function Field({ label, required, children, hint }) {
     <div style={{ marginBottom: 22 }}>
       <Label required={required}>{label}</Label>
       {children}
-      {hint && <div style={{ fontSize: 12, color: '#a09990', marginTop: 6 }}>{hint}</div>}
+      {hint && <div style={{ fontSize: 12, color: '#5f6670', marginTop: 6 }}>{hint}</div>}
     </div>
   )
 }
@@ -88,12 +88,12 @@ function Input({ value, onChange, placeholder, ...rest }) {
       placeholder={placeholder}
       style={{
         fontFamily: 'inherit', fontSize: 14, width: '100%', boxSizing: 'border-box',
-        padding: '10px 14px', borderRadius: 9, border: '1.4px solid #ddd6c8',
-        background: '#fff', outline: 'none', color: '#1b1a17',
+        padding: '10px 14px', borderRadius: 9, border: '1.4px solid #c9c4b8',
+        background: '#fff', outline: 'none', color: '#17202e',
         transition: 'border-color .15s',
       }}
       onFocus={e => e.target.style.borderColor = ACCENT}
-      onBlur={e => e.target.style.borderColor = '#ddd6c8'}
+      onBlur={e => e.target.style.borderColor = '#c9c4b8'}
       {...rest}
     />
   )
@@ -108,12 +108,12 @@ function Textarea({ value, onChange, placeholder, rows = 3 }) {
       rows={rows}
       style={{
         fontFamily: 'inherit', fontSize: 14, width: '100%', boxSizing: 'border-box',
-        padding: '10px 14px', borderRadius: 9, border: '1.4px solid #ddd6c8',
-        background: '#fff', outline: 'none', color: '#1b1a17', resize: 'vertical',
+        padding: '10px 14px', borderRadius: 9, border: '1.4px solid #c9c4b8',
+        background: '#fff', outline: 'none', color: '#17202e', resize: 'vertical',
         transition: 'border-color .15s',
       }}
       onFocus={e => e.target.style.borderColor = ACCENT}
-      onBlur={e => e.target.style.borderColor = '#ddd6c8'}
+      onBlur={e => e.target.style.borderColor = '#c9c4b8'}
     />
   )
 }
@@ -125,8 +125,8 @@ function Select({ value, onChange, options }) {
       onChange={onChange}
       style={{
         fontFamily: 'inherit', fontSize: 14, width: '100%',
-        padding: '10px 14px', borderRadius: 9, border: '1.4px solid #ddd6c8',
-        background: '#fff', outline: 'none', color: '#1b1a17', cursor: 'pointer',
+        padding: '10px 14px', borderRadius: 9, border: '1.4px solid #c9c4b8',
+        background: '#fff', outline: 'none', color: '#17202e', cursor: 'pointer',
         appearance: 'none',
         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a857a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
         backgroundRepeat: 'no-repeat',
@@ -166,18 +166,18 @@ function TagInput({ tags, onChange, placeholder }) {
           placeholder={placeholder}
           style={{
             fontFamily: 'inherit', fontSize: 14, flex: 1,
-            padding: '10px 14px', borderRadius: 9, border: '1.4px solid #ddd6c8',
-            background: '#fff', outline: 'none', color: '#1b1a17',
+            padding: '10px 14px', borderRadius: 9, border: '1.4px solid #c9c4b8',
+            background: '#fff', outline: 'none', color: '#17202e',
           }}
           onFocus={e => e.target.style.borderColor = ACCENT}
-          onBlur={e => { e.target.style.borderColor = '#ddd6c8'; add() }}
+          onBlur={e => { e.target.style.borderColor = '#c9c4b8'; add() }}
         />
         <button
           type="button"
           onClick={add}
           style={{
             fontFamily: 'inherit', fontSize: 13, padding: '10px 16px', borderRadius: 9,
-            border: '1.4px solid #ddd6c8', background: '#faf7f0', cursor: 'pointer', color: '#56524a',
+            border: '1.4px solid #c9c4b8', background: '#ffffff', cursor: 'pointer', color: '#545b66',
           }}
         >
           Add
@@ -190,8 +190,8 @@ function TagInput({ tags, onChange, placeholder }) {
               key={t}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                fontFamily: "'Space Mono',monospace", fontSize: 11, padding: '3px 9px 3px 10px',
-                borderRadius: 6, background: '#f0ebe0', color: '#56524a',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, padding: '3px 9px 3px 10px',
+                borderRadius: 6, background: '#efebe2', color: '#545b66',
               }}
             >
               {t}
@@ -200,7 +200,7 @@ function TagInput({ tags, onChange, placeholder }) {
                 onClick={() => remove(t)}
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  color: '#a09990', fontSize: 14, lineHeight: 1, padding: 0,
+                  color: '#5f6670', fontSize: 14, lineHeight: 1, padding: 0,
                 }}
               >
                 ×
@@ -321,13 +321,13 @@ export default function NewRepositoryPage() {
     <div style={{ minHeight: '100vh' }}>
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd', padding: '44px 28px 36px',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc', padding: '44px 28px 36px',
       }}>
         <div style={{ maxWidth: 680, margin: '0 auto' }}>
           <div style={{
-            fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-            color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+            fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+            color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
           }}>
             New Repository
           </div>
@@ -335,12 +335,12 @@ export default function NewRepositoryPage() {
             {step === 1 ? 'What are you building?' : `New ${repoType === 'MODEL' ? 'Model' : 'Dataset'} Repository`}
           </h1>
           {step === 2 && (
-            <div style={{ marginTop: 14, fontSize: 13.5, color: '#8a857a', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ marginTop: 14, fontSize: 13.5, color: '#5f6670', display: 'flex', alignItems: 'center', gap: 6 }}>
               <button
                 onClick={() => setStep(1)}
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  color: ACCENT, fontSize: 13, fontFamily: 'inherit', padding: 0,
+                  color: '#17202e', fontSize: 13, fontFamily: 'inherit', padding: 0,
                   display: 'flex', alignItems: 'center', gap: 4,
                 }}
               >
@@ -363,7 +363,7 @@ export default function NewRepositoryPage() {
                 onClick={() => selectType(type.id)}
                 style={{
                   display: 'flex', alignItems: 'flex-start', gap: 20,
-                  background: '#fff', border: '1.5px solid #e7e0d2', borderRadius: 14,
+                  background: '#fff', border: '1.5px solid #ddd8cc', borderRadius: 14,
                   padding: '22px 24px', cursor: 'pointer', textAlign: 'left',
                   fontFamily: 'inherit', transition: 'border-color .15s, box-shadow .15s',
                   width: '100%',
@@ -373,26 +373,26 @@ export default function NewRepositoryPage() {
                   e.currentTarget.style.boxShadow = '0 4px 18px rgba(207,90,42,.1)'
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = '#e7e0d2'
+                  e.currentTarget.style.borderColor = '#ddd8cc'
                   e.currentTarget.style.boxShadow = 'none'
                 }}
               >
                 <span style={{
                   fontSize: 28, width: 44, height: 44, flexShrink: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: '#f5f0e8', borderRadius: 10,
+                  background: '#efebe2', borderRadius: 10,
                 }}>
                   {type.icon}
                 </span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 17, fontWeight: 600, color: '#1b1a17', marginBottom: 6 }}>
+                  <div style={{ fontSize: 17, fontWeight: 600, color: '#17202e', marginBottom: 6 }}>
                     {type.label}
                   </div>
-                  <div style={{ fontSize: 13.5, color: '#56524a', lineHeight: 1.55 }}>
+                  <div style={{ fontSize: 13.5, color: '#545b66', lineHeight: 1.55 }}>
                     {type.desc}
                   </div>
                 </div>
-                <span style={{ color: '#a09990', fontSize: 20, alignSelf: 'center', flexShrink: 0 }}>›</span>
+                <span style={{ color: '#5f6670', fontSize: 20, alignSelf: 'center', flexShrink: 0 }}>›</span>
               </button>
             ))}
           </div>
@@ -417,7 +417,7 @@ export default function NewRepositoryPage() {
               hint={
                 <span>
                   URL-safe identifier. Your repo will be at{' '}
-                  <code style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, background: '#f0ebe0', padding: '1px 5px', borderRadius: 4 }}>
+                  <code style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, background: '#efebe2', padding: '1px 5px', borderRadius: 4 }}>
                     /{repoType === 'MODEL' ? 'models' : 'datasets'}/{slug || '…'}
                   </code>
                 </span>
@@ -491,7 +491,7 @@ export default function NewRepositoryPage() {
                     style={{
                       flex: 1, display: 'flex', alignItems: 'center', gap: 12,
                       background: visibility === v.value ? '#fff8f4' : '#fff',
-                      border: `1.5px solid ${visibility === v.value ? ACCENT : '#e7e0d2'}`,
+                      border: `1.5px solid ${visibility === v.value ? ACCENT : '#ddd8cc'}`,
                       borderRadius: 10, padding: '12px 16px', cursor: 'pointer',
                       transition: 'border-color .15s',
                     }}
@@ -505,7 +505,7 @@ export default function NewRepositoryPage() {
                     />
                     <div>
                       <div style={{ fontSize: 14, fontWeight: 500 }}>{v.label}</div>
-                      <div style={{ fontSize: 12, color: '#8a857a', marginTop: 2 }}>{v.desc}</div>
+                      <div style={{ fontSize: 12, color: '#5f6670', marginTop: 2 }}>{v.desc}</div>
                     </div>
                   </label>
                 ))}
@@ -530,8 +530,8 @@ export default function NewRepositoryPage() {
                 style={{
                   fontFamily: 'inherit', fontSize: 14, fontWeight: 500,
                   padding: '12px 28px', borderRadius: 10, border: 'none',
-                  background: submitting || !slug ? '#d0c8bc' : '#1b1a17',
-                  color: submitting || !slug ? '#8a857a' : '#f1ede4',
+                  background: submitting || !slug ? '#c9c4b8' : '#17202e',
+                  color: submitting || !slug ? '#5f6670' : '#f5f2eb',
                   cursor: submitting || !slug ? 'not-allowed' : 'pointer',
                   transition: 'background .15s',
                 }}
@@ -542,7 +542,7 @@ export default function NewRepositoryPage() {
                 to={repoType === 'MODEL' ? '/models' : '/datasets'}
                 style={{
                   fontFamily: 'inherit', fontSize: 14, padding: '12px 20px', borderRadius: 10,
-                  border: '1.4px solid #ddd6c8', background: '#fff', color: '#56524a',
+                  border: '1.4px solid #c9c4b8', background: '#fff', color: '#545b66',
                   textDecoration: 'none', display: 'flex', alignItems: 'center',
                 }}
               >

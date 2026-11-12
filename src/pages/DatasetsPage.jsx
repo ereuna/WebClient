@@ -5,7 +5,6 @@ import PageHero from '../components/PageHero'
 import { CardIllustration } from '../components/CardIllustration'
 import { DOMAIN_ILLUSTRATIONS, PAGE_ILLUSTRATIONS, getIllustrationById } from '../lib/illustrations'
 
-const ACCENT = '#cf5a2a'
 
 const DOMAINS = ['All', 'Geothermal Exploration', 'Seismicity', 'Site Drilling', 'Petrophysics', 'Reservoir Characterization','Reservoir Engineering', 'Production/Injection Engineering']
 
@@ -15,7 +14,7 @@ function DatasetCard({ dataset: d }) {
     <Link to={`/datasets/${d.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
         style={{
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
           overflow: 'hidden', cursor: 'pointer', transition: 'box-shadow .15s', height: '100%',
         }}
         onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.08)'}
@@ -27,27 +26,27 @@ function DatasetCard({ dataset: d }) {
             <div>
               <span style={{
                 display: 'inline-block', padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 500,
-                fontFamily: "'Space Mono',monospace", marginBottom: 8,
-                background: (DOMAIN_COLORS[d.domain] || '#8a857a') + '18',
-                color: DOMAIN_COLORS[d.domain] || '#8a857a',
+                fontFamily: "'IBM Plex Mono',monospace", marginBottom: 8,
+                background: (DOMAIN_COLORS[d.domain] || '#5f6670') + '18',
+                color: DOMAIN_COLORS[d.domain] || '#5f6670',
               }}>
                 {d.domain}
               </span>
               <div style={{ fontSize: 17, fontWeight: 600 }}>{d.title}</div>
             </div>
           </div>
-          <div style={{ fontSize: 13.5, color: '#56524a', lineHeight: 1.55, marginTop: 9 }}>{d.desc}</div>
+          <div style={{ fontSize: 13.5, color: '#545b66', lineHeight: 1.55, marginTop: 9 }}>{d.desc}</div>
           <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
             <span style={{
-              fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '3px 8px',
-              borderRadius: 6, border: '1px solid #e7e0d2', color: '#8a857a',
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '3px 8px',
+              borderRadius: 6, border: '1px solid #ddd8cc', color: '#5f6670',
             }}>{d.format}</span>
             <span style={{
-              fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '3px 8px',
-              borderRadius: 6, border: '1px solid #e7e0d2', color: '#8a857a',
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '3px 8px',
+              borderRadius: 6, border: '1px solid #ddd8cc', color: '#5f6670',
             }}>{d.license}</span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 14, fontSize: 12, color: '#a09990' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 14, fontSize: 12, color: '#5f6670' }}>
             <span>{d.rows} rows · {d.size}</span>
             <span>↓ {d.downloads}</span>
           </div>
@@ -91,7 +90,7 @@ export default function DatasetsPage() {
             placeholder="Search datasets…"
             style={{
               fontFamily: 'inherit', fontSize: 14, padding: '9px 14px', borderRadius: 9,
-              border: '1.4px solid #ddd6c8', background: '#fff', outline: 'none', width: 240,
+              border: '1.4px solid #c9c4b8', background: '#fff', outline: 'none', width: 240,
             }}
           />
         </div>
@@ -103,9 +102,9 @@ export default function DatasetsPage() {
               style={{
                 fontFamily: 'inherit', fontSize: 13, padding: '6px 14px', borderRadius: 20,
                 border: '1.4px solid', cursor: 'pointer', fontWeight: domain === d ? 600 : 400,
-                background: domain === d ? '#1b1a17' : '#fff',
-                color: domain === d ? '#f1ede4' : '#56524a',
-                borderColor: domain === d ? '#1b1a17' : '#ddd6c8',
+                background: domain === d ? '#17202e' : '#fff',
+                color: domain === d ? '#f5f2eb' : '#545b66',
+                borderColor: domain === d ? '#17202e' : '#c9c4b8',
               }}
             >
               {d}
@@ -115,14 +114,14 @@ export default function DatasetsPage() {
       </PageHero>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 64px' }}>
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', marginBottom: 20 }}>
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: '#5f6670', marginBottom: 20 }}>
           {loading ? 'Loading…' : `${filtered.length} dataset${filtered.length !== 1 ? 's' : ''}`}
         </div>
 
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} style={{ height: 280, background: '#f0ebe0', borderRadius: 14 }} />
+              <div key={i} style={{ height: 280, background: '#efebe2', borderRadius: 14 }} />
             ))}
           </div>
         ) : (
@@ -132,13 +131,13 @@ export default function DatasetsPage() {
         )}
 
         {!loading && filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '64px 0', color: '#8a857a', fontSize: 15 }}>
+          <div style={{ textAlign: 'center', padding: '64px 0', color: '#5f6670', fontSize: 15 }}>
             {allDatasets.length === 0 ? (
               <div>
-                <div style={{ fontSize: 16, fontWeight: 600, color: '#1b1a17', marginBottom: 6 }}>
+                <div style={{ fontSize: 16, fontWeight: 600, color: '#17202e', marginBottom: 6 }}>
                   No datasets published yet
                 </div>
-                <div style={{ fontSize: 14, color: '#8a857a' }}>
+                <div style={{ fontSize: 14, color: '#5f6670' }}>
                   There are currently no datasets in the repository.
                 </div>
               </div>
@@ -151,7 +150,7 @@ export default function DatasetsPage() {
                     onClick={() => { setDomain('All'); setQuery('') }}
                     style={{
                       fontFamily: 'inherit', fontSize: 13, padding: '6px 14px', borderRadius: 8,
-                      border: '1px solid #ddd6c8', background: '#fff', cursor: 'pointer', color: ACCENT,
+                      border: '1px solid #c9c4b8', background: '#fff', cursor: 'pointer', color: '#17202e',
                       fontWeight: 500,
                     }}
                   >

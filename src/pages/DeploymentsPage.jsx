@@ -4,15 +4,14 @@ import { fetchAllDeployments } from '../api/deployments'
 import PageHero from '../components/PageHero'
 import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
 
 const STATUS_COLORS = {
   running: '#22c55e',
-  stopped: '#8a857a',
+  stopped: '#5f6670',
   error: '#ef4444',
 }
 
@@ -23,7 +22,7 @@ function StatusDot({ status }) {
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 7,
-      fontFamily: "'Space Mono',monospace", fontSize: 11, fontWeight: 600,
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, fontWeight: 600,
       color,
       textTransform: 'capitalize',
     }}>
@@ -41,8 +40,8 @@ function StatChip({ icon, label }) {
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 5,
-      background: '#f5f0e8', borderRadius: 8, padding: '4px 10px',
-      fontSize: 12, color: DARK, fontFamily: "'Space Mono',monospace",
+      background: '#efebe2', borderRadius: 8, padding: '4px 10px',
+      fontSize: 12, color: DARK, fontFamily: "'IBM Plex Mono',monospace",
       whiteSpace: 'nowrap',
     }}>
       {icon} {label}
@@ -54,8 +53,8 @@ function RegionBadge({ region }) {
   return (
     <span style={{
       display: 'inline-block', padding: '3px 9px', borderRadius: 6,
-      border: '1px solid #e7e0d2', background: '#faf7f0',
-      fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED,
+      border: '1px solid #ddd8cc', background: '#ffffff',
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED,
       whiteSpace: 'nowrap',
     }}>
       {region}
@@ -72,9 +71,9 @@ function ActionButton({ label, onClick, variant }) {
       style={{
         fontFamily: 'inherit', fontSize: 12, fontWeight: 500,
         padding: '6px 14px', borderRadius: 8, cursor: 'pointer',
-        border: isPrimary ? 'none' : `1.4px solid ${isDanger ? '#ef444440' : '#e7e0d2'}`,
+        border: isPrimary ? 'none' : `1.4px solid ${isDanger ? '#ef444440' : '#ddd8cc'}`,
         background: isPrimary ? DARK : isDanger ? '#fff0f0' : '#fff',
-        color: isPrimary ? '#f1ede4' : isDanger ? '#ef4444' : MEDIUM,
+        color: isPrimary ? '#f5f2eb' : isDanger ? '#ef4444' : MEDIUM,
         transition: 'opacity .15s',
       }}
       onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
@@ -100,13 +99,13 @@ function SummaryBar({ deployments }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap',
-      fontFamily: "'Space Mono',monospace", fontSize: 12,
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 12,
     }}>
       <span style={{ color: MUTED, marginRight: 4 }}>{total} total</span>
-      <span style={{ color: '#ddd6c8' }}>·</span>
+      <span style={{ color: '#c9c4b8' }}>·</span>
       {items.map((item, i) => (
         <span key={item.label} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-          {i > 0 && <span style={{ color: '#ddd6c8' }}>·</span>}
+          {i > 0 && <span style={{ color: '#c9c4b8' }}>·</span>}
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 5,
             background: item.color + '18', color: item.color,
@@ -128,7 +127,7 @@ function DeploymentCard({ deployment }) {
     <Link to={`/deployments/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
         style={{
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
           padding: '20px 24px', cursor: 'pointer', transition: 'box-shadow .15s',
         }}
         onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 18px rgba(0,0,0,.07)'}
@@ -146,9 +145,9 @@ function DeploymentCard({ deployment }) {
                 <RegionBadge region={region} />
               </div>
               <div style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED,
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED,
               }}>
-                {model} <span style={{ color: '#ddd6c8' }}>·</span> {version}
+                {model} <span style={{ color: '#c9c4b8' }}>·</span> {version}
               </div>
             </div>
           </div>
@@ -179,19 +178,19 @@ function DeploymentCard({ deployment }) {
 function SkeletonCard() {
   return (
     <div style={{
-      background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+      background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
       padding: '20px 24px',
     }}>
       <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-        <div style={{ width: 80, height: 16, background: '#f0ebe0', borderRadius: 8 }} />
+        <div style={{ width: 80, height: 16, background: '#efebe2', borderRadius: 8 }} />
         <div style={{ flex: 1 }}>
-          <div style={{ width: 200, height: 18, background: '#f0ebe0', borderRadius: 8, marginBottom: 8 }} />
-          <div style={{ width: 140, height: 12, background: '#f5f0e8', borderRadius: 6 }} />
+          <div style={{ width: 200, height: 18, background: '#efebe2', borderRadius: 8, marginBottom: 8 }} />
+          <div style={{ width: 140, height: 12, background: '#efebe2', borderRadius: 6 }} />
         </div>
       </div>
       <div style={{ display: 'flex', gap: 8, marginTop: 18 }}>
         {[72, 90, 80, 76].map((w, i) => (
-          <div key={i} style={{ width: w, height: 28, background: '#f5f0e8', borderRadius: 8 }} />
+          <div key={i} style={{ width: w, height: 28, background: '#efebe2', borderRadius: 8 }} />
         ))}
       </div>
     </div>
@@ -227,7 +226,7 @@ export default function DeploymentsPage() {
         <div style={{ marginTop: 24 }}>
           <button style={{
             fontFamily: 'inherit', fontSize: 14, fontWeight: 500, padding: '11px 20px',
-            borderRadius: 10, border: 'none', background: DARK, color: '#f1ede4', cursor: 'pointer',
+            borderRadius: 10, border: 'none', background: DARK, color: '#f5f2eb', cursor: 'pointer',
           }}>
             + New Deployment
           </button>
@@ -248,8 +247,8 @@ export default function DeploymentsPage() {
                     fontFamily: 'inherit', fontSize: 13, padding: '6px 16px', borderRadius: 20,
                     border: '1.4px solid', cursor: 'pointer', fontWeight: isActive ? 600 : 400,
                     background: isActive ? DARK : '#fff',
-                    color: isActive ? '#f1ede4' : MEDIUM,
-                    borderColor: isActive ? DARK : '#ddd6c8',
+                    color: isActive ? '#f5f2eb' : MEDIUM,
+                    borderColor: isActive ? DARK : '#c9c4b8',
                     transition: 'all .15s',
                   }}
                 >
@@ -262,7 +261,7 @@ export default function DeploymentsPage() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 80px' }}>
         <div style={{
-          fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 20,
+          fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 20,
         }}>
           {loading
             ? 'Loading…'

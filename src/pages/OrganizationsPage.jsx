@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom'
 import { fetchAllOrganizations } from '../api/organizations'
 
 const PLAN_BADGE = {
-  free: { background: '#f5f0e8', color: '#8a857a', label: 'Free' },
+  free: { background: '#efebe2', color: '#5f6670', label: 'Free' },
   pro: { background: '#dbeafe', color: '#1d4ed8', label: 'Pro' },
   enterprise: { background: '#fef3c7', color: '#92400e', label: 'Enterprise' },
 }
 
 const PLAN_AVATAR_BG = {
-  free: '#e7e0d2',
+  free: '#ddd8cc',
   pro: '#bfdbfe',
   enterprise: '#fde68a',
 }
 
 const PLAN_AVATAR_COLOR = {
-  free: '#8a857a',
+  free: '#5f6670',
   pro: '#1d4ed8',
   enterprise: '#92400e',
 }
@@ -38,7 +38,7 @@ function OrgCard({ org }) {
     <div
       style={{
         background: '#fff',
-        border: '1px solid #e7e0d2',
+        border: '1px solid #ddd8cc',
         borderRadius: 14,
         padding: 24,
         display: 'flex',
@@ -78,7 +78,7 @@ function OrgCard({ org }) {
               style={{
                 fontSize: 17,
                 fontWeight: 700,
-                color: '#1b1a17',
+                color: '#17202e',
                 textDecoration: 'none',
               }}
               onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
@@ -106,7 +106,7 @@ function OrgCard({ org }) {
       <p
         style={{
           fontSize: 13.5,
-          color: '#56524a',
+          color: '#545b66',
           lineHeight: 1.55,
           margin: 0,
           display: '-webkit-box',
@@ -118,11 +118,11 @@ function OrgCard({ org }) {
         {org.description}
       </p>
 
-      <div style={{ fontSize: 13, color: '#8a857a', display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+      <div style={{ fontSize: 13, color: '#5f6670', display: 'flex', gap: 4, flexWrap: 'wrap' }}>
         <span>👥 {org.memberCount} members</span>
-        <span style={{ color: '#ddd6c8' }}>·</span>
+        <span style={{ color: '#c9c4b8' }}>·</span>
         <span>🧠 {org.modelCount} models</span>
-        <span style={{ color: '#ddd6c8' }}>·</span>
+        <span style={{ color: '#c9c4b8' }}>·</span>
         <span>📊 {org.datasetCount} datasets</span>
       </div>
 
@@ -132,7 +132,7 @@ function OrgCard({ org }) {
           style={{
             fontSize: 13,
             fontWeight: 600,
-            color: '#cf5a2a',
+            color: '#17202e',
             textDecoration: 'none',
           }}
           onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
@@ -162,17 +162,17 @@ export default function OrganizationsPage() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '52px 28px 44px' }}>
+      <div style={{ background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)', borderBottom: '1px solid #ddd8cc', padding: '52px 28px 44px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, letterSpacing: '0.08em', color: '#cf5a2a', marginBottom: 16 }}>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, letterSpacing: '0.08em', color: '#17202e', marginBottom: 16 }}>
             ORGANIZATIONS
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
             <div>
-              <h1 style={{ fontSize: 46, letterSpacing: '-0.03em', fontWeight: 600, lineHeight: 1.06, margin: 0, color: '#1b1a17' }}>
+              <h1 style={{ fontSize: 46, letterSpacing: '-0.03em', fontWeight: 600, lineHeight: 1.06, margin: 0, color: '#17202e' }}>
                 Organizations
               </h1>
-              <p style={{ fontSize: 16, color: '#56524a', marginTop: 14, maxWidth: 540, lineHeight: 1.6 }}>
+              <p style={{ fontSize: 16, color: '#545b66', marginTop: 14, maxWidth: 540, lineHeight: 1.6 }}>
                 Collaborate with your team on models, datasets, and pipelines.
               </p>
             </div>
@@ -184,14 +184,14 @@ export default function OrganizationsPage() {
                 padding: '10px 20px',
                 borderRadius: 10,
                 border: 'none',
-                background: '#1b1a17',
-                color: '#f1ede4',
+                background: '#17202e',
+                color: '#f5f2eb',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 flexShrink: 0,
               }}
-              onMouseEnter={e => e.currentTarget.style.background = '#cf5a2a'}
-              onMouseLeave={e => e.currentTarget.style.background = '#1b1a17'}
+              onMouseEnter={e => e.currentTarget.style.background = '#c2410c'}
+              onMouseLeave={e => e.currentTarget.style.background = '#17202e'}
             >
               + New Organization
             </button>
@@ -206,7 +206,7 @@ export default function OrganizationsPage() {
                 fontSize: 14,
                 padding: '9px 14px',
                 borderRadius: 9,
-                border: '1.4px solid #ddd6c8',
+                border: '1.4px solid #c9c4b8',
                 background: '#fff',
                 outline: 'none',
                 width: 260,
@@ -217,14 +217,14 @@ export default function OrganizationsPage() {
       </div>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 64px' }}>
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#8a857a', marginBottom: 20 }}>
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: '#5f6670', marginBottom: 20 }}>
           {loading ? 'Loading…' : `${filtered.length} organization${filtered.length !== 1 ? 's' : ''}`}
         </div>
 
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 18 }}>
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} style={{ height: 180, background: '#f0ebe0', borderRadius: 14 }} />
+              <div key={i} style={{ height: 180, background: '#efebe2', borderRadius: 14 }} />
             ))}
           </div>
         ) : (
@@ -234,7 +234,7 @@ export default function OrganizationsPage() {
         )}
 
         {!loading && filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '64px 0', color: '#8a857a', fontSize: 15 }}>
+          <div style={{ textAlign: 'center', padding: '64px 0', color: '#5f6670', fontSize: 15 }}>
             No organizations match your search.
           </div>
         )}

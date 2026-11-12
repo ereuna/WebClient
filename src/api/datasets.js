@@ -7,7 +7,7 @@
 import { listRepositories, starRepository, unstarRepository } from './repositories.js'
 
 export const DOMAIN_COLORS = {
-  Geothermal: '#cf5a2a',
+  Geothermal: '#c2410c',
   Nuclear:    '#7c6af7',
   Wind:       '#3498db',
   Solar:      '#e6b800',

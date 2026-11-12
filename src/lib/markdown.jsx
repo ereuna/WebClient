@@ -11,8 +11,8 @@ function inlineFormat(text) {
     if (part.startsWith('`') && part.endsWith('`')) {
       return (
         <code key={i} style={{
-          fontFamily: "'Space Mono',monospace", fontSize: '0.9em',
-          background: '#f5f0e8', padding: '1px 5px', borderRadius: 4,
+          fontFamily: "'IBM Plex Mono',monospace", fontSize: '0.9em',
+          background: '#efebe2', padding: '1px 5px', borderRadius: 4,
         }}>
           {part.slice(1, -1)}
         </code>
@@ -21,7 +21,7 @@ function inlineFormat(text) {
     const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
     if (linkMatch) {
       return (
-        <a key={i} href={linkMatch[2]} style={{ color: '#cf5a2a', textDecoration: 'none' }}>
+        <a key={i} href={linkMatch[2]} style={{ color: '#17202e', textDecoration: 'none' }}>
           {linkMatch[1]}
         </a>
       )
@@ -32,7 +32,7 @@ function inlineFormat(text) {
 
 function renderList(lines, key) {
   return (
-    <ul key={key} style={{ margin: '8px 0 12px', paddingLeft: 22, fontSize: 14.5, color: '#3d3a32', lineHeight: 1.7 }}>
+    <ul key={key} style={{ margin: '8px 0 12px', paddingLeft: 22, fontSize: 14.5, color: '#2c3646', lineHeight: 1.7 }}>
       {lines.map((line, i) => (
         <li key={i} style={{ marginBottom: 4 }}>{inlineFormat(line.replace(/^[-*]\s+/, ''))}</li>
       ))}
@@ -61,8 +61,8 @@ export function renderMarkdown(raw) {
       i += 1
       blocks.push(
         <pre key={blocks.length} style={{
-          background: '#1b1a17', color: '#e8e2d6', borderRadius: 10, padding: '16px 18px',
-          fontSize: 13, fontFamily: "'Space Mono',monospace", overflowX: 'auto',
+          background: '#17202e', color: '#e8e2d6', borderRadius: 10, padding: '16px 18px',
+          fontSize: 13, fontFamily: "'IBM Plex Mono',monospace", overflowX: 'auto',
           marginTop: 14, marginBottom: 14, lineHeight: 1.6,
         }}>
           <code>{codeLines.join('\n')}</code>
@@ -89,15 +89,15 @@ export function renderMarkdown(raw) {
                 if (ri === 0 && !hasHeader) return null
                 const Tag = (ri === 0 && hasHeader) ? 'th' : 'td'
                 return (
-                  <tr key={ri} style={{ borderBottom: '1px solid #ece5d6' }}>
+                  <tr key={ri} style={{ borderBottom: '1px solid #efebe2' }}>
                     {cells.map((c, ci) => (
                       <Tag key={ci} style={{
                         padding: '9px 14px', textAlign: 'left',
-                        background: (ri === 0 && hasHeader) ? '#faf7f0' : 'transparent',
+                        background: (ri === 0 && hasHeader) ? '#ffffff' : 'transparent',
                         fontWeight: (ri === 0 && hasHeader) ? 600 : (ci === 0 && !hasHeader ? 600 : 400),
-                        fontFamily: (ri === 0 && hasHeader) ? "'Space Mono',monospace" : 'inherit',
+                        fontFamily: (ri === 0 && hasHeader) ? "'IBM Plex Mono',monospace" : 'inherit',
                         fontSize: (ri === 0 && hasHeader) ? 11 : 13.5,
-                        color: (ri === 0 && hasHeader) ? '#8a857a' : '#1b1a17',
+                        color: (ri === 0 && hasHeader) ? '#5f6670' : '#17202e',
                       }}>
                         {inlineFormat(c.trim())}
                       </Tag>
@@ -160,7 +160,7 @@ export function renderMarkdown(raw) {
         i += 1
       }
       blocks.push(
-        <p key={blocks.length} style={{ fontSize: 14.5, color: '#3d3a32', lineHeight: 1.7, marginBottom: 4, marginTop: 0 }}>
+        <p key={blocks.length} style={{ fontSize: 14.5, color: '#2c3646', lineHeight: 1.7, marginBottom: 4, marginTop: 0 }}>
           {inlineFormat(paraLines.join(' '))}
         </p>
       )

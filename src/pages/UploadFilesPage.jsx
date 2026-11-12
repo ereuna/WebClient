@@ -13,7 +13,7 @@ import { useParams, useLocation, useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { createCommit, listRepositories } from '../api/repositories.js'
 
-const ACCENT = '#cf5a2a'
+const ACCENT = '#c2410c'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -43,29 +43,29 @@ function fileIcon(name) {
 // ── File list item ─────────────────────────────────────────────────────────────
 
 function FileItem({ file, onRemove, status }) {
-  const STATUS_COLOR = { pending: '#a09990', uploading: ACCENT, done: '#2db88a', error: '#e74c3c' }
+  const STATUS_COLOR = { pending: '#5f6670', uploading: ACCENT, done: '#2db88a', error: '#e74c3c' }
   const STATUS_LABEL = { pending: '—', uploading: 'Uploading…', done: '✓', error: '✗' }
 
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 14,
-      padding: '11px 16px', borderBottom: '1px solid #f0ebe0',
+      padding: '11px 16px', borderBottom: '1px solid #efebe2',
     }}>
       <span style={{ fontSize: 20, flexShrink: 0 }}>{fileIcon(file.name)}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{
-          fontSize: 13.5, fontWeight: 500, color: '#1b1a17',
+          fontSize: 13.5, fontWeight: 500, color: '#17202e',
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
           {file.name}
         </div>
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#a09990', marginTop: 2 }}>
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: '#5f6670', marginTop: 2 }}>
           {fmtBytes(file.size)}
         </div>
       </div>
       <span style={{
-        fontFamily: "'Space Mono',monospace", fontSize: 11,
-        color: STATUS_COLOR[status] || '#a09990', flexShrink: 0,
+        fontFamily: "'IBM Plex Mono',monospace", fontSize: 11,
+        color: STATUS_COLOR[status] || '#5f6670', flexShrink: 0,
       }}>
         {STATUS_LABEL[status] || '—'}
       </span>
@@ -75,7 +75,7 @@ function FileItem({ file, onRemove, status }) {
           onClick={() => onRemove(file)}
           style={{
             background: 'none', border: 'none', cursor: 'pointer',
-            color: '#c0b8b0', fontSize: 18, lineHeight: 1, padding: '0 2px', flexShrink: 0,
+            color: '#c9c4b8', fontSize: 18, lineHeight: 1, padding: '0 2px', flexShrink: 0,
           }}
           title="Remove"
         >
@@ -186,7 +186,7 @@ export default function UploadFilesPage() {
   if (authLoading || repoLoading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 12, color: '#8a857a' }}>Loading…</div>
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 12, color: '#5f6670' }}>Loading…</div>
       </div>
     )
   }
@@ -195,31 +195,31 @@ export default function UploadFilesPage() {
     <div style={{ minHeight: '100vh' }}>
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd', padding: '44px 28px 36px',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc', padding: '44px 28px 36px',
       }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           {/* Breadcrumb */}
           <div style={{
-            fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-            color: '#a09990', marginBottom: 14, display: 'flex', gap: 6, alignItems: 'center',
+            fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+            color: '#5f6670', marginBottom: 14, display: 'flex', gap: 6, alignItems: 'center',
           }}>
-            <Link to={isDataset ? '/datasets' : '/models'} style={{ color: '#a09990', textDecoration: 'none' }}>
+            <Link to={isDataset ? '/datasets' : '/models'} style={{ color: '#5f6670', textDecoration: 'none' }}>
               {isDataset ? 'Datasets' : 'Models'}
             </Link>
             <span>›</span>
-            <Link to={detailPath} style={{ color: '#a09990', textDecoration: 'none' }}>{slug}</Link>
+            <Link to={detailPath} style={{ color: '#5f6670', textDecoration: 'none' }}>{slug}</Link>
             <span>›</span>
-            <span style={{ color: '#1b1a17' }}>Upload files</span>
+            <span style={{ color: '#17202e' }}>Upload files</span>
           </div>
 
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em', color: ACCENT, marginBottom: 12, textTransform: 'uppercase' }}>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em', color: '#545b66', marginBottom: 12, textTransform: 'uppercase' }}>
             {sectionLabel}
           </div>
           <h1 style={{ fontSize: 34, letterSpacing: '-0.03em', fontWeight: 700, margin: 0 }}>
             {routerState?.justCreated ? '🎉 Repository created — upload your files' : `Upload files to ${slug}`}
           </h1>
-          <p style={{ fontSize: 14.5, color: '#56524a', marginTop: 12, lineHeight: 1.6, maxWidth: 560 }}>
+          <p style={{ fontSize: 14.5, color: '#545b66', marginTop: 12, lineHeight: 1.6, maxWidth: 560 }}>
             Files are stored in MinIO and versioned as a commit. You can add more files or update them anytime.
           </p>
         </div>
@@ -236,8 +236,8 @@ export default function UploadFilesPage() {
           }}>
             <div style={{ fontSize: 40, marginBottom: 16 }}>✓</div>
             <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 8 }}>Files uploaded successfully</div>
-            <div style={{ fontSize: 14, color: '#56524a', marginBottom: 24 }}>
-              {files.length} file{files.length !== 1 ? 's' : ''} committed to <code style={{ fontFamily: "'Space Mono',monospace", fontSize: 12 }}>{branch}</code>.
+            <div style={{ fontSize: 14, color: '#545b66', marginBottom: 24 }}>
+              {files.length} file{files.length !== 1 ? 's' : ''} committed to <code style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 12 }}>{branch}</code>.
             </div>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
               <Link
@@ -245,7 +245,7 @@ export default function UploadFilesPage() {
                 style={{
                   fontFamily: 'inherit', fontSize: 14, fontWeight: 500,
                   padding: '11px 22px', borderRadius: 10, textDecoration: 'none',
-                  background: '#1b1a17', color: '#f1ede4',
+                  background: '#17202e', color: '#f5f2eb',
                 }}
               >
                 View repository →
@@ -254,7 +254,7 @@ export default function UploadFilesPage() {
                 onClick={() => { setFiles([]); setFileStatuses({}); setDone(false); setMessage('Upload files') }}
                 style={{
                   fontFamily: 'inherit', fontSize: 14, padding: '11px 22px', borderRadius: 10,
-                  border: '1.4px solid #ddd6c8', background: '#fff', cursor: 'pointer', color: '#56524a',
+                  border: '1.4px solid #c9c4b8', background: '#fff', cursor: 'pointer', color: '#545b66',
                 }}
               >
                 Upload more files
@@ -271,8 +271,8 @@ export default function UploadFilesPage() {
               onDrop={onDrop}
               onClick={() => inputRef.current?.click()}
               style={{
-                border: `2px dashed ${dragging ? ACCENT : '#ddd6c8'}`,
-                borderRadius: 14, background: dragging ? '#fff8f4' : '#faf7f0',
+                border: `2px dashed ${dragging ? ACCENT : '#c9c4b8'}`,
+                borderRadius: 14, background: dragging ? '#fff8f4' : '#ffffff',
                 padding: '48px 24px', textAlign: 'center',
                 cursor: 'pointer', transition: 'border-color .15s, background .15s',
                 marginBottom: 24,
@@ -286,13 +286,13 @@ export default function UploadFilesPage() {
                 onChange={e => addFiles([...e.target.files])}
               />
               <div style={{ fontSize: 32, marginBottom: 12 }}>⬆</div>
-              <div style={{ fontSize: 16, fontWeight: 600, color: '#1b1a17', marginBottom: 6 }}>
+              <div style={{ fontSize: 16, fontWeight: 600, color: '#17202e', marginBottom: 6 }}>
                 Drag and drop files here
               </div>
-              <div style={{ fontSize: 13.5, color: '#8a857a', lineHeight: 1.6 }}>
-                or <span style={{ color: ACCENT, fontWeight: 500 }}>click to browse</span>
+              <div style={{ fontSize: 13.5, color: '#5f6670', lineHeight: 1.6 }}>
+                or <span style={{ color: '#17202e', fontWeight: 500 }}>click to browse</span>
                 <br />
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11 }}>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11 }}>
                   .parquet  .csv  .json  .pkl  .pt  .safetensors  .nc  .h5  .yaml  .md  …
                 </span>
               </div>
@@ -301,14 +301,14 @@ export default function UploadFilesPage() {
             {/* ── File list ── */}
             {files.length > 0 && (
               <div style={{
-                background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12,
+                background: '#fff', border: '1px solid #ddd8cc', borderRadius: 12,
                 overflow: 'hidden', marginBottom: 24,
               }}>
                 <div style={{
-                  padding: '12px 16px', borderBottom: '1px solid #f0ebe0',
+                  padding: '12px 16px', borderBottom: '1px solid #efebe2',
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 }}>
-                  <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: '#8a857a', letterSpacing: '0.06em' }}>
+                  <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#5f6670', letterSpacing: '0.06em' }}>
                     {files.length} FILE{files.length !== 1 ? 'S' : ''} QUEUED
                   </span>
                   {!submitting && (
@@ -317,7 +317,7 @@ export default function UploadFilesPage() {
                       onClick={() => { setFiles([]); setFileStatuses({}) }}
                       style={{
                         background: 'none', border: 'none', cursor: 'pointer',
-                        fontSize: 12, color: '#a09990', fontFamily: 'inherit',
+                        fontSize: 12, color: '#5f6670', fontFamily: 'inherit',
                       }}
                     >
                       Clear all
@@ -336,16 +336,16 @@ export default function UploadFilesPage() {
             )}
 
             {/* ── Commit options ── */}
-            <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '20px 20px', marginBottom: 24 }}>
+            <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 12, padding: '20px 20px', marginBottom: 24 }}>
               <div style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-                color: ACCENT, marginBottom: 16, textTransform: 'uppercase',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+                color: '#545b66', marginBottom: 16, textTransform: 'uppercase',
               }}>
                 Commit details
               </div>
 
               <div style={{ marginBottom: 16 }}>
-                <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: '#56524a', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Commit message
                 </div>
                 <input
@@ -354,14 +354,14 @@ export default function UploadFilesPage() {
                   placeholder="Describe what you're uploading…"
                   style={{
                     fontFamily: 'inherit', fontSize: 14, width: '100%', boxSizing: 'border-box',
-                    padding: '10px 14px', borderRadius: 9, border: '1.4px solid #ddd6c8',
-                    background: '#faf7f0', outline: 'none', color: '#1b1a17',
+                    padding: '10px 14px', borderRadius: 9, border: '1.4px solid #c9c4b8',
+                    background: '#ffffff', outline: 'none', color: '#17202e',
                   }}
                 />
               </div>
 
               <div>
-                <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: '#56524a', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Branch
                 </div>
                 <input
@@ -369,9 +369,9 @@ export default function UploadFilesPage() {
                   onChange={e => setBranch(e.target.value)}
                   placeholder="main"
                   style={{
-                    fontFamily: "'Space Mono',monospace", fontSize: 13, width: '100%', boxSizing: 'border-box',
-                    padding: '10px 14px', borderRadius: 9, border: '1.4px solid #ddd6c8',
-                    background: '#faf7f0', outline: 'none', color: '#1b1a17',
+                    fontFamily: "'IBM Plex Mono',monospace", fontSize: 13, width: '100%', boxSizing: 'border-box',
+                    padding: '10px 14px', borderRadius: 9, border: '1.4px solid #c9c4b8',
+                    background: '#ffffff', outline: 'none', color: '#17202e',
                   }}
                 />
               </div>
@@ -395,8 +395,8 @@ export default function UploadFilesPage() {
                 style={{
                   fontFamily: 'inherit', fontSize: 14, fontWeight: 500,
                   padding: '12px 28px', borderRadius: 10, border: 'none',
-                  background: submitting || !files.length ? '#d0c8bc' : '#1b1a17',
-                  color: submitting || !files.length ? '#8a857a' : '#f1ede4',
+                  background: submitting || !files.length ? '#c9c4b8' : '#17202e',
+                  color: submitting || !files.length ? '#5f6670' : '#f5f2eb',
                   cursor: submitting || !files.length ? 'not-allowed' : 'pointer',
                   transition: 'background .15s',
                 }}
@@ -407,7 +407,7 @@ export default function UploadFilesPage() {
                 to={detailPath}
                 style={{
                   fontFamily: 'inherit', fontSize: 14, padding: '12px 20px', borderRadius: 10,
-                  border: '1.4px solid #ddd6c8', background: '#fff', color: '#56524a',
+                  border: '1.4px solid #c9c4b8', background: '#fff', color: '#545b66',
                   textDecoration: 'none', display: 'flex', alignItems: 'center',
                 }}
               >

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Logo from './Logo.jsx'
 
 const cols = [
   {
@@ -43,30 +44,27 @@ const cols = [
 
 const linkStyle = {
   cursor: 'pointer',
-  color: '#cdc6b8',
+  color: '#c9c4b8',
   textDecoration: 'none',
   transition: 'color .15s',
 }
 
 export default function Footer() {
   return (
-    <div style={{ background: '#1b1a17', color: '#cdc6b8' }}>
+    <div style={{ background: '#17202e', color: '#c9c4b8' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '54px 28px 40px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr 1fr', gap: 30 }}>
           <div>
             <Link to="/" style={{ textDecoration: 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 19, fontWeight: 600, color: '#f1ede4' }}>
-                <span style={{ display: 'inline-flex', width: 24, height: 24, alignItems: 'center', justifyContent: 'center', border: '1.6px solid #f1ede4', borderRadius: 7, fontSize: 13 }}>⬡</span>
-                Ereuna
-              </div>
+              <Logo size={36} tone="dark" />
             </Link>
-            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#8a857a', margin: '14px 0 0', maxWidth: 280 }}>
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#5f6670', margin: '14px 0 0', maxWidth: 280 }}>
               Ereuna is the computational engine for Kenya's geothermal energy.
             </p>
           </div>
           {cols.map(({ heading, links }) => (
             <div key={heading}>
-              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#6f6a60', letterSpacing: '0.05em', marginBottom: 12 }}>{heading}</div>
+              <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: '#545b66', letterSpacing: '0.05em', marginBottom: 12 }}>{heading}</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 9, fontSize: 13.5 }}>
                 {links.map(({ label, to, href }) =>
                   href ? (
@@ -80,9 +78,9 @@ export default function Footer() {
           ))}
         </div>
         <div style={{
-          borderTop: '1px solid #2e2c28', marginTop: 40, paddingTop: 22,
+          borderTop: '1px solid #243042', marginTop: 40, paddingTop: 22,
           display: 'flex', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap',
-          fontFamily: "'Space Mono',monospace", fontSize: 11, color: '#6f6a60',
+          fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: '#545b66',
         }}>
           <span>Thomas Amogolla Tsuma</span>
         </div>

@@ -3,20 +3,19 @@ import { Link } from 'react-router-dom'
 import StatusBadge from '../components/StatusBadge'
 import { WORKBENCH_ACTIONS } from '../data/workbench'
 
-const ACCENT = '#cf5a2a'
-const MONO = "'Space Mono', monospace"
+const MONO = "'IBM Plex Mono', monospace"
 
 export default function WorkbenchPage() {
   return (
     <div style={{ minHeight: '100vh', paddingBottom: 80 }}>
       {/* Hero Header */}
       <section style={{
-        background: 'linear-gradient(180deg, #ede7d8 0%, #f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
+        background: 'linear-gradient(180deg, #efebe2 0%, #f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc',
         padding: '56px 28px 48px',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.08em', color: ACCENT, marginBottom: 14 }}>
+          <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.08em', color: '#17202e', marginBottom: 14 }}>
             EXECUTION ENVIRONMENT
           </div>
           <h1 style={{ fontSize: 'clamp(36px, 5vw, 52px)', lineHeight: 1.05, letterSpacing: '-0.025em', fontWeight: 600, margin: 0 }}>
@@ -25,7 +24,7 @@ export default function WorkbenchPage() {
           <p style={{
             fontSize: 'clamp(16px, 2vw, 18px)',
             lineHeight: 1.55,
-            color: '#56524a',
+            color: '#545b66',
             maxWidth: 680,
             margin: '18px 0 0',
           }}>
@@ -39,7 +38,7 @@ export default function WorkbenchPage() {
         {/* Landing Copy Banner */}
         <div style={{
           background: '#fff',
-          border: '1px solid #e7e0d2',
+          border: '1px solid #ddd8cc',
           borderRadius: 16,
           padding: '24px 28px',
           marginBottom: 36,
@@ -49,7 +48,7 @@ export default function WorkbenchPage() {
           flexWrap: 'wrap',
         }}>
           <StatusBadge status="Coming soon" />
-          <div style={{ fontSize: 15, color: '#3a382f', lineHeight: 1.5, flex: 1, minWidth: 280 }}>
+          <div style={{ fontSize: 15, color: '#243042', lineHeight: 1.5, flex: 1, minWidth: 280 }}>
             Coming soon. The first workflow — simulate a Rift-style reservoir, train a temperature model, and validate it against real Kenyan wells — is in progress.
           </div>
         </div>
@@ -63,11 +62,11 @@ export default function WorkbenchPage() {
           flexWrap: 'wrap',
           marginBottom: 24,
         }}>
-          <div style={{ fontFamily: MONO, fontSize: 11, color: '#8a857a', letterSpacing: '0.05em' }}>
+          <div style={{ fontFamily: MONO, fontSize: 11, color: '#5f6670', letterSpacing: '0.05em' }}>
             WORKFLOW ACTIONS (5)
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <span style={{ fontSize: 12, color: '#8a857a', fontFamily: MONO }}>ACTION LABELS:</span>
+            <span style={{ fontSize: 12, color: '#5f6670', fontFamily: MONO }}>ACTION LABELS:</span>
             <StatusBadge status="Coming soon" />
           </div>
         </div>
@@ -83,7 +82,7 @@ export default function WorkbenchPage() {
               key={action.id}
               style={{
                 background: '#fff',
-                border: '1px solid #e7e0d2',
+                border: '1px solid #ddd8cc',
                 borderRadius: 16,
                 padding: '28px 28px 24px',
                 display: 'flex',
@@ -102,38 +101,38 @@ export default function WorkbenchPage() {
             >
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                  <span style={{ fontFamily: MONO, fontSize: 11, color: ACCENT, fontWeight: 600 }}>
+                  <span style={{ fontFamily: MONO, fontSize: 11, color: '#17202e', fontWeight: 600 }}>
                     ACTION {action.step}
                   </span>
                   <StatusBadge status={action.status} />
                 </div>
 
-                <h2 style={{ fontSize: 22, fontWeight: 600, margin: '0 0 6px', color: '#1b1a17' }}>
+                <h2 style={{ fontSize: 22, fontWeight: 600, margin: '0 0 6px', color: '#17202e' }}>
                   {action.label}
                 </h2>
 
-                <div style={{ fontSize: 13, color: '#8a857a', marginBottom: 12, fontWeight: 500 }}>
+                <div style={{ fontSize: 13, color: '#5f6670', marginBottom: 12, fontWeight: 500 }}>
                   {action.subhead}
                 </div>
 
-                <p style={{ fontSize: 14, lineHeight: 1.6, color: '#56524a', margin: '0 0 16px' }}>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: '#545b66', margin: '0 0 16px' }}>
                   {action.description}
                 </p>
 
                 <div style={{
-                  background: '#faf7f0',
-                  border: '1px solid #ede6d8',
+                  background: '#ffffff',
+                  border: '1px solid #efebe2',
                   borderRadius: 10,
                   padding: '12px 14px',
                   fontSize: 12,
-                  color: '#6f6a60',
+                  color: '#545b66',
                   lineHeight: 1.5,
                 }}>
                   <div style={{ marginBottom: 4 }}>
-                    <strong style={{ color: '#1b1a17', fontFamily: MONO, fontSize: 10.5 }}>Inputs:</strong> {action.inputs}
+                    <strong style={{ color: '#17202e', fontFamily: MONO, fontSize: 10.5 }}>Inputs:</strong> {action.inputs}
                   </div>
                   <div>
-                    <strong style={{ color: '#1b1a17', fontFamily: MONO, fontSize: 10.5 }}>Outputs:</strong> {action.outputs}
+                    <strong style={{ color: '#17202e', fontFamily: MONO, fontSize: 10.5 }}>Outputs:</strong> {action.outputs}
                   </div>
                 </div>
               </div>
@@ -146,7 +145,7 @@ export default function WorkbenchPage() {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-                <span style={{ fontSize: 11.5, fontFamily: MONO, color: '#8a857a' }}>
+                <span style={{ fontSize: 11.5, fontFamily: MONO, color: '#5f6670' }}>
                   {action.slug}
                 </span>
                 <Link
@@ -154,7 +153,7 @@ export default function WorkbenchPage() {
                   style={{
                     fontSize: 13,
                     fontWeight: 600,
-                    color: ACCENT,
+                    color: '#17202e',
                     textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',

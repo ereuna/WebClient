@@ -29,10 +29,10 @@ export const STATUS_DEFINITIONS = {
 
 export const STATUS_STYLES = {
   'Coming soon': {
-    color: '#6e695f',
+    color: '#545b66',
     bg: '#ece7de',
-    border: '#dcd4c5',
-    dot: '#8a857a',
+    border: '#c9c4b8',
+    dot: '#5f6670',
   },
   'Drafted': {
     color: '#854d0e',
@@ -54,7 +54,13 @@ export const STATUS_STYLES = {
   },
 }
 
-export default function StatusBadge({ status, style, showDot = true, size = 'sm' }) {
+// Status pills are not shown anywhere on the site (decision 12 Nov 2026).
+// The component stays so existing imports keep working; it renders nothing.
+export default function StatusBadge() {
+  return null
+}
+
+export function StatusBadgeRetired({ status, style, showDot = true, size = 'sm' }) {
   const meta = STATUS_STYLES[status] || STATUS_STYLES['Coming soon']
   const isSm = size === 'sm'
 
@@ -68,7 +74,7 @@ export default function StatusBadge({ status, style, showDot = true, size = 'sm'
         gap: 6,
         padding: isSm ? '3px 9px' : '5px 12px',
         borderRadius: 999,
-        fontFamily: "'Space Mono', monospace",
+        fontFamily: "'IBM Plex Mono', monospace",
         fontSize: isSm ? 11 : 12.5,
         fontWeight: 600,
         letterSpacing: '0.02em',

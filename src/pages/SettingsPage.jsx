@@ -13,18 +13,18 @@ import {
 } from '../api/settings.js'
 import { fetchAllOrganizations } from '../api/organizations.js'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
-const CARD_BORDER = '1px solid #e7e0d2'
-const MONO = "'Space Mono',monospace"
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
+const CARD_BORDER = '1px solid #ddd8cc'
+const MONO = "'IBM Plex Mono',monospace"
 const INPUT_STYLE = {
   width: '100%',
   padding: '10px 14px',
   borderRadius: 9,
-  border: '1.4px solid #ddd6c8',
+  border: '1.4px solid #c9c4b8',
   fontSize: 14,
   color: DARK,
   background: '#fff',
@@ -58,7 +58,7 @@ function SectionLabel({ children }) {
       fontFamily: MONO,
       fontSize: 10,
       letterSpacing: '0.08em',
-      color: ACCENT,
+      color: '#545b66',
       marginBottom: 18,
       textTransform: 'uppercase',
     }}>
@@ -83,7 +83,7 @@ function Toggle({ on, onChange }) {
         width: 44,
         height: 24,
         borderRadius: 12,
-        background: on ? '#2db88a' : '#d0c9be',
+        background: on ? '#2db88a' : '#c9c4b8',
         position: 'relative',
         cursor: 'pointer',
         transition: 'background .2s',
@@ -240,7 +240,7 @@ function ProfileSection() {
           <div>
             <FieldLabel>Username</FieldLabel>
             <input
-              style={{ ...INPUT_STYLE, fontFamily: MONO, fontSize: 12.5, background: '#faf7f0', color: MEDIUM, cursor: 'not-allowed' }}
+              style={{ ...INPUT_STYLE, fontFamily: MONO, fontSize: 12.5, background: '#ffffff', color: MEDIUM, cursor: 'not-allowed' }}
               value={form.username}
               disabled
             />
@@ -248,7 +248,7 @@ function ProfileSection() {
           <div>
             <FieldLabel>Email</FieldLabel>
             <input
-              style={{ ...INPUT_STYLE, background: '#faf7f0', color: MEDIUM, cursor: 'not-allowed' }}
+              style={{ ...INPUT_STYLE, background: '#ffffff', color: MEDIUM, cursor: 'not-allowed' }}
               type="email"
               value={form.email}
               disabled
@@ -434,7 +434,7 @@ function SecuritySection() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5 }}>
             <thead>
-              <tr style={{ borderBottom: '1px solid #e7e0d2' }}>
+              <tr style={{ borderBottom: '1px solid #ddd8cc' }}>
                 {['Device', 'Location', 'Last Active', ''].map(h => (
                   <th key={h} style={{
                     textAlign: 'left',
@@ -461,7 +461,7 @@ function SecuritySection() {
                 </tr>
               )}
               {sessions.map((s, i) => (
-                <tr key={s.id} style={{ borderBottom: i < sessions.length - 1 ? '1px solid #f0ebe0' : 'none' }}>
+                <tr key={s.id} style={{ borderBottom: i < sessions.length - 1 ? '1px solid #efebe2' : 'none' }}>
                   <td style={{ padding: '13px 12px 13px 0', color: DARK, fontWeight: 500 }}>
                     {s.device}
                     {s.current && (
@@ -490,7 +490,7 @@ function SecuritySection() {
                           borderRadius: 7,
                           border: '1.4px solid #f0c4b4',
                           background: '#fff',
-                          color: ACCENT,
+                          color: '#17202e',
                           fontSize: 12.5,
                           fontWeight: 600,
                           cursor: 'pointer',
@@ -589,7 +589,7 @@ function ApiKeysSection() {
 
         {showForm && (
           <div style={{
-            background: '#faf7f0',
+            background: '#ffffff',
             border: CARD_BORDER,
             borderRadius: 11,
             padding: 20,
@@ -675,7 +675,7 @@ function ApiKeysSection() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5 }}>
             <thead>
-              <tr style={{ borderBottom: '1px solid #e7e0d2' }}>
+              <tr style={{ borderBottom: '1px solid #ddd8cc' }}>
                 {['Name', 'Prefix', 'Created', 'Last Used', ''].map(h => (
                   <th key={h} style={{
                     textAlign: 'left',
@@ -702,10 +702,10 @@ function ApiKeysSection() {
                 </tr>
               )}
               {keys.map((k, i) => (
-                <tr key={k.id} style={{ borderBottom: i < keys.length - 1 ? '1px solid #f0ebe0' : 'none' }}>
+                <tr key={k.id} style={{ borderBottom: i < keys.length - 1 ? '1px solid #efebe2' : 'none' }}>
                   <td style={{ padding: '13px 12px 13px 0', color: DARK, fontWeight: 500 }}>{k.name}</td>
                   <td style={{ padding: '13px 12px 13px 0' }}>
-                    <code style={{ fontFamily: MONO, fontSize: 12, color: MEDIUM, background: '#f5f0e8', padding: '3px 8px', borderRadius: 5 }}>
+                    <code style={{ fontFamily: MONO, fontSize: 12, color: MEDIUM, background: '#efebe2', padding: '3px 8px', borderRadius: 5 }}>
                       {k.prefix}
                     </code>
                   </td>
@@ -719,7 +719,7 @@ function ApiKeysSection() {
                         borderRadius: 7,
                         border: '1.4px solid #f0c4b4',
                         background: '#fff',
-                        color: ACCENT,
+                        color: '#17202e',
                         fontSize: 12.5,
                         fontWeight: 600,
                         cursor: 'pointer',
@@ -817,7 +817,7 @@ function NotificationsSection() {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '14px 0',
-                borderBottom: i < notifs.length - 1 ? '1px solid #f0ebe0' : 'none',
+                borderBottom: i < notifs.length - 1 ? '1px solid #efebe2' : 'none',
               }}
             >
               <div>
@@ -844,7 +844,7 @@ function NotificationsSection() {
             <div
               key={ch.key}
               style={{
-                background: '#faf7f0',
+                background: '#ffffff',
                 border: ch.enabled ? `1.4px solid ${ACCENT}` : CARD_BORDER,
                 borderRadius: 11,
                 padding: '16px 18px',
@@ -890,7 +890,7 @@ function BillingSection() {
   )
 }
 
-const ORG_COLORS = ['#7c6af7', '#2db88a', '#3498db', '#cf5a2a', '#e67e22']
+const ORG_COLORS = ['#7c6af7', '#2db88a', '#3498db', '#c2410c', '#e67e22']
 
 function OrganizationsSection() {
   const [orgs, setOrgs] = useState([])
@@ -943,7 +943,7 @@ function OrganizationsSection() {
                 alignItems: 'center',
                 gap: 18,
                 padding: '16px 0',
-                borderBottom: i < orgs.length - 1 ? '1px solid #f0ebe0' : 'none',
+                borderBottom: i < orgs.length - 1 ? '1px solid #efebe2' : 'none',
                 textDecoration: 'none',
                 color: 'inherit',
               }}
@@ -970,7 +970,7 @@ function OrganizationsSection() {
                   <span style={{
                     fontSize: 11,
                     fontFamily: MONO,
-                    background: planLabel === 'Enterprise' ? '#f0edff' : planLabel === 'Pro' ? '#fff5f0' : '#f5f5f5',
+                    background: planLabel === 'Enterprise' ? '#f0edff' : planLabel === 'Pro' ? '#fff5f0' : '#f5f2eb',
                     color: planLabel === 'Enterprise' ? '#7c6af7' : planLabel === 'Pro' ? ACCENT : MUTED,
                     padding: '2px 8px',
                     borderRadius: 5,
@@ -1014,8 +1014,8 @@ export default function SettingsPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc',
         padding: '40px 28px 36px',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -1075,7 +1075,7 @@ export default function SettingsPage() {
                   fontSize: 14,
                   fontWeight: activeSection === section ? 600 : 400,
                   color: activeSection === section ? ACCENT : MEDIUM,
-                  background: activeSection === section ? '#f5f0e8' : 'transparent',
+                  background: activeSection === section ? '#efebe2' : 'transparent',
                   cursor: 'pointer',
                   transition: 'all .12s',
                 }}

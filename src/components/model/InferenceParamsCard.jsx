@@ -1,4 +1,3 @@
-const ACCENT = '#cf5a2a'
 
 function normalizeFields(data, keys) {
   for (const key of keys) {
@@ -32,12 +31,12 @@ function ParamRow({ field, direction }) {
   return (
     <div style={{
       padding: '10px 0',
-      borderBottom: '1px solid #f0ebe0',
+      borderBottom: '1px solid #efebe2',
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'flex-start' }}>
-        <span style={{ fontSize: 13, fontWeight: 600, color: '#1b1a17' }}>{name}</span>
+        <span style={{ fontSize: 13, fontWeight: 600, color: '#17202e' }}>{name}</span>
         <span style={{
-          fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '2px 7px',
+          fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '2px 7px',
           borderRadius: 5, background: direction === 'in' ? '#7c6af718' : '#2db88a18',
           color: direction === 'in' ? '#7c6af7' : '#2db88a', flexShrink: 0,
         }}>
@@ -45,12 +44,12 @@ function ParamRow({ field, direction }) {
         </span>
       </div>
       {shape && (
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10.5, color: '#8a857a', marginTop: 4 }}>
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: '#5f6670', marginTop: 4 }}>
           shape: {Array.isArray(shape) ? shape.join(' × ') : shape}
         </div>
       )}
       {desc && (
-        <div style={{ fontSize: 12, color: '#56524a', marginTop: 4, lineHeight: 1.45 }}>{desc}</div>
+        <div style={{ fontSize: 12, color: '#545b66', marginTop: 4, lineHeight: 1.45 }}>{desc}</div>
       )}
     </div>
   )
@@ -61,8 +60,8 @@ function ParamGroup({ label, fields, direction }) {
   return (
     <div style={{ marginBottom: 14 }}>
       <div style={{
-        fontFamily: "'Space Mono',monospace", fontSize: 9, letterSpacing: '0.08em',
-        color: ACCENT, marginBottom: 8, textTransform: 'uppercase',
+        fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, letterSpacing: '0.08em',
+        color: '#545b66', marginBottom: 8, textTransform: 'uppercase',
       }}>
         {label}
       </div>
@@ -84,10 +83,10 @@ export default function InferenceParamsCard({ params }) {
   if (!inputs.length && !outputs.length) return null
 
   return (
-    <div style={{ background: '#fff', border: '1px solid #e7e0d2', borderRadius: 12, padding: '14px 18px', marginBottom: 16 }}>
+    <div style={{ background: '#fff', border: '1px solid #ddd8cc', borderRadius: 12, padding: '14px 18px', marginBottom: 16 }}>
       <div style={{
-        fontFamily: "'Space Mono',monospace", fontSize: 9, letterSpacing: '0.08em',
-        color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+        fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, letterSpacing: '0.08em',
+        color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
       }}>
         Inference contract
       </div>

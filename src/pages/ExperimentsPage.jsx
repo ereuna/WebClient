@@ -4,11 +4,11 @@ import { fetchAllExperiments } from '../api/experiments'
 import PageHero from '../components/PageHero'
 import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
 
 const STATUSES = ['All', 'Running', 'Completed', 'Failed']
 
@@ -41,7 +41,7 @@ function StatusBadge({ status }) {
 function ColHeader({ children, flex }) {
   return (
     <div style={{
-      flex, fontSize: 11, fontFamily: "'Space Mono',monospace",
+      flex, fontSize: 11, fontFamily: "'IBM Plex Mono',monospace",
       color: MUTED, letterSpacing: '0.06em', textTransform: 'uppercase',
       minWidth: 0,
     }}>
@@ -55,7 +55,7 @@ function TableHeader() {
     <div style={{
       display: 'flex', alignItems: 'center', gap: 16,
       padding: '0 20px 10px',
-      borderBottom: '1.5px solid #e7e0d2',
+      borderBottom: '1.5px solid #ddd8cc',
     }}>
       <div style={{ width: 18, flexShrink: 0 }} />
       <ColHeader flex="2">Name</ColHeader>
@@ -79,7 +79,7 @@ function ExperimentRow({ exp, checked, onCheck }) {
       style={{
         display: 'flex', alignItems: 'center', gap: 16,
         background: hovered ? '#fdf9f4' : '#fff',
-        border: `1px solid ${checked ? ACCENT : '#e7e0d2'}`,
+        border: `1px solid ${checked ? ACCENT : '#ddd8cc'}`,
         borderRadius: 10, padding: '14px 20px',
         transition: 'background .12s, border-color .12s, box-shadow .12s',
         boxShadow: hovered ? '0 2px 12px rgba(0,0,0,.06)' : 'none',
@@ -107,8 +107,8 @@ function ExperimentRow({ exp, checked, onCheck }) {
 
       <div style={{ flex: 1.5, minWidth: 0 }}>
         <span style={{
-          fontFamily: "'Space Mono',monospace", fontSize: 11.5,
-          background: '#f5f0e8', color: '#7a7568',
+          fontFamily: "'IBM Plex Mono',monospace", fontSize: 11.5,
+          background: '#efebe2', color: '#545b66',
           padding: '2px 7px', borderRadius: 5,
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', maxWidth: '100%',
         }}>
@@ -189,7 +189,7 @@ export default function ExperimentsPage() {
           <div style={{ display: 'flex', gap: 12, marginTop: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             <button style={{
               display: 'flex', alignItems: 'center', gap: 7,
-              background: DARK, color: '#f1ede4', border: 'none', borderRadius: 9,
+              background: DARK, color: '#f5f2eb', border: 'none', borderRadius: 9,
               padding: '10px 18px', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>
               <span style={{ fontSize: 18, lineHeight: 1 }}>+</span>
@@ -203,7 +203,7 @@ export default function ExperimentsPage() {
               placeholder="Search experiments…"
               style={{
                 fontFamily: 'inherit', fontSize: 14, padding: '9px 14px', borderRadius: 9,
-                border: '1.4px solid #ddd6c8', background: '#fff', outline: 'none', width: 240,
+                border: '1.4px solid #c9c4b8', background: '#fff', outline: 'none', width: 240,
               }}
             />
             <select
@@ -211,7 +211,7 @@ export default function ExperimentsPage() {
               onChange={e => setProjectFilter(e.target.value)}
               style={{
                 fontFamily: 'inherit', fontSize: 13, padding: '9px 12px', borderRadius: 9,
-                border: '1.4px solid #ddd6c8', background: '#fff', outline: 'none', cursor: 'pointer',
+                border: '1.4px solid #c9c4b8', background: '#fff', outline: 'none', cursor: 'pointer',
               }}
             >
               {projects.map(p => <option key={p}>{p}</option>)}
@@ -225,8 +225,8 @@ export default function ExperimentsPage() {
                     fontFamily: 'inherit', fontSize: 13, padding: '6px 14px', borderRadius: 20,
                     border: '1.4px solid', cursor: 'pointer', fontWeight: statusFilter === s ? 600 : 400,
                     background: statusFilter === s ? DARK : '#fff',
-                    color: statusFilter === s ? '#f1ede4' : MEDIUM,
-                    borderColor: statusFilter === s ? DARK : '#ddd6c8',
+                    color: statusFilter === s ? '#f5f2eb' : MEDIUM,
+                    borderColor: statusFilter === s ? DARK : '#c9c4b8',
                     transition: 'all .12s',
                   }}
                 >
@@ -256,14 +256,14 @@ export default function ExperimentsPage() {
       </PageHero>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 28px 64px' }}>
-        <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 20 }}>
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 20 }}>
           {loading ? 'Loading…' : `${filtered.length} experiment${filtered.length !== 1 ? 's' : ''}`}
         </div>
 
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} style={{ height: 68, background: '#f0ebe0', borderRadius: 10 }} />
+              <div key={i} style={{ height: 68, background: '#efebe2', borderRadius: 10 }} />
             ))}
           </div>
         ) : filtered.length === 0 ? (

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import Logo from '../components/Logo.jsx'
 import { register } from '../api/auth.js'
 
-const ACCENT = '#cf5a2a'
+const ACCENT = '#c2410c'
 const USERNAME_RE = /^[a-zA-Z0-9_-]+$/
 
 export default function RegisterPage() {
@@ -46,33 +47,27 @@ export default function RegisterPage() {
 
   const input = {
     fontFamily: 'inherit', fontSize: 14, width: '100%', boxSizing: 'border-box',
-    padding: '11px 14px', borderRadius: 9, border: '1.4px solid #ddd6c8',
+    padding: '11px 14px', borderRadius: 9, border: '1.4px solid #c9c4b8',
     background: '#fff', outline: 'none', marginTop: 6,
   }
 
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: '#f1ede4', padding: '0 20px',
+      background: '#f5f2eb', padding: '0 20px',
     }}>
       <div style={{ width: '100%', maxWidth: 400 }}>
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontSize: 22, fontWeight: 600 }}>
-              <span style={{
-                display: 'inline-flex', width: 28, height: 28, alignItems: 'center', justifyContent: 'center',
-                border: '1.8px solid #1b1a17', borderRadius: 8, fontSize: 15,
-              }}>⬡</span>
-              Ereuna
-            </div>
+            <Logo size={48} />
           </Link>
-          <div style={{ marginTop: 10, fontSize: 14, color: '#56524a' }}>Create your account</div>
+          <div style={{ marginTop: 10, fontSize: 14, color: '#545b66' }}>Create your account</div>
         </div>
 
         {/* Card */}
         <div style={{
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 16,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 16,
           padding: '36px 32px', boxShadow: '0 2px 16px rgba(0,0,0,.06)',
         }}>
           {success ? (
@@ -82,10 +77,10 @@ export default function RegisterPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 margin: '0 auto 16px', fontSize: 22,
               }}>✓</div>
-              <div style={{ fontSize: 16, fontWeight: 600, color: '#1b1a17', marginBottom: 8 }}>
+              <div style={{ fontSize: 16, fontWeight: 600, color: '#17202e', marginBottom: 8 }}>
                 Check your inbox
               </div>
-              <div style={{ fontSize: 13, color: '#56524a', lineHeight: 1.6 }}>
+              <div style={{ fontSize: 13, color: '#545b66', lineHeight: 1.6 }}>
                 We sent a verification link to <strong>{email}</strong>.
                 Click the link to activate your account, then sign in.
               </div>
@@ -93,7 +88,7 @@ export default function RegisterPage() {
                 onClick={() => navigate('/login')}
                 style={{
                   marginTop: 24, width: '100%', padding: '12px 0',
-                  background: '#1b1a17', color: '#f1ede4', border: 'none', borderRadius: 9,
+                  background: '#17202e', color: '#f5f2eb', border: 'none', borderRadius: 9,
                   fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                 }}
               >
@@ -102,7 +97,7 @@ export default function RegisterPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <label style={{ fontSize: 13, fontWeight: 500, color: '#1b1a17' }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#17202e' }}>
                 Email
                 <input
                   style={input}
@@ -115,7 +110,7 @@ export default function RegisterPage() {
                 />
               </label>
 
-              <label style={{ fontSize: 13, fontWeight: 500, color: '#1b1a17', display: 'block', marginTop: 18 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#17202e', display: 'block', marginTop: 18 }}>
                 Username
                 <input
                   style={input}
@@ -129,7 +124,7 @@ export default function RegisterPage() {
                 />
               </label>
 
-              <label style={{ fontSize: 13, fontWeight: 500, color: '#1b1a17', display: 'block', marginTop: 18 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#17202e', display: 'block', marginTop: 18 }}>
                 Password
                 <input
                   style={input}
@@ -143,7 +138,7 @@ export default function RegisterPage() {
                 />
               </label>
 
-              <label style={{ fontSize: 13, fontWeight: 500, color: '#1b1a17', display: 'block', marginTop: 18 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#17202e', display: 'block', marginTop: 18 }}>
                 Confirm password
                 <input
                   style={input}
@@ -160,7 +155,7 @@ export default function RegisterPage() {
                 <div style={{
                   marginTop: 16, padding: '10px 14px', borderRadius: 9,
                   background: '#fdf2ee', border: `1px solid ${ACCENT}40`,
-                  color: ACCENT, fontSize: 13,
+                  color: '#17202e', fontSize: 13,
                 }}>
                   {error}
                 </div>
@@ -171,8 +166,8 @@ export default function RegisterPage() {
                 disabled={loading}
                 style={{
                   marginTop: 24, width: '100%', padding: '12px 0',
-                  background: loading ? '#9e9890' : '#1b1a17',
-                  color: '#f1ede4', border: 'none', borderRadius: 9,
+                  background: loading ? '#8a8f98' : '#17202e',
+                  color: '#f5f2eb', border: 'none', borderRadius: 9,
                   fontSize: 14, fontWeight: 600, cursor: loading ? 'not-allowed' : 'pointer',
                   fontFamily: 'inherit', transition: 'background .15s',
                 }}
@@ -184,9 +179,9 @@ export default function RegisterPage() {
         </div>
 
         {!success && (
-          <div style={{ textAlign: 'center', marginTop: 20, fontSize: 13, color: '#8a857a' }}>
+          <div style={{ textAlign: 'center', marginTop: 20, fontSize: 13, color: '#5f6670' }}>
             Already have an account?{' '}
-            <Link to="/login" style={{ color: ACCENT, textDecoration: 'none', fontWeight: 500 }}>
+            <Link to="/login" style={{ color: '#17202e', textDecoration: 'none', fontWeight: 500 }}>
               Sign in →
             </Link>
           </div>

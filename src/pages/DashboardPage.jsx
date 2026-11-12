@@ -6,13 +6,13 @@ import { PAGE_ILLUSTRATIONS, ACTION_ILLUSTRATIONS, METRIC_ILLUSTRATIONS } from '
 import { fetchDashboardData } from '../api/dashboard'
 import { useAuth } from '../context/AuthContext.jsx'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
-const CARD_BORDER = '1px solid #e7e0d2'
-const MONO = "'Space Mono',monospace"
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
+const CARD_BORDER = '1px solid #ddd8cc'
+const MONO = "'IBM Plex Mono',monospace"
 
 const TODAY = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
 
@@ -24,7 +24,7 @@ const QUICK_ACTIONS = [
 ]
 
 const METRICS_DEFAULT = [
-  { label: 'Models', value: '0', accent: '#cf5a2a', illo: METRIC_ILLUSTRATIONS.Models },
+  { label: 'Models', value: '0', accent: '#c2410c', illo: METRIC_ILLUSTRATIONS.Models },
   { label: 'Datasets', value: '0', accent: '#7c6af7', illo: METRIC_ILLUSTRATIONS.Datasets },
   { label: 'Pipelines', value: '0', accent: '#2db88a', illo: METRIC_ILLUSTRATIONS.Pipelines },
   { label: 'Spaces', value: '0', accent: '#3498db', illo: METRIC_ILLUSTRATIONS.Spaces },
@@ -34,7 +34,7 @@ function SectionLabel({ children }) {
   return (
     <div style={{
       fontFamily: MONO, fontSize: 10, letterSpacing: '0.08em',
-      color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+      color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
     }}>
       {children}
     </div>
@@ -95,7 +95,7 @@ function ActivityItem({ title, sub, time, color, isLast }) {
     <div style={{
       display: 'flex', alignItems: 'flex-start', gap: 14,
       padding: '13px 0',
-      borderBottom: isLast ? 'none' : '1px solid #f0ebe0',
+      borderBottom: isLast ? 'none' : '1px solid #efebe2',
     }}>
       <div style={{
         width: 9, height: 9, borderRadius: '50%', background: color,
@@ -110,7 +110,7 @@ function ActivityItem({ title, sub, time, color, isLast }) {
           {sub}
         </div>
       </div>
-      <div style={{ fontFamily: MONO, fontSize: 10, color: '#b0a99a', flexShrink: 0, marginTop: 2 }}>
+      <div style={{ fontFamily: MONO, fontSize: 10, color: '#5f6670', flexShrink: 0, marginTop: 2 }}>
         {time}
       </div>
     </div>
@@ -122,7 +122,7 @@ function ResourceCard({ name, desc, to }) {
     <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
         style={{
-          background: '#faf7f0', border: CARD_BORDER, borderRadius: 10,
+          background: '#ffffff', border: CARD_BORDER, borderRadius: 10,
           padding: '12px 14px', cursor: 'pointer', transition: 'box-shadow .15s',
         }}
         onMouseEnter={e => e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,.07)'}
@@ -141,7 +141,7 @@ function ResourceTabs({ resources }) {
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: 0, marginBottom: 16, borderBottom: '1px solid #e7e0d2' }}>
+      <div style={{ display: 'flex', gap: 0, marginBottom: 16, borderBottom: '1px solid #ddd8cc' }}>
         {tabs.map(tab => (
           <button
             key={tab}
@@ -180,7 +180,7 @@ export default function DashboardPage() {
     fetchDashboardData()
       .then(data => {
         setMetrics([
-          { label: 'Models', value: String(data.metrics.models), accent: '#cf5a2a', illo: METRIC_ILLUSTRATIONS.Models },
+          { label: 'Models', value: String(data.metrics.models), accent: '#c2410c', illo: METRIC_ILLUSTRATIONS.Models },
           { label: 'Datasets', value: String(data.metrics.datasets), accent: '#7c6af7', illo: METRIC_ILLUSTRATIONS.Datasets },
           { label: 'Pipelines', value: String(data.metrics.pipelines), accent: '#2db88a', illo: METRIC_ILLUSTRATIONS.Pipelines },
           { label: 'Spaces', value: String(data.metrics.spaces), accent: '#3498db', illo: METRIC_ILLUSTRATIONS.Spaces },
@@ -189,7 +189,7 @@ export default function DashboardPage() {
           title: `${r.repo_type} updated`,
           sub: r.slug,
           time: new Date(r.updated_at).toLocaleDateString(),
-          color: '#cf5a2a',
+          color: '#17202e',
         }))
         setActivity(recent)
         const models = (data.recentRepos || []).filter(r => r.repo_type === 'MODEL').slice(0, 3)

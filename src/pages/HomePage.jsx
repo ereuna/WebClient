@@ -1,4 +1,5 @@
 import Hero from '../components/Hero'
+import FieldsBand from '../components/FieldsBand'
 import EnergyGraph from '../components/EnergyGraph'
 import ModelZoo from '../components/ModelZoo'
 import FlagshipApps from '../components/FlagshipApps'
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <FieldsBand />
       <FlagshipApps />
       <EnergyGraph />
       <TechnicalPositioning />

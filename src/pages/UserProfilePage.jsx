@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchUser } from '../api/users'
 
-const ACCENT = '#cf5a2a'
-const BG = '#f1ede4'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
+const ACCENT = '#c2410c'
+const BG = '#f5f2eb'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
 
 function getInitials(fullName) {
   const parts = (fullName || '').trim().split(' ')
@@ -19,13 +19,13 @@ function ActivityUnavailable() {
   return (
     <div>
       <div style={{
-        fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-        color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+        fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+        color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
       }}>
         Activity
       </div>
       <div style={{
-        background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+        background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
         padding: '32px 22px', textAlign: 'center', color: MUTED, fontSize: 14,
       }}>
         Contribution activity is not available yet.
@@ -39,7 +39,7 @@ function PinnedModelCard({ model }) {
     <Link to={`/models/${model.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
         style={{
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
           padding: '18px 20px', cursor: 'pointer',
           transition: 'box-shadow .15s',
         }}
@@ -49,7 +49,7 @@ function PinnedModelCard({ model }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
           <div style={{
             width: 32, height: 32, borderRadius: 8,
-            background: '#faf7f0', border: '1px solid #e7e0d2',
+            background: '#ffffff', border: '1px solid #ddd8cc',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 14,
           }}>
@@ -61,8 +61,8 @@ function PinnedModelCard({ model }) {
           {model.description}
         </div>
         <div style={{
-          marginTop: 12, fontFamily: "'Space Mono',monospace",
-          fontSize: 10, color: ACCENT, letterSpacing: '0.04em',
+          marginTop: 12, fontFamily: "'IBM Plex Mono',monospace",
+          fontSize: 10, color: '#545b66', letterSpacing: '0.04em',
         }}>
           View model →
         </div>
@@ -76,7 +76,7 @@ function ModelCard({ model }) {
     <Link to={`/models/${model.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
         style={{
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
           padding: '20px 22px', cursor: 'pointer',
           transition: 'box-shadow .15s',
         }}
@@ -88,8 +88,8 @@ function ModelCard({ model }) {
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {(model.tags || []).map(tag => (
             <span key={tag} style={{
-              fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '3px 8px',
-              borderRadius: 6, background: '#f5f0e8', color: '#7a7568',
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '3px 8px',
+              borderRadius: 6, background: '#efebe2', color: '#545b66',
             }}>
               {tag}
             </span>
@@ -105,7 +105,7 @@ function DatasetItem({ dataset }) {
     <Link to={`/datasets/${dataset.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div
         style={{
-          background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+          background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
           padding: '18px 22px', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24,
           transition: 'box-shadow .15s',
@@ -118,7 +118,7 @@ function DatasetItem({ dataset }) {
           <div style={{ fontSize: 13.5, color: MEDIUM, lineHeight: 1.55 }}>{dataset.description}</div>
         </div>
         <div style={{
-          fontFamily: "'Space Mono',monospace", fontSize: 10, color: ACCENT,
+          fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66',
           flexShrink: 0, letterSpacing: '0.04em',
         }}>
           View →
@@ -131,7 +131,7 @@ function DatasetItem({ dataset }) {
 function EmptyState({ icon, message }) {
   return (
     <div style={{
-      background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+      background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
       padding: '52px 24px', textAlign: 'center',
     }}>
       <div style={{ fontSize: 32, marginBottom: 14 }}>{icon}</div>
@@ -144,20 +144,20 @@ function Skeleton() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd', padding: '40px 28px 44px',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc', padding: '40px 28px 44px',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 24, alignItems: 'flex-start' }}>
-          <div style={{ width: 80, height: 80, borderRadius: '50%', background: '#e7e0d2', flexShrink: 0 }} />
+          <div style={{ width: 80, height: 80, borderRadius: '50%', background: '#ddd8cc', flexShrink: 0 }} />
           <div style={{ flex: 1 }}>
-            <div style={{ height: 22, width: 200, background: '#e7e0d2', borderRadius: 6, marginBottom: 10 }} />
-            <div style={{ height: 13, width: 120, background: '#ece5d6', borderRadius: 5, marginBottom: 16 }} />
-            <div style={{ height: 13, width: 340, background: '#ece5d6', borderRadius: 5 }} />
+            <div style={{ height: 22, width: 200, background: '#ddd8cc', borderRadius: 6, marginBottom: 10 }} />
+            <div style={{ height: 13, width: 120, background: '#efebe2', borderRadius: 5, marginBottom: 16 }} />
+            <div style={{ height: 13, width: 340, background: '#efebe2', borderRadius: 5 }} />
           </div>
         </div>
       </div>
       <div style={{ maxWidth: 1200, margin: '40px auto', padding: '0 28px' }}>
-        <div style={{ height: 400, background: '#f0ebe0', borderRadius: 14 }} />
+        <div style={{ height: 400, background: '#efebe2', borderRadius: 14 }} />
       </div>
     </div>
   )
@@ -187,8 +187,8 @@ export default function UserProfilePage() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc',
         padding: '40px 28px 0',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -208,7 +208,7 @@ export default function UserProfilePage() {
                 {user.fullName}
               </div>
               <div style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 12, color: MUTED, marginBottom: 14,
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 12, color: MUTED, marginBottom: 14,
               }}>
                 @{user.username}
               </div>
@@ -236,11 +236,11 @@ export default function UserProfilePage() {
                 <button
                   style={{
                     fontFamily: 'inherit', fontSize: 13.5, padding: '8px 18px',
-                    borderRadius: 9, border: `1.5px solid #ddd6c8`,
+                    borderRadius: 9, border: `1.5px solid #c9c4b8`,
                     background: 'transparent', color: DARK, fontWeight: 500, cursor: 'pointer',
                     transition: 'background .15s',
                   }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#ece5d6'}
+                  onMouseEnter={e => e.currentTarget.style.background = '#efebe2'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
                   Follow
@@ -248,11 +248,11 @@ export default function UserProfilePage() {
                 <button
                   style={{
                     fontFamily: 'inherit', fontSize: 13.5, padding: '8px 18px',
-                    borderRadius: 9, border: `1.5px solid #ddd6c8`,
+                    borderRadius: 9, border: `1.5px solid #c9c4b8`,
                     background: 'transparent', color: DARK, fontWeight: 500, cursor: 'pointer',
                     transition: 'background .15s',
                   }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#ece5d6'}
+                  onMouseEnter={e => e.currentTarget.style.background = '#efebe2'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
                   Message
@@ -260,7 +260,7 @@ export default function UserProfilePage() {
               </div>
 
               <div style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 12, color: MEDIUM,
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 12, color: MEDIUM,
                 display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center',
                 marginBottom: 4,
               }}>
@@ -268,12 +268,12 @@ export default function UserProfilePage() {
                   <strong style={{ color: DARK }}>{user.followers}</strong>
                   {' '}Followers
                 </span>
-                <span style={{ color: '#ccc7bc' }}>·</span>
+                <span style={{ color: '#c9c4b8' }}>·</span>
                 <span>
                   <strong style={{ color: DARK }}>{user.following}</strong>
                   {' '}Following
                 </span>
-                <span style={{ color: '#ccc7bc' }}>·</span>
+                <span style={{ color: '#c9c4b8' }}>·</span>
                 <span>
                   <strong style={{ color: DARK }}>{contributions}</strong>
                   {' '}Contributions
@@ -282,7 +282,7 @@ export default function UserProfilePage() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 0, borderTop: '1px solid #e3dccd', marginTop: 4 }}>
+          <div style={{ display: 'flex', gap: 0, borderTop: '1px solid #ddd8cc', marginTop: 4 }}>
             {tabs.map(tab => (
               <button
                 key={tab}
@@ -301,8 +301,8 @@ export default function UserProfilePage() {
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
                 {tab === 'models' && (
                   <span style={{
-                    marginLeft: 7, fontFamily: "'Space Mono',monospace", fontSize: 10,
-                    background: '#ece5d6', color: MUTED, borderRadius: 10,
+                    marginLeft: 7, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10,
+                    background: '#efebe2', color: MUTED, borderRadius: 10,
                     padding: '2px 7px',
                   }}>
                     {(user.models || []).length}
@@ -310,8 +310,8 @@ export default function UserProfilePage() {
                 )}
                 {tab === 'datasets' && (
                   <span style={{
-                    marginLeft: 7, fontFamily: "'Space Mono',monospace", fontSize: 10,
-                    background: '#ece5d6', color: MUTED, borderRadius: 10,
+                    marginLeft: 7, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10,
+                    background: '#efebe2', color: MUTED, borderRadius: 10,
                     padding: '2px 7px',
                   }}>
                     {(user.datasets || []).length}
@@ -328,8 +328,8 @@ export default function UserProfilePage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'start' }}>
             <div>
               <div style={{
-                fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-                color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+                fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+                color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
               }}>
                 Pinned Models
               </div>
@@ -341,7 +341,7 @@ export default function UserProfilePage() {
                 </div>
               ) : (
                 <div style={{
-                  background: '#fff', border: '1px solid #e7e0d2', borderRadius: 14,
+                  background: '#fff', border: '1px solid #ddd8cc', borderRadius: 14,
                   padding: '40px 24px', textAlign: 'center',
                 }}>
                   <div style={{ fontSize: 28, marginBottom: 12 }}>⬡</div>

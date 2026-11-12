@@ -13,13 +13,13 @@ import HyperparametersTable from '../components/model/HyperparametersTable'
 import InferenceParamsCard from '../components/model/InferenceParamsCard'
 import ModelConfigCard from '../components/model/ModelConfigCard'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
 const CARD_BG = '#fff'
-const CARD_BORDER = '1px solid #e7e0d2'
+const CARD_BORDER = '1px solid #ddd8cc'
 const CARD_RADIUS = 14
 
 const TABS = ['Overview', 'Files', 'Versions']
@@ -42,7 +42,7 @@ function formatBytes(n) {
 
 function TabBar({ activeTab, onTab }) {
   return (
-    <div style={{ borderBottom: '1px solid #e3dccd', background: BG, position: 'sticky', top: 0, zIndex: 10 }}>
+    <div style={{ borderBottom: '1px solid #ddd8cc', background: BG, position: 'sticky', top: 0, zIndex: 10 }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 28px', display: 'flex', gap: 0, overflowX: 'auto' }}>
         {TABS.map(tab => (
           <button
@@ -73,7 +73,7 @@ function Card({ children, style }) {
 
 function SectionLabel({ children }) {
   return (
-    <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: ACCENT, marginBottom: 14, textTransform: 'uppercase' }}>
+    <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66', marginBottom: 14, textTransform: 'uppercase' }}>
       {children}
     </div>
   )
@@ -124,7 +124,7 @@ function ModelOverviewTab({ repo, artifacts }) {
             <SectionLabel>Topics</SectionLabel>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {topics.map(t => (
-                <span key={t} style={{ padding: '4px 10px', borderRadius: 20, background: '#f5f0e8', fontSize: 11 }}>{t}</span>
+                <span key={t} style={{ padding: '4px 10px', borderRadius: 20, background: '#efebe2', fontSize: 11 }}>{t}</span>
               ))}
             </div>
           </Card>
@@ -139,7 +139,7 @@ function ModelOverviewTab({ repo, artifacts }) {
                   {configDataset}
                 </div>
                 {config?.dataset_version && (
-                  <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, marginBottom: m.license ? 16 : 0 }}>
+                  <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, marginBottom: m.license ? 16 : 0 }}>
                     {config.dataset_version}
                   </div>
                 )}
@@ -167,24 +167,24 @@ function OverviewTab({ repo }) {
     <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap' }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <Card style={{ padding: '28px 32px' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: ACCENT, marginBottom: 14, textTransform: 'uppercase' }}>About</div>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66', marginBottom: 14, textTransform: 'uppercase' }}>About</div>
           <p style={{ fontSize: 14, color: MEDIUM, lineHeight: 1.72, margin: 0, whiteSpace: 'pre-wrap' }}>{readme}</p>
         </Card>
       </div>
       <div style={{ width: 260, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
         {topics.length > 0 && (
           <Card style={{ padding: '20px' }}>
-            <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: ACCENT, marginBottom: 14, textTransform: 'uppercase' }}>Topics</div>
+            <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66', marginBottom: 14, textTransform: 'uppercase' }}>Topics</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {topics.map(t => (
-                <span key={t} style={{ padding: '4px 10px', borderRadius: 20, background: '#f5f0e8', fontSize: 11 }}>{t}</span>
+                <span key={t} style={{ padding: '4px 10px', borderRadius: 20, background: '#efebe2', fontSize: 11 }}>{t}</span>
               ))}
             </div>
           </Card>
         )}
         {m.license && (
           <Card style={{ padding: '20px' }}>
-            <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: ACCENT, marginBottom: 14, textTransform: 'uppercase' }}>License</div>
+            <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: '#545b66', marginBottom: 14, textTransform: 'uppercase' }}>License</div>
             <div style={{ fontSize: 13.5, fontWeight: 500 }}>{m.license}</div>
           </Card>
         )}
@@ -204,17 +204,17 @@ function FilesTab({ files, latestCommit }) {
   return (
     <Card>
       {latestCommit && (
-        <div style={{ padding: '12px 20px', borderBottom: '1px solid #f0ebe0', background: '#faf7f0', fontSize: 12, color: MUTED }}>
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid #efebe2', background: '#ffffff', fontSize: 12, color: MUTED }}>
           Latest commit: {latestCommit.message} ({latestCommit.sha?.slice(0, 7)})
         </div>
       )}
       {files.map((f, i) => (
         <div key={f.path || f.id} style={{
           display: 'flex', padding: '11px 20px',
-          borderBottom: i < files.length - 1 ? '1px solid #f5f0e8' : 'none',
+          borderBottom: i < files.length - 1 ? '1px solid #efebe2' : 'none',
         }}>
           <span style={{ flex: 1, fontSize: 13.5 }}>{f.path}</span>
-          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>{formatBytes(f.size_bytes)}</span>
+          <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED }}>{formatBytes(f.size_bytes)}</span>
         </div>
       ))}
     </Card>
@@ -233,7 +233,7 @@ function VersionsTab({ releases }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       {releases.map((v, i) => (
         <Card key={v.id || v.tag} style={{ padding: '22px 26px' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 13, fontWeight: 700, color: i === 0 ? ACCENT : DARK }}>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 13, fontWeight: 700, color: i === 0 ? ACCENT : DARK }}>
             {v.tag || v.version || v.name}
           </div>
           {v.notes && <p style={{ fontSize: 13.5, color: MEDIUM, marginTop: 10 }}>{v.notes}</p>}
@@ -289,7 +289,7 @@ export default function RepositoryDetailPage() {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
         <div style={{ color: '#c0392b' }}>{error || 'Repository not found'}</div>
-        <Link to="/repositories" style={{ color: ACCENT }}>← Back to repositories</Link>
+        <Link to="/repositories" style={{ color: '#17202e' }}>← Back to repositories</Link>
       </div>
     )
   }
@@ -299,9 +299,9 @@ export default function RepositoryDetailPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '40px 28px 32px' }}>
+      <div style={{ background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)', borderBottom: '1px solid #ddd8cc', padding: '40px 28px 32px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 18 }}>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 18 }}>
             <Link to="/" style={{ color: MUTED, textDecoration: 'none' }}>Home</Link>
             <span> › </span>
             <Link to="/repositories" style={{ color: MUTED, textDecoration: 'none' }}>Repositories</Link>
@@ -311,14 +311,14 @@ export default function RepositoryDetailPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 24, flexWrap: 'wrap' }}>
             <div>
               <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '4px 10px', borderRadius: 20, background: '#2db88a18', color: '#2db88a', fontWeight: 700, textTransform: 'uppercase' }}>{visibility}</span>
-                <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, padding: '4px 10px', borderRadius: 20, background: '#7c6af718', color: '#7c6af7', fontWeight: 700, textTransform: 'uppercase' }}>{repoType}</span>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '4px 10px', borderRadius: 20, background: '#2db88a18', color: '#2db88a', fontWeight: 700, textTransform: 'uppercase' }}>{visibility}</span>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, padding: '4px 10px', borderRadius: 20, background: '#7c6af718', color: '#7c6af7', fontWeight: 700, textTransform: 'uppercase' }}>{repoType}</span>
               </div>
               <h1 style={{ fontSize: 38, fontWeight: 700, margin: 0, color: DARK }}>
                 {owner}<span style={{ color: MUTED, fontWeight: 300 }}>/</span>{repoSlug}
               </h1>
               <p style={{ fontSize: 15, color: MEDIUM, marginTop: 12, maxWidth: 520, lineHeight: 1.6 }}>{repo.description || '—'}</p>
-              <div style={{ display: 'flex', gap: 16, marginTop: 16, flexWrap: 'wrap', fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED }}>
+              <div style={{ display: 'flex', gap: 16, marginTop: 16, flexWrap: 'wrap', fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED }}>
                 <span>⭐ {repo.star_count ?? 0} stars</span>
                 <span>↓ {repo.download_count ?? 0} downloads</span>
                 <span>📅 Updated {timeSince(repo.updated_at)}</span>

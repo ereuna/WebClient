@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import Modal from './Modal'
 import StatusBadge from './StatusBadge'
 
-const ACCENT = '#cf5a2a'
-const MONO = "'Space Mono',monospace"
+const MONO = "'IBM Plex Mono',monospace"
 
 const GEOTHERMAL_DOMAINS = [
   {
@@ -12,7 +11,7 @@ const GEOTHERMAL_DOMAINS = [
     n: '01',
     label: 'Exploration',
     subtitle: 'Surface Geophysics & Magnetotelluric Arrays',
-    image: '/illustrations/geothermal-exploration.png',
+    image: '/illustrations/survey/geothermal-exploration.webp',
     alt: 'Geothermal exploration isometric schematic showing active survey nodes, magnetotelluric sensors, and borehole targets',
     desc: 'Finding and ranking geothermal prospects before drilling confirms them.',
     tags: ['Magnetotelluric Sensor Nodes', 'Active Survey Grids', 'nT Contour Mapping', 'Borehole Target Siting'],
@@ -30,7 +29,7 @@ const GEOTHERMAL_DOMAINS = [
     n: '02',
     label: 'Seismicity',
     subtitle: 'Microseismic Monitoring & Fault Zones',
-    image: '/illustrations/geothermal-seismicity.png',
+    image: '/illustrations/survey/geothermal-seismicity.webp',
     alt: 'Geothermal seismicity monitoring schematic with surface seismometers, hypocenter depth, and acoustic wave propagation',
     desc: 'Detecting and forecasting induced seismicity from injection and hydroshearing.',
     tags: ['Surface Seismometer Array', 'Hypocenter Localization', 'Fault & Fracture Kinematics', 'Wave Velocity Profiles'],
@@ -48,7 +47,7 @@ const GEOTHERMAL_DOMAINS = [
     n: '03',
     label: 'Drilling',
     subtitle: 'Wellbore Architecture & Casing Integrity',
-    image: '/illustrations/geothermal-drilling.png',
+    image: '/illustrations/survey/geothermal-drilling.webp',
     alt: 'Geothermal drilling rig schematic detailing surface, intermediate, and production casing strings down to the drill bit',
     desc: 'Drilling to confirm and develop a resource, from exploratory to development wells.',
     tags: ['Surface Conductor Casing', 'Intermediate Sealed Casing', 'Production Casing Liner', 'Drill Bit Mechanics'],
@@ -66,7 +65,7 @@ const GEOTHERMAL_DOMAINS = [
     n: '04',
     label: 'Petrophysics',
     subtitle: 'Core Analysis & Rock Properties',
-    image: '/illustrations/geothermal-petrophysics.png',
+    image: '/illustrations/survey/geothermal-petrophysics.webp',
     alt: 'Geothermal petrophysics laboratory showing core plugs, measurement module, and rock property curves vs depth',
     desc: 'Reading rock and fluid properties from well logs.',
     tags: ['1" Core Plugs (25.4 mm)', 'Porosity & Permeability (mD)', 'Thin-Section Pore Fabric', 'Depth-Indexed Curves'],
@@ -84,7 +83,7 @@ const GEOTHERMAL_DOMAINS = [
     n: '05',
     label: 'Reservoir Characterization',
     subtitle: '3D Voxel Models & k(x) Distributions',
-    image: '/illustrations/geothermal-reservoir-characterization.png',
+    image: '/illustrations/survey/geothermal-reservoir-characterization.webp',
     alt: 'Geothermal reservoir characterization voxel model with thermal conductivity layer and well trajectories',
     desc: 'Describing what a reservoir holds and how it stores and moves heat.',
     tags: ['3D Geocellular Voxel Grid', 'k(x) Thermal Conductivity', 'Stratigraphic Horizons', 'Well Trajectory Intersections'],
@@ -102,7 +101,7 @@ const GEOTHERMAL_DOMAINS = [
     n: '06',
     label: 'Reservoir Engineering',
     subtitle: 'Finite-Volume Simulation & Mass-Energy Balance',
-    image: '/illustrations/geothermal-reservoir-engineering.png',
+    image: '/illustrations/survey/geothermal-reservoir-engineering.webp',
     alt: 'Geothermal reservoir simulation schematic with structured orthogonal grid and boundary conditions',
     desc: "Modeling and managing a reservoir's dynamics over its operating life.",
     tags: ['Finite-Volume Discretization', 'Mass-Energy Conservation', 'Caprock / Basement No-Flow', 'Active Injection Thermal Sweep'],
@@ -120,7 +119,7 @@ const GEOTHERMAL_DOMAINS = [
     n: '07',
     label: 'Production/Injection Engineering',
     subtitle: 'Coupled Wellheads & Closed Circulation Loops',
-    image: '/illustrations/geothermal-production-injection.png',
+    image: '/illustrations/survey/geothermal-production-injection.webp',
     alt: 'Geothermal production and injection wellheads schematic showing closed subsurface circulation loop',
     desc: 'Managing flow through production and injection wells.',
     tags: ['Steam Production Wellhead', 'Reinjection Fluid Wellhead', 'Fractured Heat Sweep', 'Closed Circulation Loop'],
@@ -142,13 +141,13 @@ export default function GeothermalResearchAreas() {
     <section id="domains" style={{ maxWidth: 1200, margin: '0 auto', padding: '72px 28px 24px' }}>
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
-        <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.06em', color: ACCENT }}>
+        <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.06em', color: '#17202e' }}>
           GEOTHERMAL RESEARCH AREAS
         </div>
         <h2 style={{ fontSize: 34, lineHeight: 1.08, letterSpacing: '-0.02em', fontWeight: 600, margin: '14px 0 0', maxWidth: 640 }}>
           From Exploration to Production
         </h2>
-        <p style={{ fontSize: 15, lineHeight: 1.6, color: '#56524a', maxWidth: 620, margin: '12px 0 0' }}>
+        <p style={{ fontSize: 15, lineHeight: 1.6, color: '#545b66', maxWidth: 620, margin: '12px 0 0' }}>
           Seven core research areas spanning the geothermal energy lifecycle, addressing subsurface exploration, borehole construction, reservoir physics, and operational field engineering.
         </p>
       </div>
@@ -163,7 +162,7 @@ export default function GeothermalResearchAreas() {
                 onClick={() => setModalItem(item)}
                 style={{
                   background: '#fff',
-                  border: '1px solid #e7e0d2',
+                  border: '1px solid #ddd8cc',
                   borderRadius: 16,
                   overflow: 'hidden',
                   cursor: 'pointer',
@@ -184,9 +183,9 @@ export default function GeothermalResearchAreas() {
               >
                 {/* Card Image */}
                 <div style={{
-                  background: '#faf7f0',
-                  borderBottom: isFullSpan ? 'none' : '1px solid #ece5d6',
-                  borderRight: isFullSpan ? '1px solid #ece5d6' : 'none',
+                  background: '#ffffff',
+                  borderBottom: isFullSpan ? 'none' : '1px solid #efebe2',
+                  borderRight: isFullSpan ? '1px solid #efebe2' : 'none',
                   overflow: 'hidden',
                   position: 'relative',
                   display: 'flex',
@@ -209,8 +208,8 @@ export default function GeothermalResearchAreas() {
                   <div style={{
                     position: 'absolute', top: 12, left: 12,
                     background: 'rgba(255,255,255,.9)', backdropFilter: 'blur(4px)',
-                    border: '1px solid #e7e0d2', borderRadius: 6,
-                    padding: '3px 8px', fontFamily: MONO, fontSize: 10.5, color: ACCENT, fontWeight: 600,
+                    border: '1px solid #ddd8cc', borderRadius: 6,
+                    padding: '3px 8px', fontFamily: MONO, fontSize: 10.5, color: '#17202e', fontWeight: 600,
                   }}>
                     {item.n}
                   </div>
@@ -220,21 +219,21 @@ export default function GeothermalResearchAreas() {
                 <div style={{ padding: '20px 22px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                      <span style={{ fontFamily: MONO, fontSize: 10.5, color: '#8a857a', letterSpacing: '0.04em' }}>
+                      <span style={{ fontFamily: MONO, fontSize: 10.5, color: '#5f6670', letterSpacing: '0.04em' }}>
                         DOMAIN {item.n}
                       </span>
                       <StatusBadge status={item.id === 'reservoir-characterization' ? 'Drafted' : 'Coming soon'} />
                     </div>
 
-                    <h3 style={{ fontSize: isFullSpan ? 22 : 18, fontWeight: 600, margin: '8px 0 4px', color: '#1b1a17' }}>
+                    <h3 style={{ fontSize: isFullSpan ? 22 : 18, fontWeight: 600, margin: '8px 0 4px', color: '#17202e' }}>
                       {item.label}
                     </h3>
 
-                    <div style={{ fontSize: 12.5, color: '#6f6a60', marginBottom: 8, fontWeight: 500 }}>
+                    <div style={{ fontSize: 12.5, color: '#545b66', marginBottom: 8, fontWeight: 500 }}>
                       {item.subtitle}
                     </div>
 
-                    <p style={{ fontSize: 13, lineHeight: 1.55, color: '#56524a', margin: 0 }}>
+                    <p style={{ fontSize: 13, lineHeight: 1.55, color: '#545b66', margin: 0 }}>
                       {item.desc}
                     </p>
                   </div>
@@ -244,9 +243,9 @@ export default function GeothermalResearchAreas() {
                       <span
                         key={tag}
                         style={{
-                          fontSize: 10.5, fontFamily: MONO, background: '#f8f5ee',
-                          border: '1px solid #e7e0d2', padding: '3px 7px',
-                          borderRadius: 5, color: '#6f6a60',
+                          fontSize: 10.5, fontFamily: MONO, background: '#ffffff',
+                          border: '1px solid #ddd8cc', padding: '3px 7px',
+                          borderRadius: 5, color: '#545b66',
                         }}
                       >
                         {tag}
@@ -269,7 +268,7 @@ export default function GeothermalResearchAreas() {
         >
           <div>
             <div style={{
-              background: '#faf7f0', borderRadius: 12, border: '1px solid #e7e0d2',
+              background: '#ffffff', borderRadius: 12, border: '1px solid #ddd8cc',
               overflow: 'hidden', padding: '12px', display: 'flex', justifyContent: 'center',
             }}>
               <img
@@ -280,32 +279,32 @@ export default function GeothermalResearchAreas() {
             </div>
 
             <div style={{ marginTop: 20 }}>
-              <div style={{ fontFamily: MONO, fontSize: 11, color: ACCENT, letterSpacing: '0.06em' }}>
+              <div style={{ fontFamily: MONO, fontSize: 11, color: '#17202e', letterSpacing: '0.06em' }}>
                 {modalItem.subtitle.toUpperCase()}
               </div>
               <h3 style={{ fontSize: 22, fontWeight: 600, margin: '6px 0 10px' }}>
                 {modalItem.label}
               </h3>
-              <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#56524a', margin: 0 }}>
+              <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#545b66', margin: 0 }}>
                 {modalItem.desc}
               </p>
 
-              <div style={{ marginTop: 18, background: '#f8f5ee', border: '1px solid #ece5d6', borderRadius: 10, padding: '14px 16px' }}>
-                <div style={{ fontFamily: MONO, fontSize: 11, color: '#8a857a', marginBottom: 8 }}>
+              <div style={{ marginTop: 18, background: '#ffffff', border: '1px solid #efebe2', borderRadius: 10, padding: '14px 16px' }}>
+                <div style={{ fontFamily: MONO, fontSize: 11, color: '#5f6670', marginBottom: 8 }}>
                   KEY SCHEMATIC OBSERVABLES & ANNOTATIONS
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
                   {modalItem.legendItems.map((leg, i) => (
-                    <div key={i} style={{ fontSize: 13, color: '#3a382f', display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontFamily: MONO, color: ACCENT, fontSize: 11, fontWeight: 600 }}>•</span>
+                    <div key={i} style={{ fontSize: 13, color: '#243042', display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontFamily: MONO, color: '#17202e', fontSize: 11, fontWeight: 600 }}>•</span>
                       <span><strong>{leg.name}:</strong> {leg.symbol}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div style={{ marginTop: 14, fontFamily: MONO, fontSize: 11, color: '#8a857a' }}>
-                Integrated EnergyGraph Component: <strong style={{ color: '#1b1a17' }}>{modalItem.energyGraphRole}</strong>
+              <div style={{ marginTop: 14, fontFamily: MONO, fontSize: 11, color: '#5f6670' }}>
+                Integrated EnergyGraph Component: <strong style={{ color: '#17202e' }}>{modalItem.energyGraphRole}</strong>
               </div>
 
               <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid #ede5d6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -315,7 +314,7 @@ export default function GeothermalResearchAreas() {
                   style={{
                     fontSize: 13,
                     fontFamily: MONO,
-                    color: ACCENT,
+                    color: '#17202e',
                     textDecoration: 'none',
                     fontWeight: 600,
                   }}

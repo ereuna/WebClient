@@ -2,12 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import { useSearchParams, Link, useNavigate } from 'react-router-dom'
 import { searchAll } from '../api/search'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
-const CARD_BORDER = '1px solid #e7e0d2'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
+const CARD_BORDER = '1px solid #ddd8cc'
 
 const TYPE_META = {
   model:        { label: 'Model',        color: '#7c6af7', icon: '⬡' },
@@ -16,8 +15,8 @@ const TYPE_META = {
   pipeline:     { label: 'Pipeline',     color: '#e67e22', icon: '⇢' },
   experiment:   { label: 'Experiment',   color: '#e91e8c', icon: '⚗' },
   space:        { label: 'Space',        color: '#9b59b6', icon: '◈' },
-  organization: { label: 'Organization', color: '#cf5a2a', icon: '⬡' },
-  user:         { label: 'User',         color: '#56524a', icon: '◯' },
+  organization: { label: 'Organization', color: '#17202e', icon: '⬡' },
+  user:         { label: 'User',         color: '#545b66', icon: '◯' },
 }
 
 const TABS = [
@@ -132,7 +131,7 @@ function ResultCard({ item }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
             <span style={{ fontSize: 16, fontWeight: 600, color: DARK }}>{name}</span>
             <span style={{
-              fontFamily: "'Space Mono',monospace",
+              fontFamily: "'IBM Plex Mono',monospace",
               fontSize: 10,
               padding: '2px 8px',
               borderRadius: 6,
@@ -149,7 +148,7 @@ function ResultCard({ item }) {
               fontSize: 12.5,
               color: MUTED,
               marginTop: 3,
-              fontFamily: "'Space Mono',monospace",
+              fontFamily: "'IBM Plex Mono',monospace",
             }}>
               {owner}
             </div>
@@ -187,13 +186,13 @@ function SkeletonCard() {
     }}>
       <div style={{
         width: 40, height: 40, borderRadius: 10,
-        background: '#f0ebe0', flexShrink: 0,
+        background: '#efebe2', flexShrink: 0,
       }} />
       <div style={{ flex: 1 }}>
-        <div style={{ height: 16, width: '38%', background: '#f0ebe0', borderRadius: 6, marginBottom: 8 }} />
-        <div style={{ height: 12, width: '20%', background: '#f5f0e8', borderRadius: 6, marginBottom: 10 }} />
-        <div style={{ height: 12, width: '80%', background: '#f5f0e8', borderRadius: 6, marginBottom: 6 }} />
-        <div style={{ height: 12, width: '60%', background: '#f5f0e8', borderRadius: 6 }} />
+        <div style={{ height: 16, width: '38%', background: '#efebe2', borderRadius: 6, marginBottom: 8 }} />
+        <div style={{ height: 12, width: '20%', background: '#efebe2', borderRadius: 6, marginBottom: 10 }} />
+        <div style={{ height: 12, width: '80%', background: '#efebe2', borderRadius: 6, marginBottom: 6 }} />
+        <div style={{ height: 12, width: '60%', background: '#efebe2', borderRadius: 6 }} />
       </div>
     </div>
   )
@@ -213,7 +212,7 @@ function EmptyState({ query }) {
         width: 64,
         height: 64,
         borderRadius: '50%',
-        background: '#f0ebe0',
+        background: '#efebe2',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -267,17 +266,17 @@ function SearchPrompt() {
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: 32,
-          color: ACCENT,
+          color: '#17202e',
           margin: '0 auto 24px',
           boxShadow: '0 4px 18px rgba(0,0,0,.06)',
         }}>
           ⌕
         </div>
         <div style={{
-          fontFamily: "'Space Mono',monospace",
+          fontFamily: "'IBM Plex Mono',monospace",
           fontSize: 11,
           letterSpacing: '0.08em',
-          color: ACCENT,
+          color: '#545b66',
           marginBottom: 14,
         }}>
           GLOBAL SEARCH
@@ -292,7 +291,7 @@ function SearchPrompt() {
           <div style={{ position: 'relative', flex: 1 }}>
             <span style={{
               position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
-              color: '#a09990', fontSize: 16, pointerEvents: 'none',
+              color: '#5f6670', fontSize: 16, pointerEvents: 'none',
             }}>⌕</span>
             <input
               ref={inputRef}
@@ -306,7 +305,7 @@ function SearchPrompt() {
                 boxSizing: 'border-box',
                 padding: '13px 16px 13px 42px',
                 borderRadius: 11,
-                border: '1.4px solid #ddd6c8',
+                border: '1.4px solid #c9c4b8',
                 background: '#fff',
                 outline: 'none',
                 boxShadow: '0 2px 8px rgba(0,0,0,.04)',
@@ -323,7 +322,7 @@ function SearchPrompt() {
               borderRadius: 11,
               border: 'none',
               background: DARK,
-              color: '#f1ede4',
+              color: '#f5f2eb',
               cursor: 'pointer',
               flexShrink: 0,
             }}
@@ -381,16 +380,16 @@ export default function SearchPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc',
         padding: '44px 28px 0',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{
-            fontFamily: "'Space Mono',monospace",
+            fontFamily: "'IBM Plex Mono',monospace",
             fontSize: 11,
             letterSpacing: '0.08em',
-            color: ACCENT,
+            color: '#545b66',
             marginBottom: 12,
           }}>
             SEARCH RESULTS
@@ -405,7 +404,7 @@ export default function SearchPage() {
             Results for "{query}"
           </h1>
           <div style={{
-            fontFamily: "'Space Mono',monospace",
+            fontFamily: "'IBM Plex Mono',monospace",
             fontSize: 11,
             color: MUTED,
             marginBottom: 28,
@@ -433,12 +432,12 @@ export default function SearchPage() {
                     padding: '8px 14px',
                     borderRadius: '10px 10px 0 0',
                     border: '1.4px solid',
-                    borderBottom: isActive ? '1.4px solid transparent' : '1.4px solid #ddd6c8',
+                    borderBottom: isActive ? '1.4px solid transparent' : '1.4px solid #c9c4b8',
                     cursor: isDisabled ? 'default' : 'pointer',
                     fontWeight: isActive ? 600 : 400,
                     background: isActive ? DARK : '#fff',
-                    color: isActive ? '#f1ede4' : isDisabled ? '#c8c1b6' : MEDIUM,
-                    borderColor: isActive ? DARK : '#ddd6c8',
+                    color: isActive ? '#f5f2eb' : isDisabled ? '#c9c4b8' : MEDIUM,
+                    borderColor: isActive ? DARK : '#c9c4b8',
                     marginBottom: isActive ? -1 : 0,
                     position: 'relative',
                     zIndex: isActive ? 2 : 1,
@@ -451,12 +450,12 @@ export default function SearchPage() {
                   {tab.label}
                   {!loading && count > 0 && (
                     <span style={{
-                      fontFamily: "'Space Mono',monospace",
+                      fontFamily: "'IBM Plex Mono',monospace",
                       fontSize: 9,
                       padding: '1px 5px',
                       borderRadius: 4,
-                      background: isActive ? 'rgba(241,237,228,.2)' : '#f0ebe0',
-                      color: isActive ? '#f1ede4' : MUTED,
+                      background: isActive ? 'rgba(241,237,228,.2)' : '#efebe2',
+                      color: isActive ? '#f5f2eb' : MUTED,
                     }}>
                       {count}
                     </span>

@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchOrganization, fetchOrganizationMembers, fetchOrganizationTeams } from '../api/organizations'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
-const BG = '#f1ede4'
-const CARD_BORDER = '1px solid #e7e0d2'
-const ROW_BORDER = '1px solid #f0ebe0'
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
+const BG = '#f5f2eb'
+const CARD_BORDER = '1px solid #ddd8cc'
+const ROW_BORDER = '1px solid #efebe2'
 
 const PLAN_COLORS = {
   enterprise: { bg: '#1b1a1714', color: DARK, label: 'Enterprise' },
-  pro: { bg: '#cf5a2a18', color: ACCENT, label: 'Pro' },
+  pro: { bg: '#cf5a2a18', color: '#17202e', label: 'Pro' },
   free: { bg: '#8a857a14', color: MUTED, label: 'Free' },
 }
 
@@ -27,7 +27,7 @@ function UnavailablePanel({ title }) {
 }
 
 const ROLE_COLORS = {
-  Owner: { bg: '#cf5a2a18', color: ACCENT },
+  Owner: { bg: '#cf5a2a18', color: '#17202e' },
   Admin: { bg: '#1b1a1714', color: DARK },
   Member: { bg: '#8a857a14', color: MUTED },
 }
@@ -38,8 +38,8 @@ const ACTION_COLORS = {
   'member.invite': '#2a6bcf',
   'deployment.scale': '#8e44ad',
   'deployment.create': '#8e44ad',
-  'dataset.upload': '#cf5a2a',
-  'billing.update': '#1b1a17',
+  'dataset.upload': '#c2410c',
+  'billing.update': '#17202e',
   'team.create': '#16a085',
 }
 
@@ -52,7 +52,7 @@ function InitialAvatar({ initials, size, fontSize, color }) {
       width: s, height: s, borderRadius: '50%',
       background: c + '22', border: `2px solid ${c}40`,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: "'Space Mono',monospace", fontSize: fs, fontWeight: 700, color: c,
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: fs, fontWeight: 700, color: c,
       flexShrink: 0,
     }}>
       {initials}
@@ -66,7 +66,7 @@ function PlanBadge({ plan }) {
     <span style={{
       display: 'inline-block', padding: '4px 12px', borderRadius: 20,
       background: p.bg, color: p.color,
-      fontFamily: "'Space Mono',monospace", fontSize: 11, fontWeight: 700,
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, fontWeight: 700,
       letterSpacing: '0.04em', textTransform: 'uppercase',
     }}>
       {p.label}
@@ -80,7 +80,7 @@ function StatCard({ label, value, sub }) {
       background: '#fff', border: CARD_BORDER, borderRadius: 14,
       padding: '22px 24px', flex: 1,
     }}>
-      <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
+      <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
         {label}
       </div>
       <div style={{ fontSize: 32, fontWeight: 700, color: DARK, letterSpacing: '-0.02em', lineHeight: 1 }}>
@@ -94,8 +94,8 @@ function StatCard({ label, value, sub }) {
 function SectionLabel({ children }) {
   return (
     <div style={{
-      fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
-      color: ACCENT, marginBottom: 14, textTransform: 'uppercase',
+      fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: '0.08em',
+      color: '#545b66', marginBottom: 14, textTransform: 'uppercase',
     }}>
       {children}
     </div>
@@ -105,19 +105,19 @@ function SectionLabel({ children }) {
 function Skeleton() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
-      <div style={{ background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)', borderBottom: '1px solid #e3dccd', padding: '52px 28px 44px' }}>
+      <div style={{ background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)', borderBottom: '1px solid #ddd8cc', padding: '52px 28px 44px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-            <div style={{ width: 72, height: 72, borderRadius: '50%', background: '#e7e0d2' }} />
+            <div style={{ width: 72, height: 72, borderRadius: '50%', background: '#ddd8cc' }} />
             <div>
-              <div style={{ height: 32, width: 220, background: '#e7e0d2', borderRadius: 8, marginBottom: 12 }} />
-              <div style={{ height: 14, width: 320, background: '#ece5d6', borderRadius: 6 }} />
+              <div style={{ height: 32, width: 220, background: '#ddd8cc', borderRadius: 8, marginBottom: 12 }} />
+              <div style={{ height: 14, width: 320, background: '#efebe2', borderRadius: 6 }} />
             </div>
           </div>
         </div>
       </div>
       <div style={{ maxWidth: 1200, margin: '40px auto', padding: '0 28px' }}>
-        <div style={{ height: 400, background: '#f0ebe0', borderRadius: 14 }} />
+        <div style={{ height: 400, background: '#efebe2', borderRadius: 14 }} />
       </div>
     </div>
   )
@@ -145,7 +145,7 @@ function MembersTab({ members = [] }) {
         <SectionLabel>Members ({members.length})</SectionLabel>
         <button style={{
           fontFamily: 'inherit', fontSize: 13, padding: '9px 18px', borderRadius: 9,
-          border: 'none', background: DARK, color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
+          border: 'none', background: DARK, color: '#f5f2eb', fontWeight: 500, cursor: 'pointer',
         }}>
           + Invite Member
         </button>
@@ -154,8 +154,8 @@ function MembersTab({ members = [] }) {
         <div style={{
           display: 'grid', gridTemplateColumns: '48px 1fr 120px 140px 100px',
           padding: '10px 20px',
-          background: '#faf7f0', borderBottom: CARD_BORDER,
-          fontFamily: "'Space Mono',monospace", fontSize: 10, color: MUTED, letterSpacing: '0.06em', textTransform: 'uppercase',
+          background: '#ffffff', borderBottom: CARD_BORDER,
+          fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: MUTED, letterSpacing: '0.06em', textTransform: 'uppercase',
           gap: 16, alignItems: 'center',
         }}>
           <div />
@@ -183,12 +183,12 @@ function MembersTab({ members = [] }) {
                 <span style={{
                   display: 'inline-block', padding: '3px 10px', borderRadius: 20,
                   background: rc.bg, color: rc.color,
-                  fontFamily: "'Space Mono',monospace", fontSize: 10.5, fontWeight: 700,
+                  fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, fontWeight: 700,
                 }}>
                   {role}
                 </span>
               </div>
-              <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11.5, color: MUTED }}>
+              <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11.5, color: MUTED }}>
                 {m.joined ? new Date(m.joined).toLocaleDateString() : '—'}
               </div>
               <div />
@@ -207,7 +207,7 @@ function TeamsTab({ teams = [] }) {
         <SectionLabel>Teams ({teams.length})</SectionLabel>
         <button style={{
           fontFamily: 'inherit', fontSize: 13, padding: '9px 18px', borderRadius: 9,
-          border: 'none', background: DARK, color: '#f1ede4', fontWeight: 500, cursor: 'pointer',
+          border: 'none', background: DARK, color: '#f5f2eb', fontWeight: 500, cursor: 'pointer',
         }}>
           + New Team
         </button>
@@ -224,7 +224,7 @@ function TeamsTab({ teams = [] }) {
               width: 44, height: 44, borderRadius: 10,
               background: ACCENT + '18', border: `1.5px solid ${ACCENT}30`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: "'Space Mono',monospace", fontSize: 16, fontWeight: 700, color: ACCENT,
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 16, fontWeight: 700, color: '#17202e',
               flexShrink: 0,
             }}>
               {team.name.slice(0, 1)}
@@ -292,9 +292,9 @@ export default function OrganizationDetailPage() {
   if (notFound) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
-        <div style={{ fontSize: 48, fontWeight: 700, color: '#e7e0d2' }}>404</div>
+        <div style={{ fontSize: 48, fontWeight: 700, color: '#ddd8cc' }}>404</div>
         <div style={{ fontSize: 16, color: MUTED }}>Organization not found.</div>
-        <Link to="/organizations" style={{ color: ACCENT, fontSize: 14, textDecoration: 'none' }}>← Back to Organizations</Link>
+        <Link to="/organizations" style={{ color: '#17202e', fontSize: 14, textDecoration: 'none' }}>← Back to Organizations</Link>
       </div>
     )
   }
@@ -304,12 +304,12 @@ export default function OrganizationDetailPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG }}>
       <div style={{
-        background: 'linear-gradient(180deg,#efe8da 0%,#f1ede4 100%)',
-        borderBottom: '1px solid #e3dccd',
+        background: 'linear-gradient(180deg,#efebe2 0%,#f5f2eb 100%)',
+        borderBottom: '1px solid #ddd8cc',
         padding: '40px 28px 0',
       }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 20, display: 'flex', gap: 6, alignItems: 'center' }}>
+          <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, color: MUTED, marginBottom: 20, display: 'flex', gap: 6, alignItems: 'center' }}>
             <Link to="/organizations" style={{ color: MUTED, textDecoration: 'none' }}>Organizations</Link>
             <span>›</span>
             <span style={{ color: DARK }}>{org.name}</span>
@@ -334,7 +334,7 @@ export default function OrganizationDetailPage() {
                     { label: 'models', value: org.modelCount },
                     { label: 'datasets', value: org.datasetCount },
                   ].map(s => (
-                    <span key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "'Space Mono',monospace", fontSize: 12, color: MUTED }}>
+                    <span key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "'IBM Plex Mono',monospace", fontSize: 12, color: MUTED }}>
                       <strong style={{ color: DARK, fontSize: 13 }}>{s.value}</strong>
                       {s.label}
                     </span>
@@ -346,20 +346,20 @@ export default function OrganizationDetailPage() {
             <div style={{ display: 'flex', gap: 10, flexShrink: 0, flexWrap: 'wrap' }}>
               <button style={{
                 fontFamily: 'inherit', fontSize: 13.5, padding: '10px 18px', borderRadius: 9,
-                border: '1.4px solid #ddd6c8', background: '#fff', color: DARK, cursor: 'pointer', fontWeight: 500,
+                border: '1.4px solid #c9c4b8', background: '#fff', color: DARK, cursor: 'pointer', fontWeight: 500,
               }}>
                 Settings
               </button>
               <button style={{
                 fontFamily: 'inherit', fontSize: 13.5, padding: '10px 18px', borderRadius: 9,
-                border: 'none', background: DARK, color: '#f1ede4', cursor: 'pointer', fontWeight: 500,
+                border: 'none', background: DARK, color: '#f5f2eb', cursor: 'pointer', fontWeight: 500,
               }}>
                 + Invite Member
               </button>
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 0, borderTop: '1px solid #e3dccd' }}>
+          <div style={{ display: 'flex', gap: 0, borderTop: '1px solid #ddd8cc' }}>
             {TABS.map(tab => (
               <button
                 key={tab}

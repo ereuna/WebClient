@@ -4,10 +4,10 @@ import PageHero from '../components/PageHero'
 import { PAGE_ILLUSTRATIONS } from '../lib/illustrations'
 import { listRepositories, mapRepoToCard } from '../api/repositories'
 
-const ACCENT = '#cf5a2a'
-const DARK = '#1b1a17'
-const MEDIUM = '#56524a'
-const MUTED = '#8a857a'
+const ACCENT = '#c2410c'
+const DARK = '#17202e'
+const MEDIUM = '#545b66'
+const MUTED = '#5f6670'
 
 function timeSince(iso) {
   if (!iso) return '—'
@@ -28,7 +28,7 @@ function TypeBadge({ type }) {
       borderRadius: 7,
       background: isModel ? '#dbeafe' : '#dcfce7',
       color: isModel ? '#1d4ed8' : '#166534',
-      fontFamily: "'Space Mono',monospace",
+      fontFamily: "'IBM Plex Mono',monospace",
       fontSize: 11,
       fontWeight: 700,
       letterSpacing: '0.04em',
@@ -47,9 +47,9 @@ function TagPill({ label }) {
       display: 'inline-block',
       padding: '3px 9px',
       borderRadius: 6,
-      background: '#f5f0e8',
-      color: '#7a7568',
-      fontFamily: "'Space Mono',monospace",
+      background: '#efebe2',
+      color: '#545b66',
+      fontFamily: "'IBM Plex Mono',monospace",
       fontSize: 10,
       letterSpacing: '0.02em',
     }}>
@@ -66,7 +66,7 @@ function RepoCard({ repo }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         background: '#fff',
-        border: '1px solid #e7e0d2',
+        border: '1px solid #ddd8cc',
         borderRadius: 14,
         padding: '20px 24px',
         display: 'flex',
@@ -92,7 +92,7 @@ function RepoCard({ repo }) {
               letterSpacing: '-0.01em',
               lineHeight: 1.3,
             }}>
-              {repo.owner}/<span style={{ color: ACCENT }}>{repo.name}</span>
+              {repo.owner}/<span style={{ color: '#17202e' }}>{repo.name}</span>
             </span>
           </Link>
           {repo.visibility === 'private' && (
@@ -102,9 +102,9 @@ function RepoCard({ repo }) {
               gap: 4,
               padding: '3px 8px',
               borderRadius: 6,
-              border: '1px solid #e7e0d2',
-              background: '#faf7f0',
-              fontFamily: "'Space Mono',monospace",
+              border: '1px solid #ddd8cc',
+              background: '#ffffff',
+              fontFamily: "'IBM Plex Mono',monospace",
               fontSize: 10,
               color: MUTED,
             }}>
@@ -140,7 +140,7 @@ function RepoCard({ repo }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 4,
-            fontFamily: "'Space Mono',monospace",
+            fontFamily: "'IBM Plex Mono',monospace",
             fontSize: 11,
             color: MUTED,
           }}>
@@ -150,7 +150,7 @@ function RepoCard({ repo }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 4,
-            fontFamily: "'Space Mono',monospace",
+            fontFamily: "'IBM Plex Mono',monospace",
             fontSize: 11,
             color: MUTED,
           }}>
@@ -158,9 +158,9 @@ function RepoCard({ repo }) {
           </span>
         </div>
         <span style={{
-          fontFamily: "'Space Mono',monospace",
+          fontFamily: "'IBM Plex Mono',monospace",
           fontSize: 10,
-          color: '#b0a898',
+          color: '#5f6670',
           whiteSpace: 'nowrap',
         }}>
           Updated {repo.lastUpdated}
@@ -217,7 +217,7 @@ export default function RepositoriesPage() {
   }, [repos, search, typeFilter, visibilityFilter, sort])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1ede4' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f2eb' }}>
       <PageHero
         eyebrow="EREUNA ML PLATFORM"
         title="Repositories"
@@ -256,7 +256,7 @@ export default function RepositoriesPage() {
                 boxSizing: 'border-box',
                 padding: '10px 14px 10px 36px',
                 borderRadius: 10,
-                border: '1.4px solid #d8d1c2',
+                border: '1.4px solid #c9c4b8',
                 background: '#fff',
                 fontSize: 14,
                 color: DARK,
@@ -266,13 +266,13 @@ export default function RepositoriesPage() {
             />
           </div>
 
-          <div style={{ display: 'flex', gap: 3, background: '#fff', border: '1.4px solid #d8d1c2', borderRadius: 10, padding: 3 }}>
+          <div style={{ display: 'flex', gap: 3, background: '#fff', border: '1.4px solid #c9c4b8', borderRadius: 10, padding: 3 }}>
             {['ALL', 'MODEL', 'DATASET'].map(opt => (
               <button
                 key={opt}
                 onClick={() => setTypeFilter(opt)}
                 style={{
-                  fontFamily: "'Space Mono',monospace",
+                  fontFamily: "'IBM Plex Mono',monospace",
                   fontSize: 11,
                   letterSpacing: '0.04em',
                   padding: '7px 13px',
@@ -280,7 +280,7 @@ export default function RepositoriesPage() {
                   border: 'none',
                   cursor: 'pointer',
                   background: typeFilter === opt ? DARK : 'transparent',
-                  color: typeFilter === opt ? '#f1ede4' : MUTED,
+                  color: typeFilter === opt ? '#f5f2eb' : MUTED,
                   fontWeight: typeFilter === opt ? 700 : 400,
                   transition: 'background .12s, color .12s',
                 }}
@@ -290,13 +290,13 @@ export default function RepositoriesPage() {
             ))}
           </div>
 
-          <div style={{ display: 'flex', gap: 3, background: '#fff', border: '1.4px solid #d8d1c2', borderRadius: 10, padding: 3 }}>
+          <div style={{ display: 'flex', gap: 3, background: '#fff', border: '1.4px solid #c9c4b8', borderRadius: 10, padding: 3 }}>
             {['ALL', 'PUBLIC', 'PRIVATE'].map(opt => (
               <button
                 key={opt}
                 onClick={() => setVisibilityFilter(opt)}
                 style={{
-                  fontFamily: "'Space Mono',monospace",
+                  fontFamily: "'IBM Plex Mono',monospace",
                   fontSize: 11,
                   letterSpacing: '0.04em',
                   padding: '7px 13px',
@@ -304,7 +304,7 @@ export default function RepositoriesPage() {
                   border: 'none',
                   cursor: 'pointer',
                   background: visibilityFilter === opt ? DARK : 'transparent',
-                  color: visibilityFilter === opt ? '#f1ede4' : MUTED,
+                  color: visibilityFilter === opt ? '#f5f2eb' : MUTED,
                   fontWeight: visibilityFilter === opt ? 700 : 400,
                   transition: 'background .12s, color .12s',
                 }}
@@ -318,7 +318,7 @@ export default function RepositoriesPage() {
         <div style={{
           display: 'flex',
           gap: 0,
-          borderBottom: '1.5px solid #e7e0d2',
+          borderBottom: '1.5px solid #ddd8cc',
           marginBottom: 24,
         }}>
           {SORT_OPTIONS.map(opt => (
@@ -326,7 +326,7 @@ export default function RepositoriesPage() {
               key={opt.key}
               onClick={() => setSort(opt.key)}
               style={{
-                fontFamily: "'Space Mono',monospace",
+                fontFamily: "'IBM Plex Mono',monospace",
                 fontSize: 11,
                 letterSpacing: '0.03em',
                 padding: '10px 18px',
@@ -347,11 +347,11 @@ export default function RepositoriesPage() {
         </div>
 
         {loading ? (
-          <div style={{ padding: '64px 0', textAlign: 'center', color: MUTED, fontFamily: "'Space Mono',monospace", fontSize: 13 }}>
+          <div style={{ padding: '64px 0', textAlign: 'center', color: MUTED, fontFamily: "'IBM Plex Mono',monospace", fontSize: 13 }}>
             Loading repositories…
           </div>
         ) : error ? (
-          <div style={{ padding: '64px 0', textAlign: 'center', color: '#c0392b', fontFamily: "'Space Mono',monospace", fontSize: 13 }}>
+          <div style={{ padding: '64px 0', textAlign: 'center', color: '#c0392b', fontFamily: "'IBM Plex Mono',monospace", fontSize: 13 }}>
             {error}
           </div>
         ) : filtered.length === 0 ? (
@@ -359,7 +359,7 @@ export default function RepositoriesPage() {
             padding: '64px 0',
             textAlign: 'center',
             color: MUTED,
-            fontFamily: "'Space Mono',monospace",
+            fontFamily: "'IBM Plex Mono',monospace",
             fontSize: 13,
           }}>
             No repositories match your filters.
@@ -373,9 +373,9 @@ export default function RepositoriesPage() {
         {filtered.length > 0 && (
           <div style={{
             marginTop: 28,
-            fontFamily: "'Space Mono',monospace",
+            fontFamily: "'IBM Plex Mono',monospace",
             fontSize: 10,
-            color: '#b0a898',
+            color: '#5f6670',
             letterSpacing: '0.04em',
           }}>
             SHOWING {filtered.length} OF {repos.length} REPOSITORIES

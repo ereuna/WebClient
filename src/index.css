@@ -1,26 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --accent: #cf5a2a;
-  --bg: #f1ede4;
-  --fg: #1b1a17;
-  --muted: #56524a;
-  --border: #e3dccd;
+  --accent: #c2410c;
+  --bg: #f5f2eb;
+  --fg: #17202e;
+  --muted: #545b66;
+  --border: #ddd8cc;
   --card-bg: #ffffff;
+  --panel: #efebe2;
+  --line-strong: #c9c4b8;
+  --ink-2: #243042;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
+
+/* Survey direction: Space Grotesk for headings, IBM Plex Sans for text, IBM Plex Mono for labels and data */
+h1, h2, h3, h4 { font-family: var(--font-display); }
+code, pre, kbd, samp { font-family: var(--font-mono); }
 
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-::selection { background: #f4d8c6; }
+::selection { background: #f3d9ce; }
 
 @keyframes floaty {
   0%, 100% { transform: translateY(0); }
@@ -33,14 +43,14 @@ body {
 
 /* HowEreunaIsOrganized — alternating text / illustration rows; stack on narrow screens */
 .org-row { display: grid; grid-template-columns: 1fr 1fr; }
-.org-row + .org-row { border-top: 1px solid #e7e0d2; }
-.org-row .org-art { border-left: 1px solid #e7e0d2; }
+.org-row + .org-row { border-top: 1px solid #ddd8cc; }
+.org-row .org-art { border-left: 1px solid #ddd8cc; }
 .org-row--flip .org-text { order: 2; }
-.org-row--flip .org-art { border-left: 0; border-right: 1px solid #e7e0d2; }
+.org-row--flip .org-art { border-left: 0; border-right: 1px solid #ddd8cc; }
 @media (max-width: 860px) {
   .org-row { grid-template-columns: 1fr; }
   .org-row--flip .org-text { order: 0; }
-  .org-row .org-art, .org-row--flip .org-art { border-left: 0; border-right: 0; border-top: 1px solid #e7e0d2; }
+  .org-row .org-art, .org-row--flip .org-art { border-left: 0; border-right: 0; border-top: 1px solid #ddd8cc; }
 }
 
 /* GeothermalResearchAreas — responsive layouts */
@@ -60,3 +70,28 @@ body {
   }
 }
 
+
+/* Survey hero: drafting grid, registration marks, scan line, entrance */
+.survey-grid {
+  background-image:
+    linear-gradient(#e4dfd3 1px, transparent 1px), linear-gradient(90deg, #e4dfd3 1px, transparent 1px),
+    linear-gradient(#ece8de 1px, transparent 1px), linear-gradient(90deg, #ece8de 1px, transparent 1px);
+  background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
+  -webkit-mask-image: radial-gradient(80% 90% at 55% 45%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(80% 90% at 55% 45%, #000 35%, transparent 100%);
+}
+@keyframes survey-scan { 0% { top: 6%; opacity: 0 } 10% { opacity: 1 } 90% { opacity: 1 } 100% { top: 94%; opacity: 0 } }
+.survey-scan { animation: survey-scan 9s cubic-bezier(.45,0,.55,1) infinite; }
+@keyframes survey-rise { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+.survey-rise { animation: survey-rise .7s cubic-bezier(.32,.72,0,1) both; }
+.survey-d1 { animation-delay: .08s } .survey-d2 { animation-delay: .16s } .survey-d3 { animation-delay: .24s }
+@keyframes survey-kb { from { transform: scale(1) } to { transform: scale(1.08) translate(-1.5%, -1%) } }
+.survey-kb { animation: survey-kb 26s ease-in-out infinite alternate; }
+.survey-tile img, .domain-cards-grid img { transition: transform .7s cubic-bezier(.32,.72,0,1); }
+.survey-tile:hover img, .domain-cards-grid > *:hover img { transform: scale(1.04); }
+.survey-hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 40px; align-items: center; }
+@media (max-width: 900px) { .survey-hero-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) {
+  .survey-scan, .survey-rise, .survey-kb { animation: none; }
+  .survey-tile img, .domain-cards-grid img { transition: none; }
+}
